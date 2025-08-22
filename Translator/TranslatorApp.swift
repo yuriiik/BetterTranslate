@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct TranslatorApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+  
+  var body: some Scene {
+    MenuBarExtra("Translator", systemImage: "globe") {
+      Divider()
+      Button("Quit") {
+        NSApplication.shared.terminate(nil)
+      }
     }
+  }
 }
