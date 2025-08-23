@@ -7,11 +7,21 @@
 
 import Foundation
 import Translation
+import NaturalLanguage
 
 class TranslatorViewModel: ObservableObject {
-  @Published var originalText = ""
-  @Published var translatedText = ""
+  
+  // MARK: - Public
+  
   @Published var availableLanguages: [AvailableLanguage] = []
+  
+  @Published var sourceText = "" {
+    didSet {
+      self.autodetectSourceLanguageIfNecessary()
+    }
+  }
+  
+  @Published var targetText = ""
   
   @Published var sourceLanguage: Locale.Language? {
     didSet {
@@ -25,15 +35,22 @@ class TranslatorViewModel: ObservableObject {
     }
   }
   
-  private var settings = Settings()
-  
   init() {
     self.prepareSupportedLanguages()
     self.sourceLanguage = self.settings.sourceLanguage
     self.targetLanguage = self.settings.targetLanguage
   }
   
-  func prepareSupportedLanguages() {
+  func resetSelectedLanguages() {
+    self.sourceLanguage = nil
+    self.targetLanguage = nil
+  }
+  
+  // MARK: - Private
+  
+  private var settings = Settings()
+  
+  private func prepareSupportedLanguages() {
     Task {
       let supportedLanguages = await LanguageAvailability().supportedLanguages
       self.availableLanguages = supportedLanguages.map {
@@ -41,25 +58,34 @@ class TranslatorViewModel: ObservableObject {
       }.sorted()
     }
   }
+  
+  private func autodetectSourceLanguageIfNecessary() {
+    guard
+      self.sourceLanguage == nil,
+      let dominantLanguage = NLLanguageRecognizer.dominantLanguage(for: self.sourceText)
+    else { return }
+    self.sourceLanguage = self.availableLanguages
+      .map { $0.localeLanguage }
+      .first { $0.languageCode?.identifier == dominantLanguage.rawValue }
+  }
 }
 
 struct AvailableLanguage: Identifiable, Hashable, Comparable {
   var id: Self { self }
   let localeLanguage: Locale.Language
+  let localizedName: String
   
-  func localizedName() -> String {
-    let shortName = self.shortName()
-    guard let localizedName = Locale.current.localizedString(forLanguageCode: shortName) else {
-      return "Unknown language code"
+  init(localeLanguage: Locale.Language) {
+    self.localeLanguage = localeLanguage
+    let shortName = "\(localeLanguage.languageCode ?? "")-\(localeLanguage.region ?? "")"
+    if let localizedName = Locale.current.localizedString(forLanguageCode: shortName) {
+      self.localizedName = "\(localizedName) (\(shortName))"
+    } else {
+      self.localizedName = "Unknown language code"
     }
-    return "\(localizedName) (\(shortName))"
-  }
-  
-  private func shortName() -> String {
-    "\(self.localeLanguage.languageCode ?? "")-\(self.localeLanguage.region ?? "")"
   }
   
   static func <(lhs: AvailableLanguage, rhs: AvailableLanguage) -> Bool {
-    return lhs.localizedName() < rhs.localizedName()
+    return lhs.localizedName < rhs.localizedName
   }
 }

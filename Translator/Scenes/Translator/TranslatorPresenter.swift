@@ -18,15 +18,11 @@ final class TranslatorPresenter {
     self.setupKeyDownObserver()
   }
   
-  func show(originalText: String, translatedText: String) {
+  func show(sourceText: String) {
     if let translatorWindowController = self.translatorWindowController {
-      translatorWindowController.update(
-        originalText: originalText,
-        translatedText: translatedText)
+      translatorWindowController.update(sourceText: sourceText)
     } else {
-      self.translatorWindowController = TranslatorWindowController(
-        originalText: originalText,
-        translatedText: translatedText)
+      self.translatorWindowController = TranslatorWindowController(sourceText: sourceText)
       self.onShow?()
     }
   }

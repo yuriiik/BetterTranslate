@@ -12,7 +12,7 @@ final class TranslatorWindowController: NSWindowController {
   
   // MARK: - Public
   
-  convenience init(originalText: String, translatedText: String) {
+  convenience init(sourceText: String) {
     let translatorView = TranslatorView()
     let hostingController = NSHostingController(rootView: translatorView)
     let window = NSWindow(
@@ -29,12 +29,11 @@ final class TranslatorWindowController: NSWindowController {
     self.init(window: window)
     self.updateWindowPosition()
     self.translatorViewModel = translatorView.viewModel
-    self.update(originalText: originalText, translatedText: translatedText)
+    self.update(sourceText: sourceText)
   }
   
-  func update(originalText: String, translatedText: String) {
-    self.translatorViewModel?.originalText = originalText
-    self.translatorViewModel?.translatedText = translatedText
+  func update(sourceText: String) {
+    self.translatorViewModel?.sourceText = sourceText
   }
   
   // MARK: - Private

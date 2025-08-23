@@ -17,9 +17,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       self?.pasteboardWatcher.resetFingerprint()
     }
     self.pasteboardWatcher.onTextCopied = { [weak self] copiedText in
-      self?.translatorPresenter.show(
-        originalText: copiedText,
-        translatedText: "")
+      self?.translatorPresenter.show(sourceText: copiedText)
     }
     self.pasteboardWatcher.start()
   }

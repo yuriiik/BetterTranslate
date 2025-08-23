@@ -15,7 +15,7 @@ struct TranslatorView: View {
   var body: some View {
     VStack(spacing: 16) {
       ScrollView {
-        Text(self.viewModel.originalText)
+        Text(self.viewModel.sourceText)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding()
           .background(Color(NSColor.windowBackgroundColor))
@@ -27,23 +27,32 @@ struct TranslatorView: View {
       
       HStack {
         Picker("From", selection: self.$viewModel.sourceLanguage) {
+          if self.viewModel.sourceLanguage == nil {
+            Text("Choose language").tag(nil as Locale.Language?)
+          }
           ForEach(self.viewModel.availableLanguages) { language in
-            Text(language.localizedName())
+            Text(language.localizedName)
               .tag(Optional(language.localeLanguage))
           }
         }
         Picker("To", selection: self.$viewModel.targetLanguage) {
+          if self.viewModel.targetLanguage == nil {
+            Text("Choose language").tag(nil as Locale.Language?)
+          }
           ForEach(self.viewModel.availableLanguages) { language in
-            Text(language.localizedName())
+            Text(language.localizedName)
               .tag(Optional(language.localeLanguage))
           }
+        }
+        Button("Reset") {
+          self.viewModel.resetSelectedLanguages()
         }
       }
       
       Divider()
 
       ScrollView {
-        Text(self.viewModel.translatedText)
+        Text(self.viewModel.targetText)
           .frame(maxWidth: .infinity, alignment: .leading)
           .padding()
           .background(Color(NSColor.controlBackgroundColor))
@@ -57,13 +66,13 @@ struct TranslatorView: View {
     .onChange(of: self.viewModel.targetLanguage) {
       self.updateTranslation()
     }
-    .onChange(of: self.viewModel.originalText, initial: true) {
+    .onChange(of: self.viewModel.sourceText, initial: true) {
       self.updateTranslation()
     }
     .translationTask(self.configuration) { session in
       do {
-        let response = try await session.translate(self.viewModel.originalText)
-        self.viewModel.translatedText = response.targetText
+        let response = try await session.translate(self.viewModel.sourceText)
+        self.viewModel.targetText = response.targetText
       } catch {
         // handle error
       }
