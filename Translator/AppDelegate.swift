@@ -17,18 +17,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       self?.pasteboardWatcher.resetFingerprint()
     }
     self.pasteboardWatcher.onTextCopied = { [weak self] copiedText in
-      guard let self else { return }
-      self.translatorPresenter.show(
+      self?.translatorPresenter.show(
         originalText: copiedText,
-        translatedText: "Translating...")
-      self.translateService.translateText(copiedText, from: "en", to: "uk") { translatedText in
-        guard let translatedText else { return }
-        DispatchQueue.main.async {
-          self.translatorPresenter.show(
-            originalText: copiedText,
-            translatedText: translatedText)
-        }
-      }
+        translatedText: "")
     }
     self.pasteboardWatcher.start()
   }
