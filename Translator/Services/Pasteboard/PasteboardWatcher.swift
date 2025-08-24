@@ -14,6 +14,8 @@ final class PasteboardWatcher {
   // MARK: - Public
   
   var onTextCopied: ((String) -> Void)?
+  
+  private(set) var isRunning: Bool = false
 
   func start() {
     self.stop()
@@ -22,11 +24,14 @@ final class PasteboardWatcher {
     }
     self.timer = timer
     RunLoop.current.add(timer, forMode: .common)
+    self.lastChangeCount = NSPasteboard.general.changeCount
+    self.isRunning = true
   }
 
   func stop() {
     self.timer?.invalidate()
     self.timer = nil
+    self.isRunning = false
   }
   
   func resetFingerprint() {

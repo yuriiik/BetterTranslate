@@ -12,11 +12,8 @@ struct TranslatorApp: App {
   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   
   var body: some Scene {
-    MenuBarExtra("Translator", systemImage: "globe") {
-      Divider()
-      Button("Quit") {
-        NSApplication.shared.terminate(nil)
-      }
+    SwiftUI.Settings {
+      EmptyView()
     }
   }
 }
