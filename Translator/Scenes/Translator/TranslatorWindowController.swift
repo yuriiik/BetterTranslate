@@ -8,9 +8,11 @@
 import Cocoa
 import SwiftUI
 
-final class TranslatorWindowController: NSWindowController {
+final class TranslatorWindowController: NSWindowController, NSWindowDelegate {
   
   // MARK: - Public
+  
+  var onClose: (() -> Void)?
   
   convenience init(sourceText: String) {
     let translatorView = TranslatorView()
@@ -27,6 +29,7 @@ final class TranslatorWindowController: NSWindowController {
     window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
     window.standardWindowButton(.zoomButton)?.isEnabled = false
     self.init(window: window)
+    self.window?.delegate = self
     self.updateWindowPosition()
     self.translatorViewModel = translatorView.viewModel
     self.update(sourceText: sourceText)
@@ -34,6 +37,12 @@ final class TranslatorWindowController: NSWindowController {
   
   func update(sourceText: String) {
     self.translatorViewModel?.sourceText = sourceText
+  }
+  
+  // MARK: - NSWindowDelegate
+  
+  func windowWillClose(_ notification: Notification) {
+    self.onClose?()
   }
   
   // MARK: - Private

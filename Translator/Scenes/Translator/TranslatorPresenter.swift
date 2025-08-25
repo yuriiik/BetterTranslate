@@ -23,14 +23,20 @@ final class TranslatorPresenter {
       translatorWindowController.update(sourceText: sourceText)
     } else {
       self.translatorWindowController = TranslatorWindowController(sourceText: sourceText)
+      self.translatorWindowController?.onClose = { [weak self] in
+        self?.close()
+      }
       self.onShow?()
     }
   }
   
   func close() {
-    self.translatorWindowController?.close()
-    self.translatorWindowController = nil
-    self.onClose?()
+    // Make sure method is called only once
+    if let translatorWindowController = self.translatorWindowController {
+      self.translatorWindowController = nil
+      translatorWindowController.close()
+      self.onClose?()
+    }
   }
   
   // MARK: - Private
