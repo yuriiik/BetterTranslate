@@ -14,17 +14,8 @@ struct TranslatorView: View {
 
   var body: some View {
     VStack(spacing: 16) {
-      ScrollView {
-        Text(self.viewModel.sourceText)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding()
-          .background(Color(NSColor.windowBackgroundColor))
-          .cornerRadius(8)
-      }
-      .frame(height: 300)
-
+      TranslatorTextView(text: self.viewModel.sourceText)
       Divider()
-      
       HStack {
         Picker("From", selection: self.$viewModel.sourceLanguage) {
           if self.viewModel.sourceLanguage == nil {
@@ -48,17 +39,8 @@ struct TranslatorView: View {
           self.viewModel.resetSelectedLanguages()
         }
       }
-      
       Divider()
-
-      ScrollView {
-        Text(self.viewModel.targetText)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding()
-          .background(Color(NSColor.controlBackgroundColor))
-          .cornerRadius(8)
-      }
-      .frame(height: 300)
+      TranslatorTextView(text: self.viewModel.targetText)
     }
     .onChange(of: self.viewModel.sourceLanguage) {
       self.updateTranslation()
@@ -78,7 +60,7 @@ struct TranslatorView: View {
       }
     }
     .padding(20)
-    .frame(minWidth: 500)
+    .frame(width: 500)
   }
   
   private func updateTranslation() {
