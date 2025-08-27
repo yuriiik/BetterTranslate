@@ -1,5 +1,5 @@
 //
-//  Settings.swift
+//  AppSettings.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 23.08.2025.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Settings {
+struct AppSettings {
   
   // MARK: - Public
   

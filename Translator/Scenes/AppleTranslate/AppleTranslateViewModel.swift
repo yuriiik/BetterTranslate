@@ -48,7 +48,7 @@ class AppleTranslateViewModel: ObservableObject {
   
   // MARK: - Private
   
-  private var settings = Settings()
+  private var settings = AppSettings()
   
   private func prepareSupportedLanguages() {
     Task {

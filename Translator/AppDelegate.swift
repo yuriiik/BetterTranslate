@@ -30,7 +30,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   
   private let translatePresenter = AppleTranslatePresenter()
   private let pasteboardWatcher = PasteboardWatcher()
-  private let translateService: TranslateService = GoogleTranslateService()
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
   
   private func addStatusItem() {
