@@ -29,7 +29,11 @@ final class GoogleTranslateWindowController: NSWindowController, TranslateWindow
     self.updateWindowPosition()
   }
   
-  func update(sourceText: String) {}
+  func update(sourceText: String) {
+    if let translateViewController = self.contentViewController as? GoogleTranslateViewController {
+      translateViewController.update(sourceText: sourceText)
+    }
+  }
   
   // MARK: - Private
 

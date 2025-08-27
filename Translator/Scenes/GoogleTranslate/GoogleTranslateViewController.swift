@@ -27,16 +27,19 @@ class GoogleTranslateViewController: NSViewController, WKUIDelegate {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    guard
-      let encodedSourceText = self.sourceText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-      let googleTranslateURL = URL(string: self.googleTranslateURLString(sourceText: encodedSourceText))
-    else { return }
-    self.webView.load(URLRequest(url: googleTranslateURL))
+    self.translate()
+  }
+  
+  // MARK: - Public
+  
+  func update(sourceText: String) {
+    self.sourceText = sourceText
+    self.translate()
   }
   
   // MARK: - Private
   
-  private let sourceText: String
+  private var sourceText: String
   
   private let googleTranslateURLString = "https://translate.google.com/?sl=en&tl=uk&text=%@&op=translate"
   
@@ -50,5 +53,13 @@ class GoogleTranslateViewController: NSViewController, WKUIDelegate {
   
   private func googleTranslateURLString(sourceText: String) -> String {
     String(format: self.googleTranslateURLString, sourceText)
+  }
+  
+  private func translate() {
+    guard
+      let encodedSourceText = self.sourceText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+      let googleTranslateURL = URL(string: self.googleTranslateURLString(sourceText: encodedSourceText))
+    else { return }
+    self.webView.load(URLRequest(url: googleTranslateURL))
   }
 }
