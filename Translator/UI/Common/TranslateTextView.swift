@@ -1,5 +1,5 @@
 //
-//  TranslatorTextView.swift
+//  TranslateTextView.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 25.08.2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TranslatorTextView: View {
+struct TranslateTextView: View {
   private var text: String
   @State private var textHeight = CGFloat.zero
   private let maxHeight = 200.0

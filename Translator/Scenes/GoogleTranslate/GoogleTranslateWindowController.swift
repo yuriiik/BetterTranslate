@@ -7,7 +7,7 @@
 
 import Cocoa
 
-final class GoogleTranslateWindowController: NSWindowController, CommonTranslatorWindowController {
+final class GoogleTranslateWindowController: NSWindowController, TranslateWindowController {
   
   // MARK: - Public
   
@@ -20,7 +20,7 @@ final class GoogleTranslateWindowController: NSWindowController, CommonTranslato
       backing: .buffered,
       defer: false)
     window.isReleasedWhenClosed = false
-    window.title = "Translator"
+    window.title = "Better Translate"
     window.contentViewController = GoogleTranslateViewController(sourceText: sourceText)
     window.level = .floating
     window.standardWindowButton(.miniaturizeButton)?.isEnabled = false

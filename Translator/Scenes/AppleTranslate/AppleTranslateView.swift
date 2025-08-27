@@ -1,5 +1,5 @@
 //
-//  TranslatorView.swift
+//  AppleTranslateView.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 19.08.2025.
@@ -8,13 +8,13 @@
 import SwiftUI
 import Translation
 
-struct TranslatorView: View {
-  @ObservedObject var viewModel = TranslatorViewModel()
+struct AppleTranslateView: View {
+  @ObservedObject var viewModel = AppleTranslateViewModel()
   @State private var configuration: TranslationSession.Configuration?
 
   var body: some View {
     VStack(spacing: 16) {
-      TranslatorTextView(text: self.viewModel.sourceText)
+      TranslateTextView(text: self.viewModel.sourceText)
       Divider()
       HStack {
         Picker("From", selection: self.$viewModel.sourceLanguage) {
@@ -40,7 +40,7 @@ struct TranslatorView: View {
         }
       }
       Divider()
-      TranslatorTextView(text: self.viewModel.targetText)
+      TranslateTextView(text: self.viewModel.targetText)
     }
     .onChange(of: self.viewModel.sourceLanguage) {
       self.updateTranslation()

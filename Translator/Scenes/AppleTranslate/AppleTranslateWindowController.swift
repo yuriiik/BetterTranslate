@@ -1,5 +1,5 @@
 //
-//  TranslatorWindowController.swift
+//  AppleTranslateWindowController.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 20.08.2025.
@@ -8,22 +8,22 @@
 import Cocoa
 import SwiftUI
 
-final class TranslatorWindowController: NSWindowController, NSWindowDelegate, CommonTranslatorWindowController {
+final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslateWindowController {
   
   // MARK: - Public
   
   var onClose: (() -> Void)?
   
   convenience init(sourceText: String) {
-    let translatorView = TranslatorView()
-    let hostingController = NSHostingController(rootView: translatorView)
+    let translateView = AppleTranslateView()
+    let hostingController = NSHostingController(rootView: translateView)
     let window = NSWindow(
       contentRect: .zero,
       styleMask: [.titled, .closable],
       backing: .buffered,
       defer: false)
     window.isReleasedWhenClosed = false
-    window.title = "Translator"
+    window.title = "Better Translate"
     window.contentViewController = hostingController
     window.level = .floating
     window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
@@ -31,12 +31,12 @@ final class TranslatorWindowController: NSWindowController, NSWindowDelegate, Co
     self.init(window: window)
     self.window?.delegate = self
     self.updateWindowPosition()
-    self.translatorViewModel = translatorView.viewModel
+    self.translateViewModel = translateView.viewModel
     self.update(sourceText: sourceText)
   }
   
   func update(sourceText: String) {
-    self.translatorViewModel?.sourceText = sourceText
+    self.translateViewModel?.sourceText = sourceText
   }
   
   // MARK: - NSWindowDelegate
@@ -47,7 +47,7 @@ final class TranslatorWindowController: NSWindowController, NSWindowDelegate, Co
   
   // MARK: - Private
   
-  private var translatorViewModel: TranslatorViewModel?
+  private var translateViewModel: AppleTranslateViewModel?
   
   private func updateWindowPosition() {
     DispatchQueue.main.async {

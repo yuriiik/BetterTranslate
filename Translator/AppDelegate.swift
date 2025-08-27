@@ -12,11 +12,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   // MARK: - NSApplicationDelegate
 
   func applicationDidFinishLaunching(_ notification: Notification) {
-    self.translatorPresenter.onClose = { [weak self] in
+    self.translatePresenter.onClose = { [weak self] in
       self?.pasteboardWatcher.resetFingerprint()
     }
     self.pasteboardWatcher.onTextCopied = { [weak self] copiedText in
-      self?.translatorPresenter.show(sourceText: copiedText)
+      self?.translatePresenter.show(sourceText: copiedText)
     }
     self.pasteboardWatcher.start()
     self.addStatusItem()
@@ -28,7 +28,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   
   // MARK: - Private
   
-  private let translatorPresenter = TranslatorPresenter()
+  private let translatePresenter = AppleTranslatePresenter()
   private let pasteboardWatcher = PasteboardWatcher()
   private let translateService: TranslateService = GoogleTranslateService()
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -38,7 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
       button.target = self
       button.action = #selector(self.statusItemClicked(_:))
       button.sendAction(on: [.leftMouseUp, .rightMouseUp])
-      button.toolTip = "Translator"
+      button.toolTip = "Better Translate"
     }
     self.updateStatusIcon()
   }
@@ -49,13 +49,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     case .rightMouseUp:
       self.showContextMenu()
     case .leftMouseUp:
-      self.toggleTranslatorEnabled()
+      self.toggleTranslateEnabled()
     default:
       break
     }
   }
   
-  private func toggleTranslatorEnabled() {
+  private func toggleTranslateEnabled() {
     if self.pasteboardWatcher.isRunning {
       self.pasteboardWatcher.stop()
     } else {
@@ -66,7 +66,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   
   private func updateStatusIcon() {
     let symbolName = self.pasteboardWatcher.isRunning ? "globe.europe.africa.fill" : "globe.europe.africa"
-    let accessibilityDescription = self.pasteboardWatcher.isRunning ? "Translator On" : "Translator Off"
+    let accessibilityDescription = self.pasteboardWatcher.isRunning ? "Translate On" : "Translate Off"
     self.statusItem.button?.image = NSImage(
       systemSymbolName: symbolName,
       accessibilityDescription: accessibilityDescription)

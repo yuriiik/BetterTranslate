@@ -1,5 +1,5 @@
 //
-//  CommonTranslatorPresenter.swift
+//  TranslatePresenter.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 27.08.2025.
@@ -7,12 +7,12 @@
 
 import Cocoa
 
-protocol CommonTranslatorWindowController where Self: NSWindowController {
+protocol TranslateWindowController where Self: NSWindowController {
   var onClose: (() -> Void)? { get set }
   func update(sourceText: String)
 }
 
-class CommonTranslatorPresenter {
+class TranslatePresenter {
   
   // MARK: - Public
   
@@ -23,16 +23,16 @@ class CommonTranslatorPresenter {
     self.setupKeyDownObserver()
   }
   
-  open func makeTranslatorWindowController(sourceText: String) -> (any CommonTranslatorWindowController)? {
+  open func makeTranslateWindowController(sourceText: String) -> (any TranslateWindowController)? {
     return nil
   }
   
   func show(sourceText: String) {
-    if let translatorWindowController = self.translatorWindowController {
-      translatorWindowController.update(sourceText: sourceText)
+    if let translateWindowController = self.translateWindowController {
+      translateWindowController.update(sourceText: sourceText)
     } else {
-      self.translatorWindowController = self.makeTranslatorWindowController(sourceText: sourceText)
-      self.translatorWindowController?.onClose = { [weak self] in
+      self.translateWindowController = self.makeTranslateWindowController(sourceText: sourceText)
+      self.translateWindowController?.onClose = { [weak self] in
         self?.close()
       }
       self.onShow?()
@@ -41,9 +41,9 @@ class CommonTranslatorPresenter {
   
   func close() {
     // Make sure method is called only once
-    if let translatorWindowController = self.translatorWindowController {
-      self.translatorWindowController = nil
-      translatorWindowController.close()
+    if let translateWindowController = self.translateWindowController {
+      self.translateWindowController = nil
+      translateWindowController.close()
       self.onClose?()
     }
   }
@@ -52,7 +52,7 @@ class CommonTranslatorPresenter {
   
   private let escKeyCode = 53
   
-  private var translatorWindowController: CommonTranslatorWindowController?
+  private var translateWindowController: TranslateWindowController?
   
   private func setupKeyDownObserver() {
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
