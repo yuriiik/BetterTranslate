@@ -8,16 +8,18 @@
 import Cocoa
 
 protocol TranslateWindowController where Self: NSWindowController {
+  var onHide: (() -> Void)? { get set }
   var onClose: (() -> Void)? { get set }
   func update(sourceText: String)
+  func dismiss()
 }
 
 class TranslatePresenter {
   
   // MARK: - Public
   
-  var onShow: (() -> Void)?
-  var onClose: (() -> Void)?
+  var onPresent: (() -> Void)?
+  var onDismiss: (() -> Void)?
   
   init() {
     self.setupKeyDownObserver()
@@ -27,25 +29,24 @@ class TranslatePresenter {
     return nil
   }
   
-  func show(sourceText: String) {
+  func present(sourceText: String) {
     if let translateWindowController = self.translateWindowController {
       translateWindowController.update(sourceText: sourceText)
     } else {
       self.translateWindowController = self.makeTranslateWindowController(sourceText: sourceText)
       self.translateWindowController?.onClose = { [weak self] in
-        self?.close()
+        self?.translateWindowController = nil
+        self?.onDismiss?()
       }
-      self.onShow?()
+      self.translateWindowController?.onHide = { [weak self] in
+        self?.onDismiss?()
+      }
+      self.onPresent?()
     }
   }
   
-  func close() {
-    // Make sure method is called only once
-    if let translateWindowController = self.translateWindowController {
-      self.translateWindowController = nil
-      translateWindowController.close()
-      self.onClose?()
-    }
+  func dismiss() {
+    self.translateWindowController?.dismiss()
   }
   
   // MARK: - Private
@@ -58,7 +59,7 @@ class TranslatePresenter {
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
       guard let self else { return event }
       if event.keyCode == self.escKeyCode {
-        self.close()
+        self.dismiss()
         return nil
       }
       return event
@@ -66,7 +67,7 @@ class TranslatePresenter {
     NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
       guard let self else { return }
       if event.keyCode == self.escKeyCode {
-        self.close()
+        self.dismiss()
       }
     }
   }

@@ -12,6 +12,7 @@ final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate
   
   // MARK: - Public
   
+  var onHide: (() -> Void)?
   var onClose: (() -> Void)?
   
   convenience init(sourceText: String) {
@@ -37,6 +38,10 @@ final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate
   
   func update(sourceText: String) {
     self.translateViewModel?.sourceText = sourceText
+  }
+  
+  func dismiss() {
+    self.close()
   }
   
   // MARK: - NSWindowDelegate

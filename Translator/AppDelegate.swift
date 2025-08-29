@@ -12,11 +12,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   // MARK: - NSApplicationDelegate
 
   func applicationDidFinishLaunching(_ notification: Notification) {
-    self.translatePresenter.onClose = { [weak self] in
+    self.translatePresenter.onDismiss = { [weak self] in
       self?.pasteboardWatcher.resetFingerprint()
     }
     self.pasteboardWatcher.onTextCopied = { [weak self] copiedText in
-      self?.translatePresenter.show(sourceText: copiedText)
+      self?.translatePresenter.present(sourceText: copiedText)
     }
     self.pasteboardWatcher.start()
     self.addStatusItem()

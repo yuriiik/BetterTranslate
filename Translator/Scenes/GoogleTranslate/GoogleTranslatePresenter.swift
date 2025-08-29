@@ -9,6 +9,6 @@ import Cocoa
 
 final class GoogleTranslatePresenter: TranslatePresenter {
   override func makeTranslateWindowController(sourceText: String) -> (any TranslateWindowController)? {
-    return GoogleTranslateWindowController(sourceText: sourceText)
+    return GoogleTranslateWindowController()
   }
 }

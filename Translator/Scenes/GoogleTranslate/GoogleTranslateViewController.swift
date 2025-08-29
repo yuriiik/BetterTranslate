@@ -8,18 +8,22 @@
 import Cocoa
 import WebKit
 
-class GoogleTranslateViewController: NSViewController, WKUIDelegate {
+class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
 
-  // MARK: - Initialization
+  // MARK: - Public
   
-  init(sourceText: String) {
-    self.sourceText = sourceText
-    super.init(nibName: nil, bundle: nil)
+  func translate() {
+    switch self.webViewLoadingState {
+    case .notStarted:
+      self.loadGoogleTranslateWebPage()
+    case .inProgress:
+      return
+    case .completed:
+      self.updateSourceTextOnGoogleTranslateWebPage()
+    }
   }
   
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+  // MARK: - View Lifecycle
   
   override func loadView() {
     self.view = self.webView
@@ -30,36 +34,51 @@ class GoogleTranslateViewController: NSViewController, WKUIDelegate {
     self.translate()
   }
   
-  // MARK: - Public
+  // MARK: - WKNavigationDelegate
   
-  func update(sourceText: String) {
-    self.sourceText = sourceText
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    self.webViewLoadingState = .completed
     self.translate()
   }
   
   // MARK: - Private
   
-  private var sourceText: String
+  private enum WebViewLoadingState {
+    case notStarted
+    case inProgress
+    case completed
+  }
   
-  private let googleTranslateURLString = "https://translate.google.com/?sl=en&tl=uk&text=%@&op=translate"
+  private var webViewLoadingState: WebViewLoadingState = .notStarted
+  
+  private let googleTranslateURLString = "https://translate.google.com"
   
   private lazy var webView: WKWebView = {
     let webView = WKWebView(
       frame: .zero,
       configuration: WKWebViewConfiguration())
-    webView.uiDelegate = self
+    webView.navigationDelegate = self
     return webView
   }()
   
-  private func googleTranslateURLString(sourceText: String) -> String {
-    String(format: self.googleTranslateURLString, sourceText)
+  private func loadGoogleTranslateWebPage() {
+    guard let googleTranslateURL = URL(string: self.googleTranslateURLString) else { return }
+    self.webView.load(URLRequest(url: googleTranslateURL))
+    self.webViewLoadingState = .inProgress
   }
   
-  private func translate() {
-    guard
-      let encodedSourceText = self.sourceText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-      let googleTranslateURL = URL(string: self.googleTranslateURLString(sourceText: encodedSourceText))
-    else { return }
-    self.webView.load(URLRequest(url: googleTranslateURL))
+  private func updateSourceTextOnGoogleTranslateWebPage() {
+    NSApp.sendAction(
+      #selector(NSText.selectAll(_:)),
+      to: self.webView,
+      from: self)
+    NSApp.sendAction(
+      #selector(NSText.delete(_:)),
+      to: self.webView,
+      from: self)
+    NSApp.sendAction(
+      #selector(NSText.paste(_:)),
+      to: self.webView,
+      from: self)
   }
 }
