@@ -11,11 +11,7 @@ protocol TranslateWindowController where Self: NSWindowController {
   var onHide: (() -> Void)? { get set }
   var onClose: (() -> Void)? { get set }
   func update(sourceText: String)
-  func dismiss()
-}
-
-protocol TranslateViewControllerActionDelegate: AnyObject {
-  func translateViewControllerWantsToClose()
+  func dismiss(shouldClose: Bool)
 }
 
 class TranslatePresenter {
@@ -51,7 +47,11 @@ class TranslatePresenter {
   }
   
   func dismiss() {
-    self.translateWindowController?.dismiss()
+    self.translateWindowController?.dismiss(shouldClose: false)
+  }
+  
+  func dismissAndClose() {
+    self.translateWindowController?.dismiss(shouldClose: true)
   }
   
   // MARK: - Private

@@ -40,7 +40,7 @@ final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate
     self.translateViewModel?.sourceText = sourceText
   }
   
-  func dismiss() {
+  func dismiss(shouldClose: Bool) {
     self.close()
   }
   

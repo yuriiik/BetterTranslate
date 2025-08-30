@@ -26,16 +26,16 @@ class TranslateManager {
     self.pasteboardWatcher.stop()
   }
   
-  func startMonitoringPasteboard() {
-    self.pasteboardWatcher.start()
-    self.updateStatusIcon()
+  func dismissCurrentTranslationWindow(shouldTurnOff: Bool) {
+    if shouldTurnOff {
+      self.pasteboardWatcher.stop()
+      self.updateStatusIcon()
+      self.translatePresenter.dismissAndClose()
+    } else {
+      self.translatePresenter.dismiss()
+    }
   }
   
-  func stopMonitoringPasteboard() {
-    self.pasteboardWatcher.stop()
-    self.updateStatusIcon()
-  }
-    
   // MARK: - Private
   
   private lazy var translatePresenter: TranslatePresenter = {
@@ -70,6 +70,7 @@ class TranslateManager {
   private func toggleTranslateEnabled() {
     if self.pasteboardWatcher.isRunning {
       self.pasteboardWatcher.stop()
+      self.translatePresenter.dismissAndClose()
     } else {
       self.pasteboardWatcher.start()
     }
@@ -86,10 +87,11 @@ class TranslateManager {
   
   private func showContextMenu() {
     let menu = NSMenu()
-    menu.addItem(
+    let menuItem = menu.addItem(
       withTitle: "Quit",
       action: #selector(self.quitApp),
       keyEquivalent: "q")
+    menuItem.target = self
     self.statusItem.menu = menu
     self.statusItem.button?.performClick(nil)
     self.statusItem.menu = nil

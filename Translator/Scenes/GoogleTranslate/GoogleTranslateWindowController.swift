@@ -7,7 +7,7 @@
 
 import Cocoa
 
-final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslateWindowController, TranslateViewControllerActionDelegate {
+final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslateWindowController {
   
   // MARK: - Public
   
@@ -28,7 +28,6 @@ final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegat
     window.standardWindowButton(.zoomButton)?.isEnabled = false
     self.init(window: window)
     self.window?.delegate = self
-    contentViewController.actionDelegate = self
     self.updateWindowPosition()
   }
   
@@ -43,26 +42,24 @@ final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegat
     }
   }
   
-  func dismiss() {
-    self.window?.orderOut(nil)
-    self.onHide?()
+  func dismiss(shouldClose: Bool) {
+    if shouldClose {
+      self.close()
+    } else {
+      self.window?.orderOut(nil)
+      self.onHide?()
+    }
   }
   
   // MARK: - NSWindowDelegate
   
   func windowShouldClose(_ sender: NSWindow) -> Bool {
-    self.dismiss()
+    self.dismiss(shouldClose: false)
     return false
   }
   
   func windowWillClose(_ notification: Notification) {
     self.onClose?()
-  }
-  
-  // MARK: - TranslateViewControllerActionDelegate
-  
-  func translateViewControllerWantsToClose() {
-    self.dismiss()
   }
   
   // MARK: - Private

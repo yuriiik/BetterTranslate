@@ -14,8 +14,6 @@ class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
   
   weak var translateManager: TranslateManager?
   
-  weak var actionDelegate: TranslateViewControllerActionDelegate?
-  
   func translate() {
     switch self.webViewLoadingState {
     case .notStarted:
@@ -38,12 +36,11 @@ class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Actions
   
   @IBAction func close(_ sender: NSButton) {
-    self.actionDelegate?.translateViewControllerWantsToClose()
+    self.translateManager?.dismissCurrentTranslationWindow(shouldTurnOff: false)
   }
 
   @IBAction func closeAndTurnOff(_ sender: NSButton) {
-    self.translateManager?.stopMonitoringPasteboard()
-    self.actionDelegate?.translateViewControllerWantsToClose()
+    self.translateManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
   }
   
   // MARK: - WKNavigationDelegate
