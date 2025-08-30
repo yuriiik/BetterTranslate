@@ -7,7 +7,7 @@
 
 import Cocoa
 
-final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslateWindowController {
+final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
   
   // MARK: - Public
   

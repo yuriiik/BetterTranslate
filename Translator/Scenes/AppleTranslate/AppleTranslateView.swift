@@ -14,7 +14,7 @@ struct AppleTranslateView: View {
 
   var body: some View {
     VStack(spacing: 16) {
-      TranslateTextView(text: self.viewModel.sourceText)
+      TranslationTextView(text: self.viewModel.sourceText)
       Divider()
       HStack {
         Picker("From", selection: self.$viewModel.sourceLanguage) {
@@ -40,7 +40,7 @@ struct AppleTranslateView: View {
         }
       }
       Divider()
-      TranslateTextView(text: self.viewModel.targetText)
+      TranslationTextView(text: self.viewModel.targetText)
     }
     .onChange(of: self.viewModel.sourceLanguage) {
       self.updateTranslation()

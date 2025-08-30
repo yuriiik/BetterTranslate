@@ -1,5 +1,5 @@
 //
-//  TranslatePresenter.swift
+//  TranslationPresenter.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 27.08.2025.
@@ -7,39 +7,39 @@
 
 import Cocoa
 
-protocol TranslateWindowController where Self: NSWindowController {
+protocol TranslationWindowController where Self: NSWindowController {
   var onHide: (() -> Void)? { get set }
   var onClose: (() -> Void)? { get set }
   func update(sourceText: String)
   func dismiss(shouldClose: Bool)
 }
 
-class TranslatePresenter {
+class TranslationPresenter {
   
   // MARK: - Public
   
   var onPresent: (() -> Void)?
   var onDismiss: (() -> Void)?
   
-  init(translateManager: TranslateManager) {
-    self.translateManager = translateManager
+  init(translationManager: TranslationManager) {
+    self.translationManager = translationManager
     self.setupKeyDownObserver()
   }
   
-  open func makeTranslateWindowController(sourceText: String) -> (any TranslateWindowController)? {
+  open func makeTranslationWindowController(sourceText: String) -> (any TranslationWindowController)? {
     return nil
   }
   
   func present(sourceText: String) {
-    if let translateWindowController = self.translateWindowController {
-      translateWindowController.update(sourceText: sourceText)
+    if let translationWindowController = self.translationWindowController {
+      translationWindowController.update(sourceText: sourceText)
     } else {
-      self.translateWindowController = self.makeTranslateWindowController(sourceText: sourceText)
-      self.translateWindowController?.onClose = { [weak self] in
-        self?.translateWindowController = nil
+      self.translationWindowController = self.makeTranslationWindowController(sourceText: sourceText)
+      self.translationWindowController?.onClose = { [weak self] in
+        self?.translationWindowController = nil
         self?.onDismiss?()
       }
-      self.translateWindowController?.onHide = { [weak self] in
+      self.translationWindowController?.onHide = { [weak self] in
         self?.onDismiss?()
       }
       self.onPresent?()
@@ -47,20 +47,20 @@ class TranslatePresenter {
   }
   
   func dismiss() {
-    self.translateWindowController?.dismiss(shouldClose: false)
+    self.translationWindowController?.dismiss(shouldClose: false)
   }
   
   func dismissAndClose() {
-    self.translateWindowController?.dismiss(shouldClose: true)
+    self.translationWindowController?.dismiss(shouldClose: true)
   }
   
   // MARK: - Private
   
-  private(set) weak var translateManager: TranslateManager?
+  private(set) weak var translationManager: TranslationManager?
   
   private let escKeyCode = 53
   
-  private var translateWindowController: TranslateWindowController?
+  private var translationWindowController: TranslationWindowController?
   
   private func setupKeyDownObserver() {
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in

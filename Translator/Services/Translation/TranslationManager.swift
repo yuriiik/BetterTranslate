@@ -1,5 +1,5 @@
 //
-//  TranslateManager.swift
+//  TranslationManager.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 29.08.2025.
@@ -7,16 +7,16 @@
 
 import Cocoa
 
-class TranslateManager {
+class TranslationManager {
   
   // MARK: - Public
   
   func start() {
-    self.translatePresenter.onDismiss = { [weak self] in
+    self.translationPresenter.onDismiss = { [weak self] in
       self?.pasteboardWatcher.resetFingerprint()
     }
     self.pasteboardWatcher.onTextCopied = { [weak self] copiedText in
-      self?.translatePresenter.present(sourceText: copiedText)
+      self?.translationPresenter.present(sourceText: copiedText)
     }
     self.pasteboardWatcher.start()
     self.addStatusItem()
@@ -30,16 +30,16 @@ class TranslateManager {
     if shouldTurnOff {
       self.pasteboardWatcher.stop()
       self.updateStatusIcon()
-      self.translatePresenter.dismissAndClose()
+      self.translationPresenter.dismissAndClose()
     } else {
-      self.translatePresenter.dismiss()
+      self.translationPresenter.dismiss()
     }
   }
   
   // MARK: - Private
   
-  private lazy var translatePresenter: TranslatePresenter = {
-    return GoogleTranslatePresenter(translateManager: self)
+  private lazy var translationPresenter: TranslationPresenter = {
+    return GoogleTranslatePresenter(translationManager: self)
   }()
   
   private let pasteboardWatcher = PasteboardWatcher()
@@ -70,7 +70,7 @@ class TranslateManager {
   private func toggleTranslateEnabled() {
     if self.pasteboardWatcher.isRunning {
       self.pasteboardWatcher.stop()
-      self.translatePresenter.dismissAndClose()
+      self.translationPresenter.dismissAndClose()
     } else {
       self.pasteboardWatcher.start()
     }

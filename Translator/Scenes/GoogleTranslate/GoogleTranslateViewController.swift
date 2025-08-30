@@ -12,7 +12,7 @@ class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
 
   // MARK: - Public
   
-  weak var translateManager: TranslateManager?
+  weak var translationManager: TranslationManager?
   
   func translate() {
     switch self.webViewLoadingState {
@@ -36,11 +36,11 @@ class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Actions
   
   @IBAction func close(_ sender: NSButton) {
-    self.translateManager?.dismissCurrentTranslationWindow(shouldTurnOff: false)
+    self.translationManager?.dismissCurrentTranslationWindow(shouldTurnOff: false)
   }
 
   @IBAction func closeAndTurnOff(_ sender: NSButton) {
-    self.translateManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
+    self.translationManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
   }
   
   // MARK: - WKNavigationDelegate

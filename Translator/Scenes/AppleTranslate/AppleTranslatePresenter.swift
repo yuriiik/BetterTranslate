@@ -7,8 +7,8 @@
 
 import Cocoa
 
-final class AppleTranslatePresenter: TranslatePresenter {
-  override func makeTranslateWindowController(sourceText: String) -> (any TranslateWindowController)? {
+final class AppleTranslatePresenter: TranslationPresenter {
+  override func makeTranslationWindowController(sourceText: String) -> (any TranslationWindowController)? {
     return AppleTranslateWindowController(sourceText: sourceText)
   }
 }

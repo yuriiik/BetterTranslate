@@ -8,7 +8,7 @@
 import Cocoa
 import SwiftUI
 
-final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslateWindowController {
+final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
   
   // MARK: - Public
   

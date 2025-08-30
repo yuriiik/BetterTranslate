@@ -12,14 +12,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   // MARK: - NSApplicationDelegate
 
   func applicationDidFinishLaunching(_ notification: Notification) {
-    self.translateManager.start()
+    self.translationManager.start()
   }
 
   func applicationWillTerminate(_ notification: Notification) {
-    self.translateManager.stop()
+    self.translationManager.stop()
   }
   
   // MARK: - Private
   
-  private let translateManager = TranslateManager()
+  private let translationManager = TranslationManager()
 }
