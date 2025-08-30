@@ -11,12 +11,15 @@ class TranslationManager {
   
   // MARK: - Public
   
+  @Published private(set) var sourceText: String = ""
+  
   func start() {
     self.translationPresenter.onDismiss = { [weak self] in
       self?.pasteboardWatcher.resetFingerprint()
     }
     self.pasteboardWatcher.onTextCopied = { [weak self] copiedText in
-      self?.translationPresenter.present(sourceText: copiedText)
+      self?.sourceText = copiedText
+      self?.translationPresenter.present()
     }
     self.pasteboardWatcher.start()
     self.addStatusItem()
@@ -39,7 +42,7 @@ class TranslationManager {
   // MARK: - Private
   
   private lazy var translationPresenter: TranslationPresenter = {
-    return GoogleTranslationPresenter(translationManager: self)
+    return AppleTranslationPresenter(translationManager: self)
   }()
   
   private let pasteboardWatcher = PasteboardWatcher()

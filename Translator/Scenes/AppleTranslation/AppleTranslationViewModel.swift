@@ -8,6 +8,7 @@
 import Foundation
 import Translation
 import NaturalLanguage
+import Combine
 
 class AppleTranslationViewModel: ObservableObject {
   
@@ -35,6 +36,12 @@ class AppleTranslationViewModel: ObservableObject {
     }
   }
   
+  var translationManager: TranslationManager? {
+    didSet {
+      self.subscribeToSourceTextUpdates()
+    }
+  }
+  
   init() {
     self.prepareSupportedLanguages()
     self.sourceLanguage = self.settings.sourceLanguage
@@ -46,10 +53,29 @@ class AppleTranslationViewModel: ObservableObject {
     self.targetLanguage = nil
   }
   
+  func close() {
+    self.translationManager?.dismissCurrentTranslationWindow(shouldTurnOff: false)
+  }
+  
+  func closeAndTurnOff() {
+    self.translationManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
+  }
+  
   // MARK: - Private
+  
+  private var cancellables = Set<AnyCancellable>()
   
   private var settings = AppSettings()
   
+  private func subscribeToSourceTextUpdates() {
+    guard let translationManager = self.translationManager else { return }
+    translationManager.$sourceText
+      .sink { sourceText in
+        self.sourceText = sourceText
+      }
+      .store(in: &self.cancellables)
+  }
+
   private func prepareSupportedLanguages() {
     Task {
       let supportedLanguages = await LanguageAvailability().supportedLanguages

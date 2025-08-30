@@ -10,8 +10,8 @@ import Cocoa
 protocol TranslationWindowController where Self: NSWindowController {
   var onHide: (() -> Void)? { get set }
   var onClose: (() -> Void)? { get set }
-  func update(sourceText: String)
-  func dismiss(shouldClose: Bool)
+  func show()
+  func hide(shouldClose: Bool)
 }
 
 class TranslationPresenter {
@@ -26,15 +26,15 @@ class TranslationPresenter {
     self.setupKeyDownObserver()
   }
   
-  open func makeTranslationWindowController(sourceText: String) -> (any TranslationWindowController)? {
+  open func makeTranslationWindowController() -> (any TranslationWindowController)? {
     return nil
   }
   
-  func present(sourceText: String) {
+  func present() {
     if let translationWindowController = self.translationWindowController {
-      translationWindowController.update(sourceText: sourceText)
+      translationWindowController.show()
     } else {
-      self.translationWindowController = self.makeTranslationWindowController(sourceText: sourceText)
+      self.translationWindowController = self.makeTranslationWindowController()
       self.translationWindowController?.onClose = { [weak self] in
         self?.translationWindowController = nil
         self?.onDismiss?()
@@ -47,11 +47,11 @@ class TranslationPresenter {
   }
   
   func dismiss() {
-    self.translationWindowController?.dismiss(shouldClose: false)
+    self.translationWindowController?.hide(shouldClose: false)
   }
   
   func dismissAndClose() {
-    self.translationWindowController?.dismiss(shouldClose: true)
+    self.translationWindowController?.hide(shouldClose: true)
   }
   
   // MARK: - Private

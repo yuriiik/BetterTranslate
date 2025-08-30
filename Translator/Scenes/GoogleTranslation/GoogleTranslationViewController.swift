@@ -7,6 +7,7 @@
 
 import Cocoa
 import WebKit
+import Combine
 
 class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
 
@@ -30,7 +31,7 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.webView.navigationDelegate = self
-    self.translate()
+    self.subscribeToSourceTextUpdates()
   }
   
   // MARK: - Actions
@@ -63,6 +64,17 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   private var webViewLoadingState: WebViewLoadingState = .notStarted
   
   private let googleTranslateURLString = "https://translate.google.com"
+  
+  private var cancellables = Set<AnyCancellable>()
+  
+  private func subscribeToSourceTextUpdates() {
+    guard let translationManager = self.translationManager else { return }
+    translationManager.$sourceText
+      .sink { _ in
+        self.translate()
+      }
+      .store(in: &self.cancellables)
+  }
   
   private func loadGoogleTranslateWebPage() {
     guard let googleTranslateURL = URL(string: self.googleTranslateURLString) else { return }

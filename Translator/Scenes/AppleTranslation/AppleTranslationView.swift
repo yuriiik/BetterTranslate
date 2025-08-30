@@ -9,7 +9,7 @@ import SwiftUI
 import Translation
 
 struct AppleTranslationView: View {
-  @ObservedObject var viewModel = AppleTranslationViewModel()
+  @ObservedObject var viewModel: AppleTranslationViewModel
   @State private var configuration: TranslationSession.Configuration?
 
   var body: some View {
@@ -41,6 +41,18 @@ struct AppleTranslationView: View {
       }
       Divider()
       TranslationTextView(text: self.viewModel.targetText)
+      HStack {
+        Spacer()
+        Button("Close (Esc)") {
+          self.viewModel.close()
+        }
+        Spacer()
+          .frame(width: 16)
+        Button("Close and Turn OFF") {
+          self.viewModel.closeAndTurnOff()
+        }
+        Spacer()
+      }
     }
     .onChange(of: self.viewModel.sourceLanguage) {
       self.updateTranslation()

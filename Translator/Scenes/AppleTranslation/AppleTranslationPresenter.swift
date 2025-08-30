@@ -6,9 +6,14 @@
 //
 
 import Cocoa
+import SwiftUI
 
 final class AppleTranslationPresenter: TranslationPresenter {
-  override func makeTranslationWindowController(sourceText: String) -> (any TranslationWindowController)? {
-    return AppleTranslationWindowController(sourceText: sourceText)
+  override func makeTranslationWindowController() -> (any TranslationWindowController)? {
+    let viewModel = AppleTranslationViewModel()
+    viewModel.translationManager = self.translationManager
+    let translationView = AppleTranslationView(viewModel: viewModel)
+    let hostingController = NSHostingController(rootView: translationView)
+    return AppleTranslationWindowController(contentViewController: hostingController)
   }
 }

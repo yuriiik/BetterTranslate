@@ -14,7 +14,7 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
   var onHide: (() -> Void)?
   var onClose: (() -> Void)?
   
-  convenience init(contentViewController: GoogleTranslationViewController) {
+  convenience init(contentViewController: NSViewController) {
     let window = NSWindow(
       contentRect: .zero,
       styleMask: [.titled, .closable],
@@ -31,18 +31,14 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
     self.updateWindowPosition()
   }
   
-  func update(sourceText: String) {
-    guard
-      let window = self.window,
-      let translationViewController = self.contentViewController as? GoogleTranslationViewController
-    else { return }
-    translationViewController.translate()
+  func show() {
+    guard let window = self.window else { return }
     if !window.isVisible {
       window.makeKeyAndOrderFront(nil)
     }
   }
   
-  func dismiss(shouldClose: Bool) {
+  func hide(shouldClose: Bool) {
     if shouldClose {
       self.close()
     } else {
@@ -54,7 +50,7 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
   // MARK: - NSWindowDelegate
   
   func windowShouldClose(_ sender: NSWindow) -> Bool {
-    self.dismiss(shouldClose: false)
+    self.hide(shouldClose: false)
     return false
   }
   

@@ -15,9 +15,7 @@ final class AppleTranslationWindowController: NSWindowController, NSWindowDelega
   var onHide: (() -> Void)?
   var onClose: (() -> Void)?
   
-  convenience init(sourceText: String) {
-    let translationView = AppleTranslationView()
-    let hostingController = NSHostingController(rootView: translationView)
+  convenience init(contentViewController: NSViewController) {
     let window = NSWindow(
       contentRect: .zero,
       styleMask: [.titled, .closable],
@@ -25,22 +23,18 @@ final class AppleTranslationWindowController: NSWindowController, NSWindowDelega
       defer: false)
     window.isReleasedWhenClosed = false
     window.title = "Better Translate"
-    window.contentViewController = hostingController
+    window.contentViewController = contentViewController
     window.level = .floating
     window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
     window.standardWindowButton(.zoomButton)?.isEnabled = false
     self.init(window: window)
     self.window?.delegate = self
     self.updateWindowPosition()
-    self.translationViewModel = translationView.viewModel
-    self.update(sourceText: sourceText)
   }
   
-  func update(sourceText: String) {
-    self.translationViewModel?.sourceText = sourceText
-  }
+  func show() {}
   
-  func dismiss(shouldClose: Bool) {
+  func hide(shouldClose: Bool) {
     self.close()
   }
   
@@ -51,8 +45,6 @@ final class AppleTranslationWindowController: NSWindowController, NSWindowDelega
   }
   
   // MARK: - Private
-  
-  private var translationViewModel: AppleTranslationViewModel?
   
   private func updateWindowPosition() {
     DispatchQueue.main.async {
