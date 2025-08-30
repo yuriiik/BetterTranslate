@@ -1,5 +1,5 @@
 //
-//  AppleTranslateViewModel.swift
+//  AppleTranslationViewModel.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 20.08.2025.
@@ -9,7 +9,7 @@ import Foundation
 import Translation
 import NaturalLanguage
 
-class AppleTranslateViewModel: ObservableObject {
+class AppleTranslationViewModel: ObservableObject {
   
   // MARK: - Public
   

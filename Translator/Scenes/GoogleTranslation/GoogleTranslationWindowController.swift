@@ -1,5 +1,5 @@
 //
-//  GoogleTranslateWindowController.swift
+//  GoogleTranslationWindowController.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 27.08.2025.
@@ -7,14 +7,14 @@
 
 import Cocoa
 
-final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
+final class GoogleTranslationWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
   
   // MARK: - Public
   
   var onHide: (() -> Void)?
   var onClose: (() -> Void)?
   
-  convenience init(contentViewController: GoogleTranslateViewController) {
+  convenience init(contentViewController: GoogleTranslationViewController) {
     let window = NSWindow(
       contentRect: .zero,
       styleMask: [.titled, .closable],
@@ -34,9 +34,9 @@ final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegat
   func update(sourceText: String) {
     guard
       let window = self.window,
-      let translateViewController = self.contentViewController as? GoogleTranslateViewController
+      let translationViewController = self.contentViewController as? GoogleTranslationViewController
     else { return }
-    translateViewController.translate()
+    translationViewController.translate()
     if !window.isVisible {
       window.makeKeyAndOrderFront(nil)
     }

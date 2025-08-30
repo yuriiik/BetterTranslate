@@ -61,13 +61,13 @@ class TranslationManager {
     case .rightMouseUp:
       self.showContextMenu()
     case .leftMouseUp:
-      self.toggleTranslateEnabled()
+      self.toggleTranslationEnabled()
     default:
       break
     }
   }
   
-  private func toggleTranslateEnabled() {
+  private func toggleTranslationEnabled() {
     if self.pasteboardWatcher.isRunning {
       self.pasteboardWatcher.stop()
       self.translationPresenter.dismissAndClose()

@@ -1,5 +1,5 @@
 //
-//  GoogleTranslateViewController.swift
+//  GoogleTranslationViewController.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 27.08.2025.
@@ -8,7 +8,7 @@
 import Cocoa
 import WebKit
 
-class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
+class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
 
   // MARK: - Public
   

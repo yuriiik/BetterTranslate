@@ -1,5 +1,5 @@
 //
-//  AppleTranslateView.swift
+//  AppleTranslationView.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 19.08.2025.
@@ -8,8 +8,8 @@
 import SwiftUI
 import Translation
 
-struct AppleTranslateView: View {
-  @ObservedObject var viewModel = AppleTranslateViewModel()
+struct AppleTranslationView: View {
+  @ObservedObject var viewModel = AppleTranslationViewModel()
   @State private var configuration: TranslationSession.Configuration?
 
   var body: some View {

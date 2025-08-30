@@ -1,5 +1,5 @@
 //
-//  AppleTranslateWindowController.swift
+//  AppleTranslationWindowController.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 20.08.2025.
@@ -8,7 +8,7 @@
 import Cocoa
 import SwiftUI
 
-final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
+final class AppleTranslationWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
   
   // MARK: - Public
   
@@ -16,8 +16,8 @@ final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate
   var onClose: (() -> Void)?
   
   convenience init(sourceText: String) {
-    let translateView = AppleTranslateView()
-    let hostingController = NSHostingController(rootView: translateView)
+    let translationView = AppleTranslationView()
+    let hostingController = NSHostingController(rootView: translationView)
     let window = NSWindow(
       contentRect: .zero,
       styleMask: [.titled, .closable],
@@ -32,12 +32,12 @@ final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate
     self.init(window: window)
     self.window?.delegate = self
     self.updateWindowPosition()
-    self.translateViewModel = translateView.viewModel
+    self.translationViewModel = translationView.viewModel
     self.update(sourceText: sourceText)
   }
   
   func update(sourceText: String) {
-    self.translateViewModel?.sourceText = sourceText
+    self.translationViewModel?.sourceText = sourceText
   }
   
   func dismiss(shouldClose: Bool) {
@@ -52,7 +52,7 @@ final class AppleTranslateWindowController: NSWindowController, NSWindowDelegate
   
   // MARK: - Private
   
-  private var translateViewModel: AppleTranslateViewModel?
+  private var translationViewModel: AppleTranslationViewModel?
   
   private func updateWindowPosition() {
     DispatchQueue.main.async {
