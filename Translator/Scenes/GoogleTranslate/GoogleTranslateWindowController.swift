@@ -7,14 +7,14 @@
 
 import Cocoa
 
-final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslateWindowController {
+final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegate, TranslateWindowController, TranslateViewControllerActionDelegate {
   
   // MARK: - Public
   
   var onHide: (() -> Void)?
   var onClose: (() -> Void)?
   
-  convenience init() {
+  convenience init(contentViewController: GoogleTranslateViewController) {
     let window = NSWindow(
       contentRect: .zero,
       styleMask: [.titled, .closable],
@@ -22,12 +22,13 @@ final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegat
       defer: false)
     window.isReleasedWhenClosed = false
     window.title = "Better Translate"
-    window.contentViewController = GoogleTranslateViewController()
+    window.contentViewController = contentViewController
     window.level = .floating
     window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
     window.standardWindowButton(.zoomButton)?.isEnabled = false
     self.init(window: window)
     self.window?.delegate = self
+    contentViewController.actionDelegate = self
     self.updateWindowPosition()
   }
   
@@ -56,6 +57,12 @@ final class GoogleTranslateWindowController: NSWindowController, NSWindowDelegat
   
   func windowWillClose(_ notification: Notification) {
     self.onClose?()
+  }
+  
+  // MARK: - TranslateViewControllerActionDelegate
+  
+  func translateViewControllerWantsToClose() {
+    self.dismiss()
   }
   
   // MARK: - Private

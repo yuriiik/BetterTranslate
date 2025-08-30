@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bU7-R8-ocO">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="23727"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Google Translate View Controller-->
+        <scene sceneID="PEd-7d-5j0">
+            <objects>
+                <viewController id="bU7-R8-ocO" customClass="GoogleTranslateViewController" customModule="Translator" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="tOy-S4-hL0">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-Nd-ps4">
+                                <rect key="frame" x="0.0" y="40" width="450" height="260"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="wSe-JC-wll">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="40"/>
+                                <subviews>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eXl-rO-TwR">
+                                        <rect key="frame" x="102" y="10" width="246" height="20"/>
+                                        <subviews>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FcO-8d-lrE">
+                                                <rect key="frame" x="-7" y="-7" width="104" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Close (Esc)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0l-dI-o9i">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="close:" target="bU7-R8-ocO" id="JAR-q2-8xp"/>
+                                                </connections>
+                                            </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ijS-6T-R9j">
+                                                <rect key="frame" x="99" y="-7" width="154" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Close and Turn OFF" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PMY-DD-mcM">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="closeAndTurnOff:" target="bU7-R8-ocO" id="1x8-aG-Zp3"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="eXl-rO-TwR" firstAttribute="centerY" secondItem="wSe-JC-wll" secondAttribute="centerY" id="rVu-gi-mBA"/>
+                                    <constraint firstItem="eXl-rO-TwR" firstAttribute="centerX" secondItem="wSe-JC-wll" secondAttribute="centerX" id="v1h-EA-MMJ"/>
+                                    <constraint firstAttribute="height" constant="40" id="vi4-Gb-4oL"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="PJv-Nd-ps4" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="4gU-2x-f1v"/>
+                            <constraint firstItem="PJv-Nd-ps4" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" id="TAM-6R-2Dr"/>
+                            <constraint firstItem="wSe-JC-wll" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="Ue0-m1-lBe"/>
+                            <constraint firstItem="wSe-JC-wll" firstAttribute="top" secondItem="PJv-Nd-ps4" secondAttribute="bottom" id="ilz-6O-z95"/>
+                            <constraint firstAttribute="trailing" secondItem="PJv-Nd-ps4" secondAttribute="trailing" id="l3W-FW-f6G"/>
+                            <constraint firstAttribute="trailing" secondItem="wSe-JC-wll" secondAttribute="trailing" id="mYj-5Y-z8u"/>
+                            <constraint firstAttribute="bottom" secondItem="wSe-JC-wll" secondAttribute="bottom" id="vjo-9S-hZk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="PJv-Nd-ps4" id="bvp-gZ-CTV"/>
+                    </connections>
+                </viewController>
+                <customObject id="9uD-mB-xHs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="21" y="131"/>
+        </scene>
+    </scenes>
+</document>

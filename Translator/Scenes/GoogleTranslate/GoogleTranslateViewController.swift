@@ -12,6 +12,10 @@ class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
 
   // MARK: - Public
   
+  weak var translateManager: TranslateManager?
+  
+  weak var actionDelegate: TranslateViewControllerActionDelegate?
+  
   func translate() {
     switch self.webViewLoadingState {
     case .notStarted:
@@ -25,13 +29,21 @@ class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
   
   // MARK: - View Lifecycle
   
-  override func loadView() {
-    self.view = self.webView
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.webView.navigationDelegate = self
     self.translate()
+  }
+  
+  // MARK: - Actions
+  
+  @IBAction func close(_ sender: NSButton) {
+    self.actionDelegate?.translateViewControllerWantsToClose()
+  }
+
+  @IBAction func closeAndTurnOff(_ sender: NSButton) {
+    self.translateManager?.stopMonitoringPasteboard()
+    self.actionDelegate?.translateViewControllerWantsToClose()
   }
   
   // MARK: - WKNavigationDelegate
@@ -49,17 +61,11 @@ class GoogleTranslateViewController: NSViewController, WKNavigationDelegate {
     case completed
   }
   
+  @IBOutlet private weak var webView: WKWebView!
+  
   private var webViewLoadingState: WebViewLoadingState = .notStarted
   
   private let googleTranslateURLString = "https://translate.google.com"
-  
-  private lazy var webView: WKWebView = {
-    let webView = WKWebView(
-      frame: .zero,
-      configuration: WKWebViewConfiguration())
-    webView.navigationDelegate = self
-    return webView
-  }()
   
   private func loadGoogleTranslateWebPage() {
     guard let googleTranslateURL = URL(string: self.googleTranslateURLString) else { return }

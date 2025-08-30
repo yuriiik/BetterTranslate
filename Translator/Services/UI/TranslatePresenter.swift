@@ -14,6 +14,10 @@ protocol TranslateWindowController where Self: NSWindowController {
   func dismiss()
 }
 
+protocol TranslateViewControllerActionDelegate: AnyObject {
+  func translateViewControllerWantsToClose()
+}
+
 class TranslatePresenter {
   
   // MARK: - Public
@@ -21,7 +25,8 @@ class TranslatePresenter {
   var onPresent: (() -> Void)?
   var onDismiss: (() -> Void)?
   
-  init() {
+  init(translateManager: TranslateManager) {
+    self.translateManager = translateManager
     self.setupKeyDownObserver()
   }
   
@@ -50,6 +55,8 @@ class TranslatePresenter {
   }
   
   // MARK: - Private
+  
+  private(set) weak var translateManager: TranslateManager?
   
   private let escKeyCode = 53
   
