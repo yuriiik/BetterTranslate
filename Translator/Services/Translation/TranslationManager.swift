@@ -39,7 +39,7 @@ class TranslationManager {
   // MARK: - Private
   
   private lazy var translationPresenter: TranslationPresenter = {
-    return GoogleTranslatePresenter(translationManager: self)
+    return GoogleTranslationPresenter(translationManager: self)
   }()
   
   private let pasteboardWatcher = PasteboardWatcher()
