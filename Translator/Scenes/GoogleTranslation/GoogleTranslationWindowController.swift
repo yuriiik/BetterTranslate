@@ -15,9 +15,9 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
   var onClose: (() -> Void)?
   
   convenience init(contentViewController: NSViewController) {
-    let window = NSWindow(
+    let window = NSPanel(
       contentRect: .zero,
-      styleMask: [.titled, .closable],
+      styleMask: [.titled, .nonactivatingPanel, .closable],
       backing: .buffered,
       defer: false)
     window.isReleasedWhenClosed = false
