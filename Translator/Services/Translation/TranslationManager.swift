@@ -42,10 +42,24 @@ class TranslationManager {
   // MARK: - Private
   
   private lazy var translationPresenter: TranslationPresenter = {
-    return AppleTranslationPresenter(translationManager: self)
+    return GoogleTranslationPresenter(translationManager: self)
   }()
   
-  private let pasteboardWatcher = PasteboardWatcher()
+  private let appleBooksMetadataCleanupRule = PasteboardWatcher.TextSanitizingRule(
+    appBundleId: "com.apple.iBooksX",
+    numberOfBottomLinesToRemove: 4)
+
+  private let kindleMetadataCleanupRule = PasteboardWatcher.TextSanitizingRule(
+    appBundleId: "com.amazon.Lassen",
+    numberOfBottomLinesToRemove: 1)
+
+  private lazy var pasteboardWatcher: PasteboardWatcher = {
+    let pasteboardWatcher = PasteboardWatcher()
+    pasteboardWatcher.addTextSanitizingRule(self.appleBooksMetadataCleanupRule)
+    pasteboardWatcher.addTextSanitizingRule(self.kindleMetadataCleanupRule)
+    return pasteboardWatcher
+  }()
+  
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
   
   private func addStatusItem() {
