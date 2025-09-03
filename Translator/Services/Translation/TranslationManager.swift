@@ -55,6 +55,7 @@ class TranslationManager {
 
   private lazy var pasteboardWatcher: PasteboardWatcher = {
     let pasteboardWatcher = PasteboardWatcher()
+    pasteboardWatcher.triggerType = .doubleCopy
     pasteboardWatcher.addTextSanitizingRule(self.appleBooksMetadataCleanupRule)
     pasteboardWatcher.addTextSanitizingRule(self.kindleMetadataCleanupRule)
     return pasteboardWatcher

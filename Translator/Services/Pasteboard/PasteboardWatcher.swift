@@ -18,13 +18,25 @@ final class PasteboardWatcher {
     let numberOfBottomLinesToRemove: Int
   }
   
+  enum TriggerType {
+    case singleCopy
+    case doubleCopy
+  }
+  
   var onTextCopied: ((String) -> Void)?
   
   private(set) var isRunning: Bool = false
+  
+  var triggerType: TriggerType = .doubleCopy {
+    didSet {
+      self.previousText = nil
+      self.previousTriggerTime = nil
+    }
+  }
 
   func start() {
     self.stop()
-    let timer = Timer.scheduledTimer(withTimeInterval: self.interval, repeats: true) { [weak self] _ in
+    let timer = Timer.scheduledTimer(withTimeInterval: self.pollingInterval, repeats: true) { [weak self] _ in
       self?.tick()
     }
     self.timer = timer
@@ -37,6 +49,9 @@ final class PasteboardWatcher {
     self.timer?.invalidate()
     self.timer = nil
     self.isRunning = false
+    self.lastEmittedFingerprint = nil
+    self.previousText = nil
+    self.previousTriggerTime = nil
   }
   
   func resetFingerprint() {
@@ -53,49 +68,74 @@ final class PasteboardWatcher {
 
   // MARK: - Private
   
-  private let interval = 0.15
+  private let pollingInterval = 0.15
   private weak var timer: Timer?
   private var lastChangeCount: Int = NSPasteboard.general.changeCount
   private var lastEmittedFingerprint: String?
   private let ignoredPasteboardTypes: Set<NSPasteboard.PasteboardType> = [.fileURL, .tiff]
   private var textSanitizingRules: [String: TextSanitizingRule] = [:]
-  private var frontmostApplicationBundleID: String? {
-    NSWorkspace.shared.frontmostApplication?.bundleIdentifier
-  }
+  private var frontmostApplicationBundleID: String? { NSWorkspace.shared.frontmostApplication?.bundleIdentifier }
+  private let pasteboard = NSPasteboard.general
+  private let doubleCopyWindow = 0.5
+  private var previousText: String?
+  private var previousTriggerTime: CFAbsoluteTime?
   
   private func tick() {
-    let pasteboard = NSPasteboard.general
-    let changeCount = pasteboard.changeCount
-    guard changeCount != self.lastChangeCount else { return }
+    guard let pasteboardString = self.obtainPasteboardString() else { return }
+    switch self.triggerType {
+    case .singleCopy:
+      self.processPasteboardString(pasteboardString)
+    case .doubleCopy:
+      var isDoubleCopyDetected: Bool {
+        guard
+          let previousTriggerTime = self.previousTriggerTime,
+          CFAbsoluteTimeGetCurrent() - previousTriggerTime <= self.doubleCopyWindow,
+          self.previousText == pasteboardString
+        else { return false }
+        return true
+      }
+      if isDoubleCopyDetected {
+        self.processPasteboardString(pasteboardString)
+        self.previousText = nil
+        self.previousTriggerTime = nil
+      } else {
+        self.previousText = pasteboardString
+        self.previousTriggerTime = CFAbsoluteTimeGetCurrent()
+      }
+    }
+  }
+  
+  private func obtainPasteboardString() -> String? {
+    let changeCount = self.pasteboard.changeCount
+    guard changeCount != self.lastChangeCount else { return nil }
     self.lastChangeCount = changeCount
-
-    let pasteboardItems = pasteboard.pasteboardItems ?? []
+    let pasteboardItems = self.pasteboard.pasteboardItems ?? []
     let shouldIgnorePasteboardContents = pasteboardItems.contains { pasteboardItem in
       !Set(pasteboardItem.types).isDisjoint(with: self.ignoredPasteboardTypes)
     }
-    
     guard
       !shouldIgnorePasteboardContents,
-      var pasteboardString = pasteboard.string(forType: .string),
+      let pasteboardString = self.pasteboard.string(forType: .string),
       !pasteboardString.isEmpty
-    else { return }
-    
+    else { return nil }
+    return pasteboardString
+  }
+  
+  private func processPasteboardString(_ pasteboardString: String) {
+    var pasteboardString = pasteboardString
     let result = self.sanitizeText(pasteboardString)
     let shouldUpdatePasteboard = result.isTextChanged
     pasteboardString = result.updatedText
-
     // Debounce: avoid firing repeatedly on identical content bursts.
     let fingerprint = self.fingerprint(of: pasteboardString)
     guard fingerprint != self.lastEmittedFingerprint else { return }
     self.lastEmittedFingerprint = fingerprint
-    
     if shouldUpdatePasteboard {
       self.stop()
-      pasteboard.clearContents()
-      pasteboard.setString(pasteboardString, forType: .string)
+      self.pasteboard.clearContents()
+      self.pasteboard.setString(pasteboardString, forType: .string)
       self.start()
     }
-    
     self.onTextCopied?(pasteboardString)
   }
 
