@@ -16,6 +16,7 @@ class TranslationManager {
   func start() {
     self.translationPresenter.onDismiss = { [weak self] in
       self?.pasteboardWatcher.resetFingerprint()
+      self?.sourceText = ""
     }
     self.pasteboardWatcher.onTextCopied = { [weak self] copiedText in
       self?.sourceText = copiedText
@@ -105,11 +106,17 @@ class TranslationManager {
   
   private func showContextMenu() {
     let menu = NSMenu()
-    let menuItem = menu.addItem(
+    menu.addItem(
+      withTitle: "Translate Text",
+      target: self,
+      action: #selector(self.showTranslationWindow),
+      keyEquivalent: "")
+    menu.addItem(.separator())
+    menu.addItem(
       withTitle: "Quit",
+      target: self,
       action: #selector(self.quitApp),
       keyEquivalent: "q")
-    menuItem.target = self
     self.statusItem.menu = menu
     self.statusItem.button?.performClick(nil)
     self.statusItem.menu = nil
@@ -117,5 +124,9 @@ class TranslationManager {
   
   @objc private func quitApp() {
     NSApplication.shared.terminate(nil)
+  }
+  
+  @objc private func showTranslationWindow() {
+    self.translationPresenter.present()
   }
 }

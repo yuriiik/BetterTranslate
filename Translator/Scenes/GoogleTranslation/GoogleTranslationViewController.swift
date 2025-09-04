@@ -62,9 +62,9 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   private func subscribeToSourceTextUpdates() {
     guard let translationManager = self.translationManager else { return }
     translationManager.$sourceText
-      .sink { sourceText in
-        self.sourceText = sourceText
-        self.translate()
+      .sink { [weak self] sourceText in
+        self?.sourceText = sourceText
+        self?.translate()
       }
       .store(in: &self.cancellables)
   }
