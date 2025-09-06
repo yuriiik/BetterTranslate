@@ -77,25 +77,13 @@ class TranslationManager {
   @objc private func statusItemClicked(_ sender: Any?) {
     guard let event = NSApp.currentEvent else { return }
     switch event.type {
-    case .rightMouseUp:
+    case .leftMouseUp, .rightMouseUp:
       self.showContextMenu()
-    case .leftMouseUp:
-      self.toggleTranslationEnabled()
     default:
       break
     }
   }
-  
-  private func toggleTranslationEnabled() {
-    if self.pasteboardWatcher.isRunning {
-      self.pasteboardWatcher.stop()
-      self.translationPresenter.dismissAndClose()
-    } else {
-      self.pasteboardWatcher.start()
-    }
-    self.updateStatusIcon()
-  }
-  
+    
   private func updateStatusIcon() {
     let symbolName = self.pasteboardWatcher.isRunning ? "globe.europe.africa.fill" : "globe.europe.africa"
     let accessibilityDescription = self.pasteboardWatcher.isRunning ? "Translate On" : "Translate Off"
@@ -106,6 +94,19 @@ class TranslationManager {
   
   private func showContextMenu() {
     let menu = NSMenu()
+    if self.pasteboardWatcher.isRunning {
+      menu.addItem(
+        withTitle: "Stop",
+        target: self,
+        action: #selector(self.toggleTranslationEnabled),
+        keyEquivalent: "")
+    } else {
+      menu.addItem(
+        withTitle: "Start",
+        target: self,
+        action: #selector(self.toggleTranslationEnabled),
+        keyEquivalent: "")
+    }
     menu.addItem(
       withTitle: "Translate Text",
       target: self,
@@ -122,11 +123,21 @@ class TranslationManager {
     self.statusItem.menu = nil
   }
   
-  @objc private func quitApp() {
-    NSApplication.shared.terminate(nil)
+  @objc private func toggleTranslationEnabled() {
+    if self.pasteboardWatcher.isRunning {
+      self.pasteboardWatcher.stop()
+      self.translationPresenter.dismissAndClose()
+    } else {
+      self.pasteboardWatcher.start()
+    }
+    self.updateStatusIcon()
   }
   
   @objc private func showTranslationWindow() {
     self.translationPresenter.present()
+  }
+  
+  @objc private func quitApp() {
+    NSApplication.shared.terminate(nil)
   }
 }
