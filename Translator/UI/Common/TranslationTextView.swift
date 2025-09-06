@@ -23,6 +23,7 @@ struct TranslationTextView: View {
         .padding()
         .background(Color(NSColor.windowBackgroundColor))
         .cornerRadius(8)
+        .font(.body)
         .background(
           GeometryReader { geometry in
             Color.clear

@@ -14,7 +14,7 @@ struct AppleTranslationView: View {
 
   var body: some View {
     VStack(spacing: 16) {
-      TranslationTextView(text: self.viewModel.sourceText)
+      TranslationTextEditorView(text: self.$viewModel.sourceText)
       Divider()
       HStack {
         Picker("From", selection: self.$viewModel.sourceLanguage) {
@@ -65,6 +65,10 @@ struct AppleTranslationView: View {
     }
     .translationTask(self.configuration) { session in
       do {
+        guard !self.viewModel.sourceText.isEmpty else {
+          self.viewModel.targetText = ""
+          return
+        }
         let response = try await session.translate(self.viewModel.sourceText)
         self.viewModel.targetText = response.targetText
       } catch {
