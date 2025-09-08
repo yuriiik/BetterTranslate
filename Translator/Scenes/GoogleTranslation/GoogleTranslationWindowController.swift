@@ -24,8 +24,6 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
     window.title = "Better Translate"
     window.contentViewController = contentViewController
     window.level = .floating
-    window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
-    window.standardWindowButton(.zoomButton)?.isEnabled = false
     self.init(window: window)
     self.window?.delegate = self
     self.updateWindowPosition()

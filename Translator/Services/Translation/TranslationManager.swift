@@ -112,6 +112,11 @@ class TranslationManager {
       target: self,
       action: #selector(self.showTranslationWindow),
       keyEquivalent: "")
+    menu.addItem(
+      withTitle: "Settings...",
+      target: self,
+      action: #selector(self.showSettings),
+      keyEquivalent: "")
     menu.addItem(.separator())
     menu.addItem(
       withTitle: "Quit",
@@ -135,6 +140,11 @@ class TranslationManager {
   
   @objc private func showTranslationWindow() {
     self.translationPresenter.present()
+  }
+  
+  @objc private func showSettings() {
+    self.translationPresenter.dismiss()
+    self.translationPresenter.presentSettings()
   }
   
   @objc private func quitApp() {

@@ -54,6 +54,17 @@ class TranslationPresenter {
     self.translationWindowController?.hide(shouldClose: true)
   }
   
+  func presentSettings() {
+    if let settingsWindowController = self.settingsWindowController {
+      settingsWindowController.show()
+    } else {
+      self.settingsWindowController = SettingsWindowController()
+      self.settingsWindowController?.onClose = { [weak self] in
+        self?.settingsWindowController = nil
+      }
+    }
+  }
+  
   // MARK: - Private
   
   private(set) weak var translationManager: TranslationManager?
@@ -61,6 +72,8 @@ class TranslationPresenter {
   private let escKeyCode = 53
   
   private var translationWindowController: TranslationWindowController?
+  
+  private var settingsWindowController: TranslationWindowController?
   
   private func setupKeyDownObserver() {
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
