@@ -12,21 +12,25 @@ struct SettingsView: View {
   @StateObject private var viewModel = SettingsViewModel()
   
   var body: some View {
-    VStack {
+    VStack(alignment: .leading, spacing: 16) {
+      Text("Welcome to Better Translate!")
+      Text("Select any text and press 􀆔-C-C to translate it.")
+        .bold()
+      Divider()
       Toggle("Launch at login", isOn: Binding(
         get: { self.viewModel.isLaunchAtLoginEnabled },
         set: { self.viewModel.setLaunchAtLoginEnabled($0) }))
-      HStack {
         if self.viewModel.isLaunchAtLoginRequiresApproval {
-          Text("Pending approval in System Settings.")
-          Button("Open System Settings") {
-            self.viewModel.openLoginItemsSettings()
+          HStack {
+            Text("Pending approval in System Settings.")
+            Button("Open System Settings") {
+              self.viewModel.openLoginItemsSettings()
+            }
+            .buttonStyle(.link)
           }
-          .buttonStyle(.link)
         }
-      }
     }
-    .frame(width: 400, height: 400)
+    .padding(16)
   }
 }
 

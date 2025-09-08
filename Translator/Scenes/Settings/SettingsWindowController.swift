@@ -51,6 +51,10 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Tran
   private func updateWindowPosition() {
     DispatchQueue.main.async {
       NSApp.activate(ignoringOtherApps: true)
+      if let contentView = self.window?.contentView as? NSView {
+        contentView.layoutSubtreeIfNeeded()
+        self.window?.setContentSize(contentView.fittingSize)
+      }
       self.window?.center()
       self.window?.makeKeyAndOrderFront(nil)
     }
