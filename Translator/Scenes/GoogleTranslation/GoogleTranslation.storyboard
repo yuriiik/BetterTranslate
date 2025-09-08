@@ -15,20 +15,30 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-Nd-ps4">
-                                <rect key="frame" x="0.0" y="40" width="450" height="260"/>
+                                <rect key="frame" x="0.0" y="52" width="450" height="248"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="wSe-JC-wll">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="40"/>
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="52"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eXl-rO-TwR">
-                                        <rect key="frame" x="102" y="10" width="246" height="20"/>
+                                        <rect key="frame" x="46" y="16" width="358" height="20"/>
                                         <subviews>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nNi-Sd-ygL">
+                                                <rect key="frame" x="-7" y="-7" width="110" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Reload Page" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FXk-b4-9Zh">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="reload:" target="bU7-R8-ocO" id="Do1-o7-U1Q"/>
+                                                </connections>
+                                            </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FcO-8d-lrE">
-                                                <rect key="frame" x="-7" y="-7" width="104" height="32"/>
+                                                <rect key="frame" x="105" y="-7" width="104" height="32"/>
                                                 <buttonCell key="cell" type="push" title="Close (Esc)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0l-dI-o9i">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -38,7 +48,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ijS-6T-R9j">
-                                                <rect key="frame" x="99" y="-7" width="154" height="32"/>
+                                                <rect key="frame" x="211" y="-7" width="154" height="32"/>
                                                 <buttonCell key="cell" type="push" title="Close and Turn OFF" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PMY-DD-mcM">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -51,17 +61,20 @@
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
+                                            <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                         </customSpacing>
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="eXl-rO-TwR" firstAttribute="top" secondItem="wSe-JC-wll" secondAttribute="top" constant="16" id="9bd-ui-7uN"/>
+                                    <constraint firstAttribute="bottom" secondItem="eXl-rO-TwR" secondAttribute="bottom" constant="16" id="UuX-xw-I7Z"/>
                                     <constraint firstItem="eXl-rO-TwR" firstAttribute="centerY" secondItem="wSe-JC-wll" secondAttribute="centerY" id="rVu-gi-mBA"/>
                                     <constraint firstItem="eXl-rO-TwR" firstAttribute="centerX" secondItem="wSe-JC-wll" secondAttribute="centerX" id="v1h-EA-MMJ"/>
-                                    <constraint firstAttribute="height" constant="40" id="vi4-Gb-4oL"/>
                                 </constraints>
                             </customView>
                         </subviews>
