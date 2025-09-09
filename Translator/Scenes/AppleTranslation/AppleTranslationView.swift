@@ -19,7 +19,8 @@ struct AppleTranslationView: View {
       HStack {
         Picker("From", selection: self.$viewModel.sourceLanguage) {
           if self.viewModel.sourceLanguage == nil {
-            Text("Choose language").tag(nil as Locale.Language?)
+            Text("Choose language")
+              .tag(nil as Locale.Language?)
           }
           ForEach(self.viewModel.availableLanguages) { language in
             Text(language.localizedName)
@@ -28,16 +29,19 @@ struct AppleTranslationView: View {
         }
         Picker("To", selection: self.$viewModel.targetLanguage) {
           if self.viewModel.targetLanguage == nil {
-            Text("Choose language").tag(nil as Locale.Language?)
+            Text("Choose language")
+              .tag(nil as Locale.Language?)
           }
           ForEach(self.viewModel.availableLanguages) { language in
             Text(language.localizedName)
               .tag(Optional(language.localeLanguage))
           }
         }
+        #if DEBUG
         Button("Reset") {
           self.viewModel.resetSelectedLanguages()
         }
+        #endif
       }
       Divider()
       TranslationTextView(text: self.viewModel.targetText)
@@ -64,11 +68,11 @@ struct AppleTranslationView: View {
       self.updateTranslation()
     }
     .translationTask(self.configuration) { session in
+      guard !self.viewModel.sourceText.isEmpty else {
+        self.viewModel.targetText = ""
+        return
+      }
       do {
-        guard !self.viewModel.sourceText.isEmpty else {
-          self.viewModel.targetText = ""
-          return
-        }
         let response = try await session.translate(self.viewModel.sourceText)
         self.viewModel.targetText = response.targetText
       } catch {
@@ -84,7 +88,6 @@ struct AppleTranslationView: View {
       let selectedFrom = self.viewModel.sourceLanguage,
       let selectedTo = self.viewModel.targetLanguage
     else { return }
-    
     if self.configuration != nil {
       if self.configuration?.source != selectedFrom {
         self.configuration?.source = selectedFrom

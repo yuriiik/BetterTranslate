@@ -9,10 +9,7 @@ import Cocoa
 
 final class GoogleTranslationWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
   
-  // MARK: - Public
-  
-  var onHide: (() -> Void)?
-  var onClose: (() -> Void)?
+  // MARK: - Initialization
   
   convenience init(contentViewController: NSViewController) {
     let window = NSPanel(
@@ -20,14 +17,20 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
       styleMask: [.titled, .nonactivatingPanel, .closable],
       backing: .buffered,
       defer: false)
-    window.isReleasedWhenClosed = false
     window.title = "Better Translate"
+    window.isReleasedWhenClosed = false    
     window.contentViewController = contentViewController
     window.level = .floating
     self.init(window: window)
     self.window?.delegate = self
     self.updateWindowPosition()
   }
+  
+  // MARK: - TranslationWindowController
+  
+  var onHide: (() -> Void)?
+  
+  var onClose: (() -> Void)?
   
   func show() {
     guard let window = self.window else { return }

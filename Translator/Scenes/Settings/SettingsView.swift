@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct SettingsView: View {
-  
+struct SettingsView: View {  
   @StateObject private var viewModel = SettingsViewModel()
   
   var body: some View {

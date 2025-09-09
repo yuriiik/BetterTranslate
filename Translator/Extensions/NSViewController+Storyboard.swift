@@ -5,7 +5,7 @@
 //  Created by Yurii Kupratsevych on 30.08.2025.
 //
 
-import Cocoa
+import AppKit
 
 extension NSViewController {
   class func fromStoryboard(named storyboardName: String? = nil) -> Self? {

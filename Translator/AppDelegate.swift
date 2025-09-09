@@ -12,14 +12,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   // MARK: - NSApplicationDelegate
 
   func applicationDidFinishLaunching(_ notification: Notification) {
-    self.translationManager.start()
+    self.appManager.startMonitoringPasteboard()
   }
 
   func applicationWillTerminate(_ notification: Notification) {
-    self.translationManager.stop()
+    self.appManager.stopMonitoringPasteboard()
   }
   
   // MARK: - Private
   
-  private let translationManager = TranslationManager()
+  private lazy var appManager = AppManager()
 }

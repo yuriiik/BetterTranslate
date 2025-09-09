@@ -5,15 +5,28 @@
 //  Created by Yurii Kupratsevych on 27.08.2025.
 //
 
-import Cocoa
 import WebKit
 import Combine
 
 class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
 
-  // MARK: - Public
+  // MARK: - Outlets
   
-  weak var translationManager: TranslationManager?
+  @IBOutlet weak var webView: WKWebView!
+  
+  // MARK: - Actions
+  
+  @IBAction func reload(_ sender: NSButton) {
+    self.webView.reload()
+  }
+  
+  @IBAction func close(_ sender: NSButton) {
+    self.appManager?.dismissCurrentTranslationWindow(shouldTurnOff: false)
+  }
+
+  @IBAction func closeAndTurnOff(_ sender: NSButton) {
+    self.appManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
+  }
   
   // MARK: - View Lifecycle
   
@@ -23,26 +36,9 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
     self.subscribeToSourceTextUpdates()
   }
   
-  // MARK: - Actions
+  // MARK: - Public
   
-  @IBAction func reload(_ sender: NSButton) {
-    self.webView.reload()
-  }
-  
-  @IBAction func close(_ sender: NSButton) {
-    self.translationManager?.dismissCurrentTranslationWindow(shouldTurnOff: false)
-  }
-
-  @IBAction func closeAndTurnOff(_ sender: NSButton) {
-    self.translationManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
-  }
-  
-  // MARK: - WKNavigationDelegate
-  
-  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    self.webViewLoadingState = .completed
-    self.translate()
-  }
+  weak var appManager: AppManager?
   
   // MARK: - Private
   
@@ -51,8 +47,6 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
     case inProgress
     case completed
   }
-  
-  @IBOutlet private weak var webView: WKWebView!
   
   private var webViewLoadingState: WebViewLoadingState = .notStarted
   
@@ -64,10 +58,10 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   private var previousSourceText: String?
   
   private func subscribeToSourceTextUpdates() {
-    guard let translationManager = self.translationManager else { return }
-    translationManager.$sourceText
-      .sink { [weak self] sourceText in
-        self?.sourceText = sourceText
+    guard let appManager = self.appManager else { return }
+    appManager.$pasteboardText
+      .sink { [weak self] pasteboardText in
+        self?.sourceText = pasteboardText
         self?.translate()
       }
       .store(in: &self.cancellables)
@@ -85,7 +79,9 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   }
   
   private func loadGoogleTranslateWebPage() {
-    guard let googleTranslateURL = URL(string: self.googleTranslateURLString) else { return }
+    guard
+      let googleTranslateURL = URL(string: self.googleTranslateURLString)
+    else { return }
     self.webView.load(URLRequest(url: googleTranslateURL))
     self.webViewLoadingState = .inProgress
   }
@@ -107,15 +103,26 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   }
   
   private func insertTextIntoFocusedField(_ text: String, shouldClear: Bool = false) {
-    guard let textInputClient = self.view.window?.firstResponder as? NSTextInputClient else { return }
+    guard
+      let textInputClient = self.view.window?.firstResponder as? NSTextInputClient
+    else { return }
     var location = NSNotFound
     var length = 0
     if shouldClear, let previousSourceText = self.previousSourceText {
       location = 0
       length = previousSourceText.count
     }
-    let range = NSRange(location: location, length: length)
+    let range = NSRange(
+      location: location,
+      length: length)
     textInputClient.insertText(text, replacementRange: range)
     self.previousSourceText = text
+  }
+  
+  // MARK: - WKNavigationDelegate
+  
+  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    self.webViewLoadingState = .completed
+    self.translate()
   }
 }

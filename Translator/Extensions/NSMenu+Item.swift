@@ -5,12 +5,11 @@
 //  Created by Yurii Kupratsevych on 04.09.2025.
 //
 
-import Cocoa
+import AppKit
 
 extension NSMenu {
   @discardableResult
-  func addItem(withTitle string: String, target: AnyObject, action selector: Selector?, keyEquivalent charCode: String
-  ) -> NSMenuItem {
+  func addItem(withTitle string: String, target: AnyObject, action selector: Selector?, keyEquivalent charCode: String) -> NSMenuItem {
     let menuItem = self.addItem(
       withTitle: string,
       action: selector,

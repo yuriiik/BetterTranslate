@@ -1,5 +1,5 @@
 //
-//  PasteboardWatcher.swift
+//  PasteboardMonitor.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 19.08.2025.
@@ -7,9 +7,9 @@
 
 import Cocoa
 
-/// Simple polling-based watcher that reacts when the general pasteboard's changeCount increments
+/// Simple polling-based monitor that reacts when the general pasteboard's `changeCount` increments
 /// and contains plain-text. Debounced to avoid double-fires from certain apps.
-final class PasteboardWatcher {
+final class PasteboardMonitor {
   
   // MARK: - Public
   
@@ -36,13 +36,15 @@ final class PasteboardWatcher {
 
   func start() {
     self.stop()
-    let timer = Timer.scheduledTimer(withTimeInterval: self.pollingInterval, repeats: true) { [weak self] _ in
+    let timer = Timer.scheduledTimer(
+      withTimeInterval: self.pollingInterval,
+      repeats: true) { [weak self] _ in
       self?.tick()
     }
     self.timer = timer
-    RunLoop.current.add(timer, forMode: .common)
-    self.lastChangeCount = NSPasteboard.general.changeCount
+    self.lastChangeCount = self.pasteboard.changeCount
     self.isRunning = true
+    RunLoop.current.add(timer, forMode: .common)
   }
 
   func stop() {
@@ -69,19 +71,23 @@ final class PasteboardWatcher {
   // MARK: - Private
   
   private let pollingInterval = 0.15
+  private let doubleCopyWindow = 0.5
+  private let ignoredPasteboardTypes: Set<NSPasteboard.PasteboardType> = [.fileURL, .tiff]
+  private let pasteboard = NSPasteboard.general
+  
   private weak var timer: Timer?
   private var lastChangeCount: Int = NSPasteboard.general.changeCount
   private var lastEmittedFingerprint: String?
-  private let ignoredPasteboardTypes: Set<NSPasteboard.PasteboardType> = [.fileURL, .tiff]
-  private var textSanitizingRules: [String: TextSanitizingRule] = [:]
-  private var frontmostApplicationBundleID: String? { NSWorkspace.shared.frontmostApplication?.bundleIdentifier }
-  private let pasteboard = NSPasteboard.general
-  private let doubleCopyWindow = 0.5
   private var previousText: String?
   private var previousTriggerTime: CFAbsoluteTime?
+  private var textSanitizingRules: [String: TextSanitizingRule] = [:]
+  
+  private var frontmostApplicationBundleID: String? {
+    NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+  }
   
   private func tick() {
-    guard let pasteboardString = self.obtainPasteboardString() else { return }
+    guard let pasteboardString = self.getPasteboardString() else { return }
     switch self.triggerType {
     case .singleCopy:
       self.processPasteboardString(pasteboardString)
@@ -105,7 +111,7 @@ final class PasteboardWatcher {
     }
   }
   
-  private func obtainPasteboardString() -> String? {
+  private func getPasteboardString() -> String? {
     let changeCount = self.pasteboard.changeCount
     guard changeCount != self.lastChangeCount else { return nil }
     self.lastChangeCount = changeCount

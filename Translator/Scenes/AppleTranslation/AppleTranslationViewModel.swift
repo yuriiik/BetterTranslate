@@ -5,24 +5,15 @@
 //  Created by Yurii Kupratsevych on 20.08.2025.
 //
 
-import Foundation
+import Combine
 import Translation
 import NaturalLanguage
-import Combine
 
 class AppleTranslationViewModel: ObservableObject {
   
   // MARK: - Public
   
   @Published var availableLanguages: [AvailableLanguage] = []
-  
-  @Published var sourceText = "" {
-    didSet {
-      self.autodetectSourceLanguageIfNecessary()
-    }
-  }
-  
-  @Published var targetText = ""
   
   @Published var sourceLanguage: Locale.Language? {
     didSet {
@@ -36,7 +27,15 @@ class AppleTranslationViewModel: ObservableObject {
     }
   }
   
-  var translationManager: TranslationManager? {
+  @Published var sourceText = "" {
+    didSet {
+      self.autodetectSourceLanguageIfNecessary()
+    }
+  }
+  
+  @Published var targetText = ""
+  
+  var appManager: AppManager? {
     didSet {
       self.subscribeToSourceTextUpdates()
     }
@@ -54,24 +53,24 @@ class AppleTranslationViewModel: ObservableObject {
   }
   
   func close() {
-    self.translationManager?.dismissCurrentTranslationWindow(shouldTurnOff: false)
+    self.appManager?.dismissCurrentTranslationWindow(shouldTurnOff: false)
   }
   
   func closeAndTurnOff() {
-    self.translationManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
+    self.appManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
   }
   
   // MARK: - Private
   
-  private var cancellables = Set<AnyCancellable>()
-  
   private var settings = AppSettings()
   
+  private var cancellables = Set<AnyCancellable>()
+  
   private func subscribeToSourceTextUpdates() {
-    guard let translationManager = self.translationManager else { return }
-    translationManager.$sourceText
-      .sink { sourceText in
-        self.sourceText = sourceText
+    guard let appManager = self.appManager else { return }
+    appManager.$pasteboardText
+      .sink { [weak self] pasteboardText in
+        self?.sourceText = pasteboardText
       }
       .store(in: &self.cancellables)
   }

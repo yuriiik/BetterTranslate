@@ -5,12 +5,10 @@
 //  Created by Yurii Kupratsevych on 27.08.2025.
 //
 
-import Cocoa
-
 final class GoogleTranslationPresenter: TranslationPresenter {
-  override func makeTranslationWindowController() -> (any TranslationWindowController)? {
+  override func makeTranslationWindowController() -> TranslationWindowController? {
     guard let viewController = GoogleTranslationViewController.fromStoryboard() else { return nil }
-    viewController.translationManager = self.translationManager
+    viewController.appManager = self.appManager
     return GoogleTranslationWindowController(contentViewController: viewController)
   }
 }

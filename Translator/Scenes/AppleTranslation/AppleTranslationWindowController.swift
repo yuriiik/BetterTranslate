@@ -5,15 +5,11 @@
 //  Created by Yurii Kupratsevych on 20.08.2025.
 //
 
-import Cocoa
-import SwiftUI
+import AppKit
 
 final class AppleTranslationWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
   
-  // MARK: - Public
-  
-  var onHide: (() -> Void)?
-  var onClose: (() -> Void)?
+  // MARK: - Initialization
   
   convenience init(contentViewController: NSViewController) {
     let window = NSPanel(
@@ -21,16 +17,20 @@ final class AppleTranslationWindowController: NSWindowController, NSWindowDelega
       styleMask: [.titled, .nonactivatingPanel, .closable],
       backing: .buffered,
       defer: false)
-    window.isReleasedWhenClosed = false
     window.title = "Better Translate"
+    window.isReleasedWhenClosed = false    
     window.contentViewController = contentViewController
     window.level = .floating
-    window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
-    window.standardWindowButton(.zoomButton)?.isEnabled = false
     self.init(window: window)
     self.window?.delegate = self
     self.updateWindowPosition()
   }
+  
+  // MARK: - TranslationWindowController
+  
+  var onHide: (() -> Void)?
+  
+  var onClose: (() -> Void)?
   
   func show() {}
   

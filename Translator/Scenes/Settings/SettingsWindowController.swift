@@ -31,11 +31,12 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Tran
   // MARK: - TranslationWindowController
   
   var onHide: (() -> Void)?
+  
   var onClose: (() -> Void)?
   
   func show() {
-    NSApp.activate(ignoringOtherApps: true)
     self.window?.makeKeyAndOrderFront(nil)
+    NSApp.activate(ignoringOtherApps: true)
   }
   
   func hide(shouldClose: Bool) {}
@@ -50,13 +51,12 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Tran
   
   private func updateWindowPosition() {
     DispatchQueue.main.async {
-      NSApp.activate(ignoringOtherApps: true)
-      if let contentView = self.window?.contentView as? NSView {
+      if let contentView = self.window?.contentView {
         contentView.layoutSubtreeIfNeeded()
         self.window?.setContentSize(contentView.fittingSize)
       }
       self.window?.center()
-      self.window?.makeKeyAndOrderFront(nil)
+      self.show()
     }
   }
 }

@@ -5,7 +5,7 @@
 //  Created by Yurii Kupratsevych on 27.08.2025.
 //
 
-import Cocoa
+import AppKit
 
 protocol TranslationWindowController where Self: NSWindowController {
   var onHide: (() -> Void)? { get set }
@@ -21,12 +21,12 @@ class TranslationPresenter {
   var onPresent: (() -> Void)?
   var onDismiss: (() -> Void)?
   
-  init(translationManager: TranslationManager) {
-    self.translationManager = translationManager
+  init(appManager: AppManager) {
+    self.appManager = appManager
     self.setupKeyDownObserver()
   }
   
-  open func makeTranslationWindowController() -> (any TranslationWindowController)? {
+  open func makeTranslationWindowController() -> TranslationWindowController? {
     return nil
   }
   
@@ -67,7 +67,7 @@ class TranslationPresenter {
   
   // MARK: - Private
   
-  private(set) weak var translationManager: TranslationManager?
+  private(set) weak var appManager: AppManager?
   
   private let escKeyCode = 53
   
