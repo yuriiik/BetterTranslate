@@ -8,7 +8,7 @@
 import AppKit
 import SwiftUI
 
-final class SettingsWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
+final class SettingsWindowController: NSWindowController, NSWindowDelegate, NavigationManagerWindowController {
   
   // MARK: - Initialization
   
@@ -28,7 +28,7 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Tran
     self.updateWindowPosition()
   }
   
-  // MARK: - TranslationWindowController
+  // MARK: - NavigationManagerWindowController
   
   var onHide: (() -> Void)?
   
@@ -39,7 +39,9 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Tran
     NSApp.activate(ignoringOtherApps: true)
   }
   
-  func hide(shouldClose: Bool) {}
+  func hide(shouldClose: Bool) {
+    self.close()
+  }
   
   // MARK: - NSWindowDelegate
   

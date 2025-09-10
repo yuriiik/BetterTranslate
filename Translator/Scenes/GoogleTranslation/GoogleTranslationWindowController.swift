@@ -7,7 +7,7 @@
 
 import Cocoa
 
-final class GoogleTranslationWindowController: NSWindowController, NSWindowDelegate, TranslationWindowController {
+final class GoogleTranslationWindowController: NSWindowController, NSWindowDelegate, NavigationManagerWindowController {
   
   // MARK: - Initialization
   
@@ -26,7 +26,7 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
     self.updateWindowPosition()
   }
   
-  // MARK: - TranslationWindowController
+  // MARK: - NavigationManagerWindowController
   
   var onHide: (() -> Void)?
   
