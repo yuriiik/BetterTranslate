@@ -17,7 +17,7 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Actions
   
   @IBAction func reload(_ sender: NSButton) {
-    self.webView.reload()
+    self.loadGoogleTranslateWebPage()
   }
   
   @IBAction func close(_ sender: NSButton) {
