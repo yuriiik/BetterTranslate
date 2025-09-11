@@ -36,6 +36,13 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
     self.subscribeToSourceTextUpdates()
   }
   
+  override func keyDown(with event: NSEvent) {
+    guard self.handleCmdV(from: event) else {
+      super.keyDown(with: event)
+      return
+    }
+  }
+  
   // MARK: - Public
   
   weak var appManager: AppManager?
@@ -117,6 +124,17 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
       length: length)
     textInputClient.insertText(text, replacementRange: range)
     self.previousSourceText = text
+  }
+  
+  private func handleCmdV(from event: NSEvent) -> Bool {
+    let isCmdV =
+      event.modifierFlags.contains(.command) &&
+      event.charactersIgnoringModifiers?.lowercased() == "v"
+    guard isCmdV else { return false }
+    return NSApp.sendAction(
+      #selector(NSText.paste(_:)),
+      to: self.webView,
+      from: self)
   }
   
   // MARK: - WKNavigationDelegate
