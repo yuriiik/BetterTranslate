@@ -5,7 +5,7 @@
 //  Created by Yurii Kupratsevych on 10.09.2025.
 //
 
-class AssemblyManager: NavigationManagerDataSource {
+class AssemblyManager: PresentationManagerDataSource {
   
   // MARK: - Initialization
   
@@ -17,9 +17,9 @@ class AssemblyManager: NavigationManagerDataSource {
   
   private unowned var appManager: AppManager
   
-  // MARK: - NavigationManagerDataSource
+  // MARK: - PresentationManagerDataSource
 
-  //  func makeTranslationWindowController() -> NavigationManagerWindowController? {
+  //  func makeTranslationWindowController() -> PresentableWindowController? {
   //    let viewModel = AppleTranslationViewModel()
   //    viewModel.appManager = self.appManager
   //    let translationView = AppleTranslationView(viewModel: viewModel)
@@ -27,13 +27,13 @@ class AssemblyManager: NavigationManagerDataSource {
   //    return AppleTranslationWindowController(contentViewController: hostingController)
   //  }
   
-  func makeTranslationWindowController() -> NavigationManagerWindowController? {
+  func makeTranslationWindowController() -> PresentableWindowController? {
     guard let viewController = GoogleTranslationViewController.fromStoryboard() else { return nil }
     viewController.appManager = self.appManager
     return GoogleTranslationWindowController(contentViewController: viewController)
   }
   
-  func makeSettingsWindowController() -> NavigationManagerWindowController? {
+  func makeSettingsWindowController() -> PresentableWindowController? {
     return SettingsWindowController()
   }
 }

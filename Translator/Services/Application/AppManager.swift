@@ -33,7 +33,7 @@ class AppManager {
     if shouldTurnOff {
       self.stopMonitoringPasteboard()
     }
-    self.navigationManager.dismissTranslationWindow(shouldClose: false)
+    self.presentationManager.dismissTranslationWindow(shouldClose: false)
   }
   
   // MARK: - Private
@@ -42,10 +42,10 @@ class AppManager {
     return AssemblyManager(appManager: self)
   }()
   
-  private lazy var navigationManager: NavigationManager = {
-    let navigationManager = NavigationManager()
-    navigationManager.dataSource = self.assemblyManager
-    return navigationManager
+  private lazy var presentationManager: PresentationManager = {
+    let presentationManager = PresentationManager()
+    presentationManager.dataSource = self.assemblyManager
+    return presentationManager
   }()
   
   private let appleBooksMetadataCleanupRule = PasteboardMonitor.TextSanitizingRule(
@@ -68,7 +68,7 @@ class AppManager {
   
   private func setup() {
     AppSettings.setupDefaults()
-    self.navigationManager.onDismissTranslationWindow = { [weak self] in
+    self.presentationManager.onDismissTranslationWindow = { [weak self] in
       self?.pasteboardMonitor.resetFingerprint()
       self?.pasteboardText = ""
     }
@@ -150,12 +150,12 @@ class AppManager {
   }
   
   @objc private func showTranslationWindow() {
-    self.navigationManager.presentTranslationWindow()
+    self.presentationManager.presentTranslationWindow()
   }
   
   @objc private func showSettings() {
-    self.navigationManager.dismissTranslationWindow(shouldClose: false)
-    self.navigationManager.presentSettingsWindow()
+    self.presentationManager.dismissTranslationWindow(shouldClose: false)
+    self.presentationManager.presentSettingsWindow()
   }
   
   @objc private func quitApp() {

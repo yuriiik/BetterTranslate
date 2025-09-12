@@ -7,7 +7,7 @@
 
 import AppKit
 
-final class AppleTranslationWindowController: NSWindowController, NSWindowDelegate, NavigationManagerWindowController {
+final class AppleTranslationWindowController: NSWindowController, NSWindowDelegate, PresentableWindowController {
   
   // MARK: - Initialization
   
@@ -26,7 +26,7 @@ final class AppleTranslationWindowController: NSWindowController, NSWindowDelega
     self.updateWindowPosition()
   }
   
-  // MARK: - NavigationManagerWindowController
+  // MARK: - PresentableWindowController
   
   var onHide: (() -> Void)?
   

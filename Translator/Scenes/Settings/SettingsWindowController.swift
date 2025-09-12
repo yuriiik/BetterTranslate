@@ -8,7 +8,7 @@
 import AppKit
 import SwiftUI
 
-final class SettingsWindowController: NSWindowController, NSWindowDelegate, NavigationManagerWindowController {
+final class SettingsWindowController: NSWindowController, NSWindowDelegate, PresentableWindowController {
   
   // MARK: - Initialization
   
@@ -28,7 +28,7 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Navi
     self.updateWindowPosition()
   }
   
-  // MARK: - NavigationManagerWindowController
+  // MARK: - PresentableWindowController
   
   var onHide: (() -> Void)?
   

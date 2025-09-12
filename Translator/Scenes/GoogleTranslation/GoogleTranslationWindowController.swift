@@ -7,7 +7,7 @@
 
 import Cocoa
 
-final class GoogleTranslationWindowController: NSWindowController, NSWindowDelegate, NavigationManagerWindowController {
+final class GoogleTranslationWindowController: NSWindowController, NSWindowDelegate, PresentableWindowController {
   
   // MARK: - Initialization
   
@@ -31,7 +31,7 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
   // Disable NSPanel's default "close on Esc" behavior
   override func cancelOperation(_ sender: Any?) {}
   
-  // MARK: - NavigationManagerWindowController
+  // MARK: - PresentableWindowController
   
   var onHide: (() -> Void)?
   

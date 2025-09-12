@@ -1,5 +1,5 @@
 //
-//  NavigationManager.swift
+//  PresentationManager.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 27.08.2025.
@@ -7,7 +7,7 @@
 
 import AppKit
 
-protocol NavigationManagerWindowController where Self: NSWindowController {
+protocol PresentableWindowController where Self: NSWindowController {
   var onHide: (() -> Void)? { get set }
   var onClose: (() -> Void)? { get set }
   var isVisible: Bool { get }
@@ -16,7 +16,7 @@ protocol NavigationManagerWindowController where Self: NSWindowController {
   func hide(shouldClose: Bool)
 }
 
-extension NavigationManagerWindowController {
+extension PresentableWindowController {
   var isVisible: Bool {
     self.window?.isVisible == true
   }
@@ -26,16 +26,16 @@ extension NavigationManagerWindowController {
   }
 }
 
-protocol NavigationManagerDataSource: AnyObject {
-  func makeTranslationWindowController() -> NavigationManagerWindowController?
-  func makeSettingsWindowController() -> NavigationManagerWindowController?
+protocol PresentationManagerDataSource: AnyObject {
+  func makeTranslationWindowController() -> PresentableWindowController?
+  func makeSettingsWindowController() -> PresentableWindowController?
 }
 
-class NavigationManager {
+class PresentationManager {
   
   // MARK: - Public
   
-  weak var dataSource: NavigationManagerDataSource?
+  weak var dataSource: PresentationManagerDataSource?
   
   var onPresentTranslationWindow: (() -> Void)?
   
@@ -84,8 +84,8 @@ class NavigationManager {
   
   private let escKeyCode = 53
   
-  private var translationWindowController: NavigationManagerWindowController?
-  private var settingsWindowController: NavigationManagerWindowController?
+  private var translationWindowController: PresentableWindowController?
+  private var settingsWindowController: PresentableWindowController?
   
   private var localKeyDownMonitor: Any?
   private var globalKeyDownMonitor: Any?
