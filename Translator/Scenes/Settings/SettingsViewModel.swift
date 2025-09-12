@@ -25,6 +25,26 @@ class SettingsViewModel: ObservableObject {
   
   @Published private(set) var isLaunchAtLoginEnabled: Bool = false
   
+  var escClosesTranslationWindow: Bool {
+    get {
+      AppSettings.escClosesTranslationWindow
+    }
+    set {
+      AppSettings.escClosesTranslationWindow = newValue
+      self.objectWillChange.send()
+    }
+  }
+  
+  var clickOutsideClosesTranslationWindow: Bool {
+    get {
+      AppSettings.clickOutsideClosesTranslationWindow
+    }
+    set {
+      AppSettings.clickOutsideClosesTranslationWindow = newValue
+      self.objectWillChange.send()
+    }
+  }
+  
   var isLaunchAtLoginRequiresApproval: Bool {
     return SMAppService.mainApp.status == .requiresApproval
   }

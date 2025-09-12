@@ -28,6 +28,12 @@ struct SettingsView: View {
             .buttonStyle(.link)
           }
         }
+      Toggle("Esc closes translation window", isOn: Binding(
+        get: { self.viewModel.escClosesTranslationWindow },
+        set: { self.viewModel.escClosesTranslationWindow = $0 }))
+      Toggle("Click outside closes translation window", isOn: Binding(
+        get: { self.viewModel.clickOutsideClosesTranslationWindow },
+        set: { self.viewModel.clickOutsideClosesTranslationWindow = $0 }))
     }
     .padding(16)
   }

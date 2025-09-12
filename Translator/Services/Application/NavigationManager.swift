@@ -93,6 +93,7 @@ class NavigationManager {
   
   private func startKeyDownMonitor() {
     guard
+      AppSettings.escClosesTranslationWindow,
       self.localKeyDownMonitor == nil ||
       self.globalKeyDownMonitor == nil
     else { return }
@@ -119,7 +120,10 @@ class NavigationManager {
   }
 
   private func startMouseClickMonitor() {
-    guard self.mouseClickMonitor == nil else { return }
+    guard
+      AppSettings.clickOutsideClosesTranslationWindow,
+      self.mouseClickMonitor == nil
+    else { return }
     self.mouseClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
       guard
         let self = self,

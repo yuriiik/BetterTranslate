@@ -26,6 +26,11 @@ final class GoogleTranslationWindowController: NSWindowController, NSWindowDeleg
     self.updateWindowPosition()
   }
   
+  // MARK: - Overrides
+  
+  // Disable NSPanel's default "close on Esc" behavior
+  override func cancelOperation(_ sender: Any?) {}
+  
   // MARK: - NavigationManagerWindowController
   
   var onHide: (() -> Void)?

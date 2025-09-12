@@ -67,6 +67,7 @@ class AppManager {
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
   
   private func setup() {
+    AppSettings.setupDefaults()
     self.navigationManager.onDismissTranslationWindow = { [weak self] in
       self?.pasteboardMonitor.resetFingerprint()
       self?.pasteboardText = ""

@@ -29,10 +29,39 @@ struct AppSettings {
     }
   }
   
+  static var escClosesTranslationWindow: Bool {
+    get {
+      UserDefaults.standard.bool(forKey: self.escClosesTranslationWindowKey)
+    }
+    set {
+      UserDefaults.standard.set(newValue, forKey: self.escClosesTranslationWindowKey)
+    }
+  }
+  
+  static var clickOutsideClosesTranslationWindow: Bool {
+    get {
+      UserDefaults.standard.bool(forKey: self.clickOutsideTranslationWindowKey)
+    }
+    set {
+      UserDefaults.standard.set(newValue, forKey: self.clickOutsideTranslationWindowKey)
+    }
+  }
+  
+  static func setupDefaults() {
+    guard
+      let url = Bundle.main.url(forResource: "Defaults", withExtension: "plist"),
+      let data = try? Data(contentsOf: url),
+      let dict = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any]
+    else { return }
+    UserDefaults.standard.register(defaults: dict)
+  }
+  
   // MARK: - Private
   
   private let sourceLanguageKey = "com.yuriik.BetterTranslate.SourceLanguage"
   private let targetLanguageKey = "com.yuriik.BetterTranslate.TargetLanguage"
+  private static let escClosesTranslationWindowKey = "com.yuriik.BetterTranslate.escClosesTranslationWindow"
+  private static let clickOutsideTranslationWindowKey = "com.yuriik.BetterTranslate.clickOutsideTranslationWindow"
   
   private func getLanguage(for key: String) -> Locale.Language? {
     guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
