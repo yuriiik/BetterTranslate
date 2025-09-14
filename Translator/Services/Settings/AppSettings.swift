@@ -7,61 +7,55 @@
 
 import Foundation
 
-struct AppSettings {
+class AppSettings {
+  
+  // MARK: - Initialization
+  
+  init() {
+    self.setupDefaults()
+    self.translationWebsite = UserDefaults.standard.string(forKey: Keys.translationWebsite)
+  }
   
   // MARK: - Public
   
+  static let shared = AppSettings()
+  
   var sourceLanguage: Locale.Language? {
-    get {
-      self.getLanguage(for: self.sourceLanguageKey)
-    }
-    set {
-      self.setLanguage(newValue, for: self.sourceLanguageKey)
-    }
+    get { self.getLanguage(for: Keys.sourceLanguage) }
+    set { self.setLanguage(newValue, for: Keys.sourceLanguage) }
   }
   
   var targetLanguage: Locale.Language? {
-    get {
-      self.getLanguage(for: self.targetLanguageKey)
-    }
-    set {
-      self.setLanguage(newValue, for: self.targetLanguageKey)
-    }
+    get { self.getLanguage(for: Keys.targetLanguage) }
+    set { self.setLanguage(newValue, for: Keys.targetLanguage) }
   }
   
-  static var escClosesTranslationWindow: Bool {
-    get {
-      UserDefaults.standard.bool(forKey: self.escClosesTranslationWindowKey)
-    }
-    set {
-      UserDefaults.standard.set(newValue, forKey: self.escClosesTranslationWindowKey)
-    }
+  var escClosesTranslationWindow: Bool {
+    get { UserDefaults.standard.bool(forKey: Keys.escClosesTranslationWindow) }
+    set { UserDefaults.standard.set(newValue, forKey: Keys.escClosesTranslationWindow) }
   }
   
-  static var clickOutsideClosesTranslationWindow: Bool {
-    get {
-      UserDefaults.standard.bool(forKey: self.clickOutsideTranslationWindowKey)
-    }
-    set {
-      UserDefaults.standard.set(newValue, forKey: self.clickOutsideTranslationWindowKey)
-    }
+  var clickOutsideClosesTranslationWindow: Bool {
+    get { UserDefaults.standard.bool(forKey: Keys.clickOutsideClosesTranslationWindow) }
+    set { UserDefaults.standard.set(newValue, forKey: Keys.clickOutsideClosesTranslationWindow) }
   }
   
-  static func setupDefaults() {
-    guard
-      let url = Bundle.main.url(forResource: "Defaults", withExtension: "plist"),
-      let data = try? Data(contentsOf: url),
-      let dict = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any]
-    else { return }
-    UserDefaults.standard.register(defaults: dict)
+  @Published private(set) var translationWebsite: String?
+  
+  func setTranslationWebsite(_ translationWebsite: String?) {
+    UserDefaults.standard.set(translationWebsite, forKey: Keys.translationWebsite)
+    self.translationWebsite = translationWebsite
   }
   
   // MARK: - Private
   
-  private let sourceLanguageKey = "com.yuriik.BetterTranslate.SourceLanguage"
-  private let targetLanguageKey = "com.yuriik.BetterTranslate.TargetLanguage"
-  private static let escClosesTranslationWindowKey = "com.yuriik.BetterTranslate.escClosesTranslationWindow"
-  private static let clickOutsideTranslationWindowKey = "com.yuriik.BetterTranslate.clickOutsideTranslationWindow"
+  private struct Keys {
+    static let sourceLanguage = "com.yuriik.BetterTranslate.SourceLanguage"
+    static let targetLanguage = "com.yuriik.BetterTranslate.TargetLanguage"
+    static let escClosesTranslationWindow = "com.yuriik.BetterTranslate.escClosesTranslationWindow"
+    static let clickOutsideClosesTranslationWindow = "com.yuriik.BetterTranslate.clickOutsideClosesTranslationWindow"
+    static let translationWebsite = "com.yuriik.BetterTranslate.translationWebsite"
+  }
   
   private func getLanguage(for key: String) -> Locale.Language? {
     guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
@@ -75,5 +69,14 @@ struct AppSettings {
     } else {
       UserDefaults.standard.removeObject(forKey: key)
     }
+  }
+  
+  private func setupDefaults() {
+    guard
+      let url = Bundle.main.url(forResource: "Defaults", withExtension: "plist"),
+      let data = try? Data(contentsOf: url),
+      let dict = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any]
+    else { return }
+    UserDefaults.standard.register(defaults: dict)
   }
 }

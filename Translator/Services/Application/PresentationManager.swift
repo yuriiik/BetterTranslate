@@ -93,7 +93,7 @@ class PresentationManager {
   
   private func startKeyDownMonitor() {
     guard
-      AppSettings.escClosesTranslationWindow,
+      AppSettings.shared.escClosesTranslationWindow,
       self.localKeyDownMonitor == nil ||
       self.globalKeyDownMonitor == nil
     else { return }
@@ -121,7 +121,7 @@ class PresentationManager {
 
   private func startMouseClickMonitor() {
     guard
-      AppSettings.clickOutsideClosesTranslationWindow,
+      AppSettings.shared.clickOutsideClosesTranslationWindow,
       self.mouseClickMonitor == nil
     else { return }
     self.mouseClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in

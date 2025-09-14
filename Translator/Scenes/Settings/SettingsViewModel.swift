@@ -26,23 +26,24 @@ class SettingsViewModel: ObservableObject {
   @Published private(set) var isLaunchAtLoginEnabled: Bool = false
   
   var escClosesTranslationWindow: Bool {
-    get {
-      AppSettings.escClosesTranslationWindow
-    }
+    get { AppSettings.shared.escClosesTranslationWindow }
     set {
-      AppSettings.escClosesTranslationWindow = newValue
+      AppSettings.shared.escClosesTranslationWindow = newValue
       self.objectWillChange.send()
     }
   }
   
   var clickOutsideClosesTranslationWindow: Bool {
-    get {
-      AppSettings.clickOutsideClosesTranslationWindow
-    }
+    get { AppSettings.shared.clickOutsideClosesTranslationWindow }
     set {
-      AppSettings.clickOutsideClosesTranslationWindow = newValue
+      AppSettings.shared.clickOutsideClosesTranslationWindow = newValue
       self.objectWillChange.send()
     }
+  }
+  
+  var translationWebsite: String {
+    get { AppSettings.shared.translationWebsite ?? "" }
+    set { AppSettings.shared.setTranslationWebsite(newValue) }
   }
   
   var isLaunchAtLoginRequiresApproval: Bool {

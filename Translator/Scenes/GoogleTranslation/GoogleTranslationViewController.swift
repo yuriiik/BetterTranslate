@@ -57,8 +57,6 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   
   private var webViewLoadingState: WebViewLoadingState = .notStarted
   
-  private let googleTranslateURLString = "https://translate.google.com"
-  
   private var cancellables = Set<AnyCancellable>()
   
   private var sourceText = ""
@@ -87,7 +85,8 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   
   private func loadGoogleTranslateWebPage() {
     guard
-      let googleTranslateURL = URL(string: self.googleTranslateURLString)
+      let translationWebsite = AppSettings.shared.translationWebsite,
+      let googleTranslateURL = URL(string: translationWebsite)
     else { return }
     self.webView.load(URLRequest(url: googleTranslateURL))
     self.webViewLoadingState = .inProgress

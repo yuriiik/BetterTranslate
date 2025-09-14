@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import Combine
 
 class AppManager {
   
@@ -66,8 +67,9 @@ class AppManager {
   
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
   
+  private var cancellables = Set<AnyCancellable>()
+  
   private func setup() {
-    AppSettings.setupDefaults()
     self.presentationManager.onDismissTranslationWindow = { [weak self] in
       self?.pasteboardMonitor.resetFingerprint()
       self?.pasteboardText = ""
@@ -77,6 +79,18 @@ class AppManager {
       self?.showTranslationWindow()
     }
     self.setupStatusItem()
+    self.subscribeToTranslationWebsiteUpdates()
+  }
+  
+  private func subscribeToTranslationWebsiteUpdates() {
+    let publisher = AppSettings.shared.$translationWebsite
+    publisher
+      .zip(publisher.dropFirst())
+      .sink { [weak self] oldValue, newValue in
+        guard oldValue != newValue else { return }
+        self?.presentationManager.dismissTranslationWindow(shouldClose: true)
+      }
+      .store(in: &self.cancellables)
   }
   
   private func setupStatusItem() {
