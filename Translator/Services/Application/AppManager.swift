@@ -80,6 +80,9 @@ class AppManager {
     }
     self.setupStatusItem()
     self.subscribeToTranslationWebsiteUpdates()
+    if AppSettings.shared.openSettingsOnAppLaunch {
+      self.showSettings()
+    }
   }
   
   private func subscribeToTranslationWebsiteUpdates() {

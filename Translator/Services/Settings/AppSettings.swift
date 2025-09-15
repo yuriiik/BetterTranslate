@@ -30,6 +30,11 @@ class AppSettings {
     set { self.setLanguage(newValue, for: Keys.targetLanguage) }
   }
   
+  var openSettingsOnAppLaunch: Bool {
+    get { UserDefaults.standard.bool(forKey: Keys.openSettingsOnAppLaunch) }
+    set { UserDefaults.standard.set(newValue, forKey: Keys.openSettingsOnAppLaunch) }
+  }
+  
   var escClosesTranslationWindow: Bool {
     get { UserDefaults.standard.bool(forKey: Keys.escClosesTranslationWindow) }
     set { UserDefaults.standard.set(newValue, forKey: Keys.escClosesTranslationWindow) }
@@ -52,6 +57,7 @@ class AppSettings {
   private struct Keys {
     static let sourceLanguage = "com.yuriik.BetterTranslate.SourceLanguage"
     static let targetLanguage = "com.yuriik.BetterTranslate.TargetLanguage"
+    static let openSettingsOnAppLaunch = "com.yuriik.BetterTranslate.openSettingsOnAppLaunch"
     static let escClosesTranslationWindow = "com.yuriik.BetterTranslate.escClosesTranslationWindow"
     static let clickOutsideClosesTranslationWindow = "com.yuriik.BetterTranslate.clickOutsideClosesTranslationWindow"
     static let translationWebsite = "com.yuriik.BetterTranslate.translationWebsite"

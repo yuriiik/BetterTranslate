@@ -2,11 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>com.yuriik.BetterTranslate.translationWebsite</key>
-	<string>https://translate.google.com</string>
-	<key>com.yuriik.BetterTranslate.clickOutsideClosesTranslationWindow</key>
+	<key>com.yuriik.BetterTranslate.openSettingsOnAppLaunch</key>
 	<true/>
 	<key>com.yuriik.BetterTranslate.escClosesTranslationWindow</key>
 	<true/>
+	<key>com.yuriik.BetterTranslate.clickOutsideClosesTranslationWindow</key>
+	<true/>
+	<key>com.yuriik.BetterTranslate.translationWebsite</key>
+	<string>https://translate.google.com</string>
 </dict>
 </plist>

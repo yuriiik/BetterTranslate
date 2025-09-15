@@ -26,16 +26,19 @@ struct SettingsView: View {
         Toggle("Launch at login", isOn: Binding(
           get: { self.viewModel.isLaunchAtLoginEnabled },
           set: { self.viewModel.setLaunchAtLoginEnabled($0) }))
-          if self.viewModel.isLaunchAtLoginRequiresApproval {
-            HStack {
-              Text("Pending approval in System Settings.")
-              Button("Open System Settings") {
-                self.viewModel.openLoginItemsSettings()
-              }
-              .buttonStyle(.link)
-            }
-          }
       }
+      if self.viewModel.isLaunchAtLoginRequiresApproval {
+        HStack {
+          Text("Pending approval in System Settings:")
+          Button("Open System Settings") {
+            self.viewModel.openLoginItemsSettings()
+          }
+          .buttonStyle(.link)
+        }
+      }
+      Toggle("Show this window when starting Better Translate", isOn: Binding(
+        get: { self.viewModel.openSettingsOnAppLaunch },
+        set: { self.viewModel.openSettingsOnAppLaunch = $0 }))
       Divider()
       LabeledContent("Triggers:") {
         Toggle("Esc closes translation window", isOn: Binding(

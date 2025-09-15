@@ -33,6 +33,14 @@ class SettingsViewModel: ObservableObject {
     }
   }
   
+  var openSettingsOnAppLaunch: Bool {
+    get { AppSettings.shared.openSettingsOnAppLaunch }
+    set {
+      AppSettings.shared.openSettingsOnAppLaunch = newValue
+      self.objectWillChange.send()
+    }
+  }
+  
   var clickOutsideClosesTranslationWindow: Bool {
     get { AppSettings.shared.clickOutsideClosesTranslationWindow }
     set {
