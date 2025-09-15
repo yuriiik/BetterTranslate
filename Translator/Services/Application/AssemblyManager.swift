@@ -27,10 +27,12 @@ class AssemblyManager: PresentationManagerDataSource {
   //    return AppleTranslationWindowController(contentViewController: hostingController)
   //  }
   
-  func makeTranslationWindowController() -> PresentableWindowController? {
+  func makeTranslationWindowController(isHidden: Bool) -> PresentableWindowController? {
     guard let viewController = WebTranslationViewController.fromStoryboard() else { return nil }
     viewController.appManager = self.appManager
-    return WebTranslationWindowController(contentViewController: viewController)
+    return WebTranslationWindowController(
+      contentViewController: viewController,
+      isHidden: isHidden)
   }
   
   func makeSettingsWindowController() -> PresentableWindowController? {

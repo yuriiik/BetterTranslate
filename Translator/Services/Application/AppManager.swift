@@ -79,21 +79,10 @@ class AppManager {
       self?.showTranslationWindow()
     }
     self.setupStatusItem()
-    self.subscribeToTranslationWebsiteUpdates()
     if AppSettings.shared.openSettingsOnAppLaunch {
       self.showSettings()
     }
-  }
-  
-  private func subscribeToTranslationWebsiteUpdates() {
-    let publisher = AppSettings.shared.$translationWebsite
-    publisher
-      .zip(publisher.dropFirst())
-      .sink { [weak self] oldValue, newValue in
-        guard oldValue != newValue else { return }
-        self?.presentationManager.dismissTranslationWindow(shouldClose: true)
-      }
-      .store(in: &self.cancellables)
+    self.showTranslationWindow(isInitiallyHidden: true)
   }
   
   private func setupStatusItem() {
@@ -166,8 +155,8 @@ class AppManager {
     }
   }
   
-  @objc private func showTranslationWindow() {
-    self.presentationManager.presentTranslationWindow()
+  @objc private func showTranslationWindow(isInitiallyHidden: Bool = false) {
+    self.presentationManager.presentTranslationWindow(isInitiallyHidden: isInitiallyHidden)
   }
   
   @objc private func showSettings() {

@@ -27,7 +27,7 @@ extension PresentableWindowController {
 }
 
 protocol PresentationManagerDataSource: AnyObject {
-  func makeTranslationWindowController() -> PresentableWindowController?
+  func makeTranslationWindowController(isHidden: Bool) -> PresentableWindowController?
   func makeSettingsWindowController() -> PresentableWindowController?
 }
 
@@ -41,10 +41,12 @@ class PresentationManager {
   
   var onDismissTranslationWindow: (() -> Void)?
   
-  func presentTranslationWindow() {
+  func presentTranslationWindow(isInitiallyHidden: Bool = false) {
+    var isExistingWindowController = false
     if let translationWindowController = self.translationWindowController {
       translationWindowController.show()
-    } else if let translationWindowController = self.dataSource?.makeTranslationWindowController() {
+      isExistingWindowController = true
+    } else if let translationWindowController = self.dataSource?.makeTranslationWindowController(isHidden: isInitiallyHidden) {
       translationWindowController.onClose = { [weak self] in
         self?.translationWindowController = nil
         self?.onDismissTranslationWindow?()
@@ -55,8 +57,10 @@ class PresentationManager {
       self.translationWindowController = translationWindowController
       self.onPresentTranslationWindow?()
     }
-    self.startKeyDownMonitor()
-    self.startMouseClickMonitor()
+    if isExistingWindowController || !isInitiallyHidden {
+      self.startKeyDownMonitor()
+      self.startMouseClickMonitor()
+    }
   }
   
   func dismissTranslationWindow(shouldClose: Bool) {

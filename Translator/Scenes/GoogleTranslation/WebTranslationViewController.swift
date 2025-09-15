@@ -34,6 +34,7 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
     super.viewDidLoad()
     self.webView.navigationDelegate = self
     self.subscribeToSourceTextUpdates()
+    self.subscribeToTranslationWebsiteUpdates()
   }
   
   override func keyDown(with event: NSEvent) {
@@ -72,6 +73,17 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
       .store(in: &self.cancellables)
   }
   
+  private func subscribeToTranslationWebsiteUpdates() {
+    let publisher = AppSettings.shared.$translationWebsite
+    publisher
+      .zip(publisher.dropFirst())
+      .sink { [weak self] oldValue, newValue in
+        guard oldValue != newValue && newValue != nil else { return }
+        self?.loadTranslationWebsite(newValue)
+      }
+      .store(in: &self.cancellables)
+  }
+  
   private func translate() {
     switch self.webViewLoadingState {
     case .notStarted:
@@ -83,9 +95,9 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
     }
   }
   
-  private func loadTranslationWebsite() {
+  private func loadTranslationWebsite(_ translationWebsite: String? = nil) {
     guard
-      let translationWebsite = AppSettings.shared.translationWebsite,
+      let translationWebsite = translationWebsite ?? AppSettings.shared.translationWebsite,
       let translationWebsiteURL = URL(string: translationWebsite)
     else { return }
     self.webView.load(URLRequest(url: translationWebsiteURL))

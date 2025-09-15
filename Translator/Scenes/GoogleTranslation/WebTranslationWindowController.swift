@@ -11,7 +11,7 @@ final class WebTranslationWindowController: NSWindowController, NSWindowDelegate
   
   // MARK: - Initialization
   
-  convenience init(contentViewController: NSViewController) {
+  convenience init(contentViewController: NSViewController, isHidden: Bool) {
     let window = NSPanel(
       contentRect: .zero,
       styleMask: [.titled, .nonactivatingPanel, .closable],
@@ -23,7 +23,15 @@ final class WebTranslationWindowController: NSWindowController, NSWindowDelegate
     window.level = .floating
     self.init(window: window)
     self.window?.delegate = self
-    self.updateWindowPosition()
+    self.window?.setFrame(
+      .init(x: 0, y: 0, width: 800, height: 600),
+      display: false)
+    self.window?.center()
+    if isHidden {
+      self.window?.orderOut(nil)
+    } else {
+      self.window?.makeKeyAndOrderFront(nil)
+    }
   }
   
   // MARK: - Overrides
@@ -62,17 +70,5 @@ final class WebTranslationWindowController: NSWindowController, NSWindowDelegate
   
   func windowWillClose(_ notification: Notification) {
     self.onClose?()
-  }
-  
-  // MARK: - Private
-
-  private func updateWindowPosition() {
-    DispatchQueue.main.async {
-      self.window?.setFrame(
-        .init(x: 0, y: 0, width: 800, height: 600),
-        display: false)
-      self.window?.center()
-      self.window?.makeKeyAndOrderFront(nil)
-    }
   }
 }
