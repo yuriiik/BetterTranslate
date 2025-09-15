@@ -1,5 +1,5 @@
 //
-//  GoogleTranslationViewController.swift
+//  WebTranslationViewController.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 27.08.2025.
@@ -8,7 +8,7 @@
 import WebKit
 import Combine
 
-class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
+class WebTranslationViewController: NSViewController, WKNavigationDelegate {
 
   // MARK: - Outlets
   
@@ -17,7 +17,7 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Actions
   
   @IBAction func reload(_ sender: NSButton) {
-    self.loadGoogleTranslateWebPage()
+    self.loadTranslationWebsite()
   }
   
   @IBAction func close(_ sender: NSButton) {
@@ -75,24 +75,24 @@ class GoogleTranslationViewController: NSViewController, WKNavigationDelegate {
   private func translate() {
     switch self.webViewLoadingState {
     case .notStarted:
-      self.loadGoogleTranslateWebPage()
+      self.loadTranslationWebsite()
     case .inProgress:
       return
     case .completed:
-      self.updateSourceTextOnGoogleTranslateWebPage()
+      self.updateSourceTextOnTranslationWebsite()
     }
   }
   
-  private func loadGoogleTranslateWebPage() {
+  private func loadTranslationWebsite() {
     guard
       let translationWebsite = AppSettings.shared.translationWebsite,
-      let googleTranslateURL = URL(string: translationWebsite)
+      let translationWebsiteURL = URL(string: translationWebsite)
     else { return }
-    self.webView.load(URLRequest(url: googleTranslateURL))
+    self.webView.load(URLRequest(url: translationWebsiteURL))
     self.webViewLoadingState = .inProgress
   }
   
-  private func updateSourceTextOnGoogleTranslateWebPage() {
+  private func updateSourceTextOnTranslationWebsite() {
     self.clearFocusedField()
     self.insertTextIntoFocusedField(self.sourceText)
   }

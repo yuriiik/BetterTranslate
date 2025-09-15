@@ -28,9 +28,9 @@ class AssemblyManager: PresentationManagerDataSource {
   //  }
   
   func makeTranslationWindowController() -> PresentableWindowController? {
-    guard let viewController = GoogleTranslationViewController.fromStoryboard() else { return nil }
+    guard let viewController = WebTranslationViewController.fromStoryboard() else { return nil }
     viewController.appManager = self.appManager
-    return GoogleTranslationWindowController(contentViewController: viewController)
+    return WebTranslationWindowController(contentViewController: viewController)
   }
   
   func makeSettingsWindowController() -> PresentableWindowController? {

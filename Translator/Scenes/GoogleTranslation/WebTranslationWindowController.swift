@@ -1,5 +1,5 @@
 //
-//  GoogleTranslationWindowController.swift
+//  WebTranslationWindowController.swift
 //  Translator
 //
 //  Created by Yurii Kupratsevych on 27.08.2025.
@@ -7,7 +7,7 @@
 
 import Cocoa
 
-final class GoogleTranslationWindowController: NSWindowController, NSWindowDelegate, PresentableWindowController {
+final class WebTranslationWindowController: NSWindowController, NSWindowDelegate, PresentableWindowController {
   
   // MARK: - Initialization
   
