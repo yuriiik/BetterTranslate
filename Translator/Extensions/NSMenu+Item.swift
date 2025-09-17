@@ -9,12 +9,15 @@ import AppKit
 
 extension NSMenu {
   @discardableResult
-  func addItem(withTitle string: String, target: AnyObject, action selector: Selector?, keyEquivalent charCode: String) -> NSMenuItem {
+  func addItem(title: String, target: AnyObject? = nil, action selector: Selector, keyEquivalent charCode: String, keyEquivalentModifierMask: NSEvent.ModifierFlags? = nil) -> NSMenuItem {
     let menuItem = self.addItem(
-      withTitle: string,
+      withTitle: title,
       action: selector,
       keyEquivalent: charCode)
     menuItem.target = target
+    keyEquivalentModifierMask.map {
+      menuItem.keyEquivalentModifierMask = $0
+    }    
     return menuItem
   }
 }

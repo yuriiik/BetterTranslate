@@ -37,13 +37,6 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
     self.subscribeToTranslationWebsiteUpdates()
   }
   
-  override func keyDown(with event: NSEvent) {
-    guard self.handleCmdV(from: event) else {
-      super.keyDown(with: event)
-      return
-    }
-  }
-  
   // MARK: - Public
   
   weak var appManager: AppManager?

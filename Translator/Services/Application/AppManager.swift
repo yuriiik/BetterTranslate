@@ -79,6 +79,7 @@ class AppManager {
       self?.showTranslationWindow()
     }
     self.setupStatusItem()
+    self.createShortcutMenu()
     if AppSettings.shared.openSettingsOnAppLaunch {
       self.showSettings()
     }
@@ -105,30 +106,30 @@ class AppManager {
     let menu = NSMenu()
     if self.pasteboardMonitor.isRunning {
       menu.addItem(
-        withTitle: "Stop",
+        title: "Stop",
         target: self,
         action: #selector(self.toggleTranslationEnabled),
         keyEquivalent: "")
     } else {
       menu.addItem(
-        withTitle: "Start",
+        title: "Start",
         target: self,
         action: #selector(self.toggleTranslationEnabled),
         keyEquivalent: "")
     }
     menu.addItem(
-      withTitle: "Translate Text",
+      title: "Translate Text",
       target: self,
       action: #selector(self.showTranslationWindow),
       keyEquivalent: "")
     menu.addItem(
-      withTitle: "Settings...",
+      title: "Settings...",
       target: self,
       action: #selector(self.showSettings),
       keyEquivalent: "")
     menu.addItem(.separator())
     menu.addItem(
-      withTitle: "Quit",
+      title: "Quit",
       target: self,
       action: #selector(self.quitApp),
       keyEquivalent: "q")
@@ -166,5 +167,35 @@ class AppManager {
   
   @objc private func quitApp() {
     NSApplication.shared.terminate(nil)
+  }
+  
+  private func createShortcutMenu() {
+    let mainMenu = NSMenu()
+    let editItem = NSMenuItem()
+    mainMenu.addItem(editItem)
+    let editMenu = NSMenu(title: "Edit")
+    editItem.submenu = editMenu
+    editMenu.addItem(
+      title: "Cut",
+      action: #selector(NSText.cut(_:)),
+      keyEquivalent: "x")
+    editMenu.addItem(
+      title: "Copy",
+      action: #selector(NSText.copy(_:)),
+      keyEquivalent: "c")
+    editMenu.addItem(
+      title: "Paste",
+      action: #selector(NSText.paste(_:)),
+      keyEquivalent: "v")
+    editMenu.addItem(
+      title: "Select All",
+      action: #selector(NSText.selectAll(_:)),
+      keyEquivalent: "a")
+    editMenu.addItem(
+      title: "Quit",
+      target: self,
+      action: #selector(self.quitApp),
+      keyEquivalent: "q")
+    NSApp.mainMenu = mainMenu
   }
 }
