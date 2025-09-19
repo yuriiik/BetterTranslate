@@ -8,6 +8,11 @@
 import WebKit
 import Combine
 
+protocol WebTranslationViewControllerDelegate: AnyObject {
+  func webTranslationViewControllerWantsToResetPosition()
+  func webTranslationViewControllerWantsToResetSize()
+}
+
 class WebTranslationViewController: NSViewController, WKNavigationDelegate {
 
   // MARK: - Outlets
@@ -28,10 +33,31 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
     self.appManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
   }
   
+  @IBAction func zoomIn(_ sender: NSButton) {
+    self.changePageZoom(by: self.zoomStep)
+  }
+  
+  @IBAction func zoomOut(_ sender: NSButton) {
+    self.changePageZoom(by: -self.zoomStep)
+  }
+  
+  @IBAction func resetZoom(_ sender: NSButton) {
+    self.changePageZoom(reset: true)
+  }
+  
+  @IBAction func resetPosition(_ sender: NSButton) {
+    self.delegate?.webTranslationViewControllerWantsToResetPosition()
+  }
+  
+  @IBAction func resetSize(_ sender: NSButton) {
+    self.delegate?.webTranslationViewControllerWantsToResetSize()
+  }
+  
   // MARK: - View Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.webView.pageZoom = AppSettings.shared.translationPageZoom
     self.webView.navigationDelegate = self
     self.subscribeToSourceTextUpdates()
     self.subscribeToTranslationWebsiteUpdates()
@@ -40,6 +66,8 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Public
   
   weak var appManager: AppManager?
+  
+  weak var delegate: WebTranslationViewControllerDelegate?
   
   // MARK: - Private
   
@@ -54,7 +82,10 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   private var cancellables = Set<AnyCancellable>()
   
   private var sourceText = ""
+  
   private var previousSourceText: String?
+  
+  private let zoomStep = 0.1
   
   private func subscribeToSourceTextUpdates() {
     guard let appManager = self.appManager else { return }
@@ -139,6 +170,15 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
       #selector(NSText.paste(_:)),
       to: self.webView,
       from: self)
+  }
+  
+  private func changePageZoom(by value: Double? = nil, reset: Bool = false) {
+    if let value {
+      self.webView.pageZoom += value
+    } else if reset {
+      self.webView.pageZoom = 1
+    }
+    AppSettings.shared.translationPageZoom = self.webView.pageZoom
   }
   
   // MARK: - WKNavigationDelegate

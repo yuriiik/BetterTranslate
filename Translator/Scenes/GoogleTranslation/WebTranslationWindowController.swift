@@ -7,14 +7,14 @@
 
 import Cocoa
 
-final class WebTranslationWindowController: NSWindowController, NSWindowDelegate, PresentableWindowController {
+final class WebTranslationWindowController: NSWindowController, PresentableWindowController, NSWindowDelegate, WebTranslationViewControllerDelegate {
   
   // MARK: - Initialization
   
-  convenience init(contentViewController: NSViewController, isHidden: Bool) {
+  convenience init(contentViewController: WebTranslationViewController, isHidden: Bool) {
     let window = NSPanel(
       contentRect: .zero,
-      styleMask: [.titled, .nonactivatingPanel, .closable],
+      styleMask: [.titled, .nonactivatingPanel, .closable, .resizable],
       backing: .buffered,
       defer: false)
     window.title = "Better Translate"
@@ -22,16 +22,20 @@ final class WebTranslationWindowController: NSWindowController, NSWindowDelegate
     window.contentViewController = contentViewController
     window.level = .floating
     self.init(window: window)
-    self.window?.delegate = self
-    self.window?.setFrame(
-      .init(x: 0, y: 0, width: 800, height: 600),
-      display: false)
-    self.window?.center()
-    if isHidden {
-      self.window?.orderOut(nil)
-    } else {
-      self.window?.makeKeyAndOrderFront(nil)
+    window.delegate = self
+    let windowFrame = NSRect(
+      origin: AppSettings.shared.translationWindowOrigin ?? .zero,
+      size: AppSettings.shared.translationWindowSize ?? .zero)
+    window.setFrame(windowFrame, display: false)
+    if AppSettings.shared.translationWindowOrigin == nil {
+      window.center()
     }
+    if isHidden {
+      window.orderOut(nil)
+    } else {
+      window.makeKeyAndOrderFront(nil)
+    }    
+    contentViewController.delegate = self
   }
   
   // MARK: - Overrides
@@ -70,5 +74,44 @@ final class WebTranslationWindowController: NSWindowController, NSWindowDelegate
   
   func windowWillClose(_ notification: Notification) {
     self.onClose?()
+  }
+  
+  func windowDidEndLiveResize(_ notification: Notification) {
+    guard let window = notification.object as? NSWindow else { return }
+    AppSettings.shared.translationWindowOrigin = window.frame.origin
+    AppSettings.shared.translationWindowSize = window.frame.size
+  }
+  
+  func windowDidMove(_ notification: Notification) {
+    guard let window = notification.object as? NSWindow else { return }
+    AppSettings.shared.translationWindowOrigin = window.frame.origin
+  }
+  
+  // MARK: - WebTranslationViewControllerDelegate
+  
+  func webTranslationViewControllerWantsToResetPosition() {
+    guard let window = self.window else { return }
+    window.delegate = nil
+    window.center()
+    window.delegate = self
+    AppSettings.shared.resetTranslationWindowOrigin()
+  }
+  
+  func webTranslationViewControllerWantsToResetSize() {
+    AppSettings.shared.resetTranslationWindowSize()
+    guard
+      let window = self.window,
+      let newSize = AppSettings.shared.translationWindowSize
+    else { return }
+    let oldSize = window.frame.size
+    let oldOrigin = window.frame.origin
+    let newOrigin = NSPoint(
+      x: oldOrigin.x + (oldSize.width - newSize.width) * 0.5,
+      y: oldOrigin.y + (oldSize.height - newSize.height) * 0.5)
+    let newFrame = NSRect(origin: newOrigin, size: newSize)
+    window.delegate = nil
+    window.setFrame(newFrame, display: true)
+    window.delegate = self
+    AppSettings.shared.translationWindowOrigin = newOrigin
   }
 }

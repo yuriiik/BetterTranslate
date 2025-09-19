@@ -11,25 +11,25 @@
             <objects>
                 <viewController id="bU7-R8-ocO" customClass="WebTranslationViewController" customModule="Translator" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="tOy-S4-hL0">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-Nd-ps4">
-                                <rect key="frame" x="0.0" y="52" width="450" height="248"/>
+                                <rect key="frame" x="0.0" y="52" width="600" height="248"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="wSe-JC-wll">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="52"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
                                 <subviews>
-                                    <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eXl-rO-TwR">
-                                        <rect key="frame" x="46" y="16" width="358" height="20"/>
+                                    <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eXl-rO-TwR">
+                                        <rect key="frame" x="91" y="16" width="418" height="20"/>
                                         <subviews>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nNi-Sd-ygL">
-                                                <rect key="frame" x="-7" y="-7" width="110" height="32"/>
-                                                <buttonCell key="cell" type="push" title="Reload Page" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FXk-b4-9Zh">
+                                            <button toolTip="Reload Page" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nNi-Sd-ygL">
+                                                <rect key="frame" x="-7" y="-7" width="44" height="32"/>
+                                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="arrow.clockwise" catalog="system" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FXk-b4-9Zh">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -37,9 +37,59 @@
                                                     <action selector="reload:" target="bU7-R8-ocO" id="Do1-o7-U1Q"/>
                                                 </connections>
                                             </button>
+                                            <button toolTip="Zoom In" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E0V-2T-chY">
+                                                <rect key="frame" x="31" y="-7" width="46" height="32"/>
+                                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="plus.magnifyingglass" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JfK-yl-Nsg">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="zoomIn:" target="bU7-R8-ocO" id="C3o-dX-I0i"/>
+                                                </connections>
+                                            </button>
+                                            <button toolTip="Zoom Out" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pi7-zf-oLd">
+                                                <rect key="frame" x="71" y="-7" width="46" height="32"/>
+                                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="minus.magnifyingglass" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cso-Nq-Aou">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="zoomOut:" target="bU7-R8-ocO" id="wuw-DF-djP"/>
+                                                </connections>
+                                            </button>
+                                            <button toolTip="Reset Zoom" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XRL-KF-98r">
+                                                <rect key="frame" x="111" y="-7" width="46" height="32"/>
+                                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="1.magnifyingglass" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4mX-IT-wDe">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="resetZoom:" target="bU7-R8-ocO" id="VcE-NF-hC9"/>
+                                                </connections>
+                                            </button>
+                                            <button toolTip="Reset Position (Center)" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hbl-4x-rNg">
+                                                <rect key="frame" x="151" y="-7" width="48" height="32"/>
+                                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="rectangle.center.inset.filled" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7h5-fh-ZoG">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="resetPosition:" target="bU7-R8-ocO" id="Akp-Kf-jh4"/>
+                                                </connections>
+                                            </button>
+                                            <button toolTip="Reset Size" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nmc-wU-rbP">
+                                                <rect key="frame" x="193" y="-7" width="48" height="32"/>
+                                                <buttonCell key="cell" type="push" bezelStyle="rounded" image="arrow.up.right.and.arrow.down.left.rectangle" catalog="system" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rrO-r5-yuN">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="resetSize:" target="bU7-R8-ocO" id="8M0-R6-BiM"/>
+                                                </connections>
+                                            </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FcO-8d-lrE">
-                                                <rect key="frame" x="105" y="-7" width="104" height="32"/>
-                                                <buttonCell key="cell" type="push" title="Close (Esc)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0l-dI-o9i">
+                                                <rect key="frame" x="235" y="-7" width="69" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0l-dI-o9i">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -48,8 +98,8 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ijS-6T-R9j">
-                                                <rect key="frame" x="211" y="-7" width="154" height="32"/>
-                                                <buttonCell key="cell" type="push" title="Close and Turn OFF" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PMY-DD-mcM">
+                                                <rect key="frame" x="298" y="-7" width="127" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Close and Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PMY-DD-mcM">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
@@ -62,8 +112,18 @@
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
@@ -97,4 +157,12 @@
             <point key="canvasLocation" x="21" y="131"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="1.magnifyingglass" catalog="system" width="16" height="15"/>
+        <image name="arrow.clockwise" catalog="system" width="14" height="16"/>
+        <image name="arrow.up.right.and.arrow.down.left.rectangle" catalog="system" width="18" height="14"/>
+        <image name="minus.magnifyingglass" catalog="system" width="16" height="15"/>
+        <image name="plus.magnifyingglass" catalog="system" width="16" height="15"/>
+        <image name="rectangle.center.inset.filled" catalog="system" width="18" height="14"/>
+    </resources>
 </document>
