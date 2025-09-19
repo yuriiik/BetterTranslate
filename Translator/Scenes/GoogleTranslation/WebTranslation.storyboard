@@ -24,44 +24,37 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="wSe-JC-wll">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <subviews>
+                                    <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="cA7-rb-3RW">
+                                        <rect key="frame" x="0.0" y="41" width="600" height="5"/>
+                                    </box>
+                                    <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="C6j-fl-bo9">
+                                        <rect key="frame" x="13" y="10" width="193" height="24"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="7eR-hh-hjz">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment toolTip="Reload page" image="arrow.clockwise" catalog="system" width="32"/>
+                                                <segment toolTip="Zoom in" image="plus.magnifyingglass" catalog="system" width="32" tag="1"/>
+                                                <segment toolTip="Zoom out" image="minus.magnifyingglass" catalog="system" width="32"/>
+                                                <segment toolTip="Reset zoom" image="1.magnifyingglass" catalog="system">
+                                                    <nil key="label"/>
+                                                </segment>
+                                                <segment toolTip="Center window" image="rectangle.center.inset.filled" catalog="system">
+                                                    <nil key="label"/>
+                                                </segment>
+                                                <segment toolTip="Reset window size" image="arrow.up.right.and.arrow.down.left.rectangle" catalog="system" width="32">
+                                                    <nil key="label"/>
+                                                </segment>
+                                            </segments>
+                                        </segmentedCell>
+                                        <connections>
+                                            <action selector="selectAction:" target="bU7-R8-ocO" id="sAJ-4Q-Pwq"/>
+                                        </connections>
+                                    </segmentedControl>
                                     <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eXl-rO-TwR">
-                                        <rect key="frame" x="115" y="12" width="371" height="20"/>
+                                        <rect key="frame" x="408" y="12" width="176" height="20"/>
                                         <subviews>
-                                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="C6j-fl-bo9">
-                                                <rect key="frame" x="-3" y="-2" width="193" height="24"/>
-                                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="7eR-hh-hjz">
-                                                    <font key="font" metaFont="system"/>
-                                                    <segments>
-                                                        <segment toolTip="Reload Page" image="arrow.clockwise" catalog="system" width="32"/>
-                                                        <segment toolTip="Zoom In" image="plus.magnifyingglass" catalog="system" width="32" tag="1"/>
-                                                        <segment toolTip="Zoom Out" image="minus.magnifyingglass" catalog="system" width="32"/>
-                                                        <segment toolTip="Reset Zoom" image="1.magnifyingglass" catalog="system">
-                                                            <nil key="label"/>
-                                                        </segment>
-                                                        <segment toolTip="Center Window" image="rectangle.center.inset.filled" catalog="system">
-                                                            <nil key="label"/>
-                                                        </segment>
-                                                        <segment toolTip="Reset Window Size" image="arrow.up.right.and.arrow.down.left.rectangle" catalog="system" width="32">
-                                                            <nil key="label"/>
-                                                        </segment>
-                                                    </segments>
-                                                </segmentedCell>
-                                                <connections>
-                                                    <action selector="selectAction:" target="bU7-R8-ocO" id="sAJ-4Q-Pwq"/>
-                                                </connections>
-                                            </segmentedControl>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FcO-8d-lrE">
-                                                <rect key="frame" x="188" y="-7" width="69" height="32"/>
-                                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0l-dI-o9i">
-                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="system"/>
-                                                </buttonCell>
-                                                <connections>
-                                                    <action selector="close:" target="bU7-R8-ocO" id="JAR-q2-8xp"/>
-                                                </connections>
-                                            </button>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ijS-6T-R9j">
-                                                <rect key="frame" x="251" y="-7" width="127" height="32"/>
+                                            <button toolTip="Close window and stop pasteboard monitoring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ijS-6T-R9j">
+                                                <rect key="frame" x="-7" y="-7" width="127" height="32"/>
                                                 <buttonCell key="cell" type="push" title="Close and Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PMY-DD-mcM">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -70,24 +63,42 @@
                                                     <action selector="closeAndTurnOff:" target="bU7-R8-ocO" id="1x8-aG-Zp3"/>
                                                 </connections>
                                             </button>
+                                            <button toolTip="Close window" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FcO-8d-lrE">
+                                                <rect key="frame" x="114" y="-7" width="69" height="32"/>
+                                                <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0l-dI-o9i">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="close:" target="bU7-R8-ocO" id="JAR-q2-8xp"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <visibilityPriorities>
-                                            <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
-                                            <real value="3.4028234663852886e+38"/>
                                         </customSpacing>
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="C6j-fl-bo9" firstAttribute="top" secondItem="wSe-JC-wll" secondAttribute="top" constant="12" id="3vs-Q1-ihI"/>
+                                    <constraint firstAttribute="trailing" secondItem="cA7-rb-3RW" secondAttribute="trailing" id="5P9-Yi-BMJ"/>
                                     <constraint firstItem="eXl-rO-TwR" firstAttribute="top" secondItem="wSe-JC-wll" secondAttribute="top" constant="12" id="9bd-ui-7uN"/>
                                     <constraint firstAttribute="bottom" secondItem="eXl-rO-TwR" secondAttribute="bottom" constant="12" id="UuX-xw-I7Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="eXl-rO-TwR" secondAttribute="trailing" constant="16" id="VMY-H0-1zl"/>
+                                    <constraint firstItem="cA7-rb-3RW" firstAttribute="leading" secondItem="wSe-JC-wll" secondAttribute="leading" id="ZvA-jU-r3j"/>
+                                    <constraint firstItem="C6j-fl-bo9" firstAttribute="leading" secondItem="wSe-JC-wll" secondAttribute="leading" constant="16" id="cx4-GB-Kxt"/>
+                                    <constraint firstItem="cA7-rb-3RW" firstAttribute="top" secondItem="wSe-JC-wll" secondAttribute="top" id="kos-AV-hHZ"/>
+                                    <constraint firstItem="eXl-rO-TwR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="C6j-fl-bo9" secondAttribute="trailing" constant="8" id="r4E-au-EyS"/>
                                     <constraint firstItem="eXl-rO-TwR" firstAttribute="centerY" secondItem="wSe-JC-wll" secondAttribute="centerY" id="rVu-gi-mBA"/>
-                                    <constraint firstItem="eXl-rO-TwR" firstAttribute="centerX" secondItem="wSe-JC-wll" secondAttribute="centerX" id="v1h-EA-MMJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="C6j-fl-bo9" secondAttribute="bottom" constant="12" id="rys-3i-kt8"/>
                                 </constraints>
                             </customView>
                         </subviews>
