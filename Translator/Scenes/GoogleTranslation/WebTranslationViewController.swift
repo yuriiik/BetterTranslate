@@ -21,8 +21,29 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   
   // MARK: - Actions
   
-  @IBAction func reload(_ sender: NSButton) {
-    self.loadTranslationWebsite()
+  @IBAction func selectAction(_ sender: NSSegmentedControl) {
+    switch sender.indexOfSelectedItem {
+    case 0:
+      // Reload
+      self.loadTranslationWebsite()
+    case 1:
+      // Zoom In
+      self.changePageZoom(by: self.zoomStep)
+    case 2:
+      // Zoom Out
+      self.changePageZoom(by: -self.zoomStep)
+    case 3:
+      // Reset Zoom
+      self.changePageZoom(reset: true)
+    case 4:
+      // Reset Position
+      self.delegate?.webTranslationViewControllerWantsToResetPosition()
+    case 5:
+      // Reset Size
+      self.delegate?.webTranslationViewControllerWantsToResetSize()
+    default:
+      break
+    }
   }
   
   @IBAction func close(_ sender: NSButton) {
@@ -31,26 +52,6 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
 
   @IBAction func closeAndTurnOff(_ sender: NSButton) {
     self.appManager?.dismissCurrentTranslationWindow(shouldTurnOff: true)
-  }
-  
-  @IBAction func zoomIn(_ sender: NSButton) {
-    self.changePageZoom(by: self.zoomStep)
-  }
-  
-  @IBAction func zoomOut(_ sender: NSButton) {
-    self.changePageZoom(by: -self.zoomStep)
-  }
-  
-  @IBAction func resetZoom(_ sender: NSButton) {
-    self.changePageZoom(reset: true)
-  }
-  
-  @IBAction func resetPosition(_ sender: NSButton) {
-    self.delegate?.webTranslationViewControllerWantsToResetPosition()
-  }
-  
-  @IBAction func resetSize(_ sender: NSButton) {
-    self.delegate?.webTranslationViewControllerWantsToResetSize()
   }
   
   // MARK: - View Lifecycle
