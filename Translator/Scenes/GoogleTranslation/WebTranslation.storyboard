@@ -15,6 +15,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4gS-pg-NzF" userLabel="Error View">
+                                <rect key="frame" x="0.0" y="52" width="600" height="248"/>
+                                <subviews>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5ck-D3-lVr">
+                                        <rect key="frame" x="296" y="116" width="8" height="16"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" id="fZj-7t-W4x">
+                                            <font key="font" usesAppearanceFont="YES"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="5ck-D3-lVr" firstAttribute="centerY" secondItem="4gS-pg-NzF" secondAttribute="centerY" id="J56-AU-KWL"/>
+                                    <constraint firstItem="5ck-D3-lVr" firstAttribute="centerX" secondItem="4gS-pg-NzF" secondAttribute="centerX" id="TAf-Fn-o0W"/>
+                                </constraints>
+                            </customView>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-Nd-ps4">
                                 <rect key="frame" x="0.0" y="52" width="600" height="248"/>
                                 <wkWebViewConfiguration key="configuration">
@@ -112,15 +129,21 @@ DQ
                         </subviews>
                         <constraints>
                             <constraint firstItem="PJv-Nd-ps4" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="4gU-2x-f1v"/>
+                            <constraint firstItem="4gS-pg-NzF" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" id="CYW-YH-trO"/>
                             <constraint firstItem="PJv-Nd-ps4" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" id="TAM-6R-2Dr"/>
                             <constraint firstItem="wSe-JC-wll" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="Ue0-m1-lBe"/>
+                            <constraint firstAttribute="trailing" secondItem="4gS-pg-NzF" secondAttribute="trailing" id="dck-Vz-zK6"/>
                             <constraint firstItem="wSe-JC-wll" firstAttribute="top" secondItem="PJv-Nd-ps4" secondAttribute="bottom" id="ilz-6O-z95"/>
                             <constraint firstAttribute="trailing" secondItem="PJv-Nd-ps4" secondAttribute="trailing" id="l3W-FW-f6G"/>
                             <constraint firstAttribute="trailing" secondItem="wSe-JC-wll" secondAttribute="trailing" id="mYj-5Y-z8u"/>
+                            <constraint firstItem="4gS-pg-NzF" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="u5z-B8-jYR"/>
                             <constraint firstAttribute="bottom" secondItem="wSe-JC-wll" secondAttribute="bottom" id="vjo-9S-hZk"/>
+                            <constraint firstItem="wSe-JC-wll" firstAttribute="top" secondItem="4gS-pg-NzF" secondAttribute="bottom" id="zKX-Kv-Qx4"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="errorLabel" destination="5ck-D3-lVr" id="OOG-Wi-FaM"/>
+                        <outlet property="errorView" destination="4gS-pg-NzF" id="KFO-ac-m64"/>
                         <outlet property="webView" destination="PJv-Nd-ps4" id="bvp-gZ-CTV"/>
                     </connections>
                 </viewController>

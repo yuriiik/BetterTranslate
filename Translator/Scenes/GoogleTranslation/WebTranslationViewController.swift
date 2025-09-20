@@ -18,6 +18,8 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   // MARK: - Outlets
   
   @IBOutlet weak var webView: WKWebView!
+  @IBOutlet weak var errorView: NSView!
+  @IBOutlet weak var errorLabel: NSTextField!
   
   // MARK: - Actions
   
@@ -121,12 +123,38 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   }
   
   private func loadTranslationWebsite(_ translationWebsite: String? = nil) {
+    let translationWebsite = translationWebsite ?? AppSettings.shared.translationWebsite
     guard
-      let translationWebsite = translationWebsite ?? AppSettings.shared.translationWebsite,
-      let translationWebsiteURL = URL(string: translationWebsite)
-    else { return }
+      let translationWebsite,
+      let translationWebsiteURL = URL(string: translationWebsite),
+      translationWebsiteURL.isValidWebsite
+    else {
+      if let translationWebsite, !translationWebsite.isEmpty {
+        self.showWebsiteLoadingError(
+          website: translationWebsite,
+          reason: "Invalid address")
+      } else {
+        self.showWebsiteLoadingError(reason: "Address is empty")
+      }
+      return
+    }
     self.webView.load(URLRequest(url: translationWebsiteURL))
     self.webViewLoadingState = .inProgress
+  }
+  
+  private func showWebsiteLoadingError(website: String? = nil, reason: String) {
+    self.webView.isHidden = true
+    self.errorView.isHidden = false
+    self.errorLabel.stringValue = 
+      "Could not load translation website" +
+      (website != nil ? ": \(website!)" : "") +
+      "\n\(reason)"
+  }
+  
+  private func hideWebsiteLoadingError() {
+    self.webView.isHidden = false
+    self.errorView.isHidden = true
+    self.errorLabel.stringValue = ""
   }
   
   private func updateSourceTextOnTranslationWebsite() {
@@ -185,7 +213,20 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   // MARK: - WKNavigationDelegate
   
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    self.hideWebsiteLoadingError()
     self.webViewLoadingState = .completed
-    self.translate()
+    self.translate()    
+  }
+  
+  func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: any Error) {
+    self.showWebsiteLoadingError(
+      website: error.failingURLString,
+      reason: error.localizedDescription)
+  }
+  
+  func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) {
+    self.showWebsiteLoadingError(
+      website: error.failingURLString,
+      reason: error.localizedDescription)
   }
 }
