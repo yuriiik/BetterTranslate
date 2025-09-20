@@ -66,6 +66,11 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
     self.subscribeToTranslationWebsiteUpdates()
   }
   
+  override func viewWillAppear() {
+    super.viewWillAppear()
+    self.updateWindowTitle()
+  }
+  
   // MARK: - Public
   
   weak var appManager: AppManager?
@@ -106,6 +111,7 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
       .zip(publisher.dropFirst())
       .sink { [weak self] oldValue, newValue in
         guard oldValue != newValue && newValue != nil else { return }
+        self?.updateWindowTitle(translationWebsite: newValue)
         self?.loadTranslationWebsite(newValue)
       }
       .store(in: &self.cancellables)
@@ -208,6 +214,11 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
       self.webView.pageZoom = 1
     }
     AppSettings.shared.translationPageZoom = self.webView.pageZoom
+  }
+  
+  private func updateWindowTitle(translationWebsite: String? = nil) {
+    let translationWebsite = translationWebsite ?? AppSettings.shared.translationWebsite
+    self.view.window?.title = "Better Translate" + (translationWebsite != nil ? " (\(translationWebsite!))" : "")
   }
   
   // MARK: - WKNavigationDelegate

@@ -17,7 +17,6 @@ final class WebTranslationWindowController: NSWindowController, PresentableWindo
       styleMask: [.titled, .nonactivatingPanel, .closable, .resizable],
       backing: .buffered,
       defer: false)
-    window.title = "Better Translate"
     window.isReleasedWhenClosed = false    
     window.contentViewController = contentViewController
     window.level = .floating
