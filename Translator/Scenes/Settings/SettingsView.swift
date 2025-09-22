@@ -13,6 +13,7 @@ struct SettingsView: View {
   @State private var translationWebsite: String = ""
   
   private func saveTranslationWebsite() {
+    self.translationWebsite = self.translationWebsite.trimmingCharacters(in: .whitespacesAndNewlines)
     self.viewModel.translationWebsite = self.translationWebsite
   }
   
