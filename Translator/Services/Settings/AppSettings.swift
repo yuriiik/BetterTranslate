@@ -20,16 +20,6 @@ class AppSettings {
   
   static let shared = AppSettings()
   
-  var sourceLanguage: Locale.Language? {
-    get { self.getLanguage(for: Keys.sourceLanguage) }
-    set { self.setLanguage(newValue, for: Keys.sourceLanguage) }
-  }
-  
-  var targetLanguage: Locale.Language? {
-    get { self.getLanguage(for: Keys.targetLanguage) }
-    set { self.setLanguage(newValue, for: Keys.targetLanguage) }
-  }
-  
   var openSettingsOnAppLaunch: Bool {
     get { UserDefaults.standard.bool(forKey: Keys.openSettingsOnAppLaunch) }
     set { UserDefaults.standard.set(newValue, forKey: Keys.openSettingsOnAppLaunch) }
@@ -108,8 +98,6 @@ class AppSettings {
   // MARK: - Private
   
   private struct Keys {
-    static let sourceLanguage = "com.yuriik.BetterTranslate.SourceLanguage"
-    static let targetLanguage = "com.yuriik.BetterTranslate.TargetLanguage"
     static let openSettingsOnAppLaunch = "com.yuriik.BetterTranslate.openSettingsOnAppLaunch"
     static let escClosesTranslationWindow = "com.yuriik.BetterTranslate.escClosesTranslationWindow"
     static let clickOutsideClosesTranslationWindow = "com.yuriik.BetterTranslate.clickOutsideClosesTranslationWindow"
