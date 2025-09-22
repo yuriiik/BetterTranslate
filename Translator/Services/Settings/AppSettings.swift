@@ -108,20 +108,6 @@ class AppSettings {
     static let translationWindowOrigin = "com.yuriik.BetterTranslate.translationWindowOrigin"
   }
   
-  private func getLanguage(for key: String) -> Locale.Language? {
-    guard let data = UserDefaults.standard.data(forKey: key) else { return nil }
-    return try? JSONDecoder().decode(Locale.Language.self, from: data)
-  }
-  
-  private func setLanguage(_ language: Locale.Language?, for key: String) {
-    if let language {
-      guard let data = try? JSONEncoder().encode(language) else { return }
-      UserDefaults.standard.set(data, forKey: key)
-    } else {
-      UserDefaults.standard.removeObject(forKey: key)
-    }
-  }
-  
   private func setupDefaults() {
     guard
       let url = Bundle.main.url(forResource: "Defaults", withExtension: "plist"),
