@@ -18,14 +18,6 @@ class AssemblyManager: PresentationManagerDataSource {
   private unowned var appManager: AppManager
   
   // MARK: - PresentationManagerDataSource
-
-  //  func makeTranslationWindowController() -> PresentableWindowController? {
-  //    let viewModel = AppleTranslationViewModel()
-  //    viewModel.appManager = self.appManager
-  //    let translationView = AppleTranslationView(viewModel: viewModel)
-  //    let hostingController = NSHostingController(rootView: translationView)
-  //    return AppleTranslationWindowController(contentViewController: hostingController)
-  //  }
   
   func makeTranslationWindowController(isHidden: Bool) -> PresentableWindowController? {
     guard let viewController = WebTranslationViewController.fromStoryboard() else { return nil }
