@@ -67,16 +67,14 @@ class AppManager {
   
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
   
-  private var cancellables = Set<AnyCancellable>()
-  
   private func setup() {
     self.presentationManager.onDismissTranslationWindow = { [weak self] in
       self?.pasteboardMonitor.resetFingerprint()
       self?.pasteboardText = ""
     }
     self.pasteboardMonitor.onTextCopied = { [weak self] copiedText in
-      self?.pasteboardText = copiedText
       self?.showTranslationWindow()
+      self?.pasteboardText = copiedText      
     }
     self.setupStatusItem()
     self.createShortcutMenu()

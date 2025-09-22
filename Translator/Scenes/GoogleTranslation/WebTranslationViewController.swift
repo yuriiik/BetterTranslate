@@ -164,19 +164,7 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   }
   
   private func updateSourceTextOnTranslationWebsite() {
-    self.clearFocusedField()
-    self.insertTextIntoFocusedField(self.sourceText)
-  }
-  
-  private func clearFocusedField() {
-    NSApp.sendAction(
-      #selector(NSText.selectAll(_:)),
-      to: self.webView,
-      from: self)
-    NSApp.sendAction(
-      #selector(NSText.delete(_:)),
-      to: self.webView,
-      from: self)
+    self.insertTextIntoFocusedField(self.sourceText, shouldClear: true)
   }
   
   private func insertTextIntoFocusedField(_ text: String, shouldClear: Bool = false) {
@@ -194,17 +182,6 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
       length: length)
     textInputClient.insertText(text, replacementRange: range)
     self.previousSourceText = text
-  }
-  
-  private func handleCmdV(from event: NSEvent) -> Bool {
-    let isCmdV =
-      event.modifierFlags.contains(.command) &&
-      event.charactersIgnoringModifiers?.lowercased() == "v"
-    guard isCmdV else { return false }
-    return NSApp.sendAction(
-      #selector(NSText.paste(_:)),
-      to: self.webView,
-      from: self)
   }
   
   private func changePageZoom(by value: Double? = nil, reset: Bool = false) {
@@ -233,11 +210,13 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
     self.showWebsiteLoadingError(
       website: error.failingURLString,
       reason: error.localizedDescription)
+    self.webViewLoadingState = .notStarted
   }
   
   func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) {
     self.showWebsiteLoadingError(
       website: error.failingURLString,
       reason: error.localizedDescription)
+    self.webViewLoadingState = .notStarted
   }
 }
