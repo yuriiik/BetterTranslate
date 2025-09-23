@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4EC1D9362E5321900052C7FA"
-               BuildableName = "BetterTranslate.app"
+               BuildableName = "Better Translate.app"
                BlueprintName = "BetterTranslate"
                ReferencedContainer = "container:BetterTranslate.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4EC1D9362E5321900052C7FA"
-            BuildableName = "BetterTranslate.app"
+            BuildableName = "Better Translate.app"
             BlueprintName = "BetterTranslate"
             ReferencedContainer = "container:BetterTranslate.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4EC1D9362E5321900052C7FA"
-            BuildableName = "BetterTranslate.app"
+            BuildableName = "Better Translate.app"
             BlueprintName = "BetterTranslate"
             ReferencedContainer = "container:BetterTranslate.xcodeproj">
          </BuildableReference>
