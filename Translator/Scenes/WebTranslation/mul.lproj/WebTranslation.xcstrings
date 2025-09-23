@@ -1,0 +1,186 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "7eR-hh-hjz.ibShadowedToolTips[0]" : {
+      "comment" : "Class = \"NSSegmentedCell\"; 7eR-hh-hjz.ibShadowedToolTips[0] = \"Reload page\"; ObjectID = \"7eR-hh-hjz\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reload page"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перезавантажити сторінку"
+          }
+        }
+      }
+    },
+    "7eR-hh-hjz.ibShadowedToolTips[1]" : {
+      "comment" : "Class = \"NSSegmentedCell\"; 7eR-hh-hjz.ibShadowedToolTips[1] = \"Zoom in\"; ObjectID = \"7eR-hh-hjz\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Zoom in"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наблизити"
+          }
+        }
+      }
+    },
+    "7eR-hh-hjz.ibShadowedToolTips[2]" : {
+      "comment" : "Class = \"NSSegmentedCell\"; 7eR-hh-hjz.ibShadowedToolTips[2] = \"Zoom out\"; ObjectID = \"7eR-hh-hjz\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Zoom out"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віддалити"
+          }
+        }
+      }
+    },
+    "7eR-hh-hjz.ibShadowedToolTips[3]" : {
+      "comment" : "Class = \"NSSegmentedCell\"; 7eR-hh-hjz.ibShadowedToolTips[3] = \"Reset zoom\"; ObjectID = \"7eR-hh-hjz\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reset zoom"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відновити масштаб"
+          }
+        }
+      }
+    },
+    "7eR-hh-hjz.ibShadowedToolTips[4]" : {
+      "comment" : "Class = \"NSSegmentedCell\"; 7eR-hh-hjz.ibShadowedToolTips[4] = \"Center window\"; ObjectID = \"7eR-hh-hjz\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Center window"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Центрувати вікно"
+          }
+        }
+      }
+    },
+    "7eR-hh-hjz.ibShadowedToolTips[5]" : {
+      "comment" : "Class = \"NSSegmentedCell\"; 7eR-hh-hjz.ibShadowedToolTips[5] = \"Reset window size\"; ObjectID = \"7eR-hh-hjz\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reset window size"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відновити розмір вікна"
+          }
+        }
+      }
+    },
+    "b0l-dI-o9i.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Close\"; ObjectID = \"b0l-dI-o9i\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрити"
+          }
+        }
+      }
+    },
+    "FcO-8d-lrE.ibShadowedToolTip" : {
+      "comment" : "Class = \"NSButton\"; ibShadowedToolTip = \"Close window\"; ObjectID = \"FcO-8d-lrE\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close window"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрити вікно"
+          }
+        }
+      }
+    },
+    "ijS-6T-R9j.ibShadowedToolTip" : {
+      "comment" : "Class = \"NSButton\"; ibShadowedToolTip = \"Close window and stop translation\"; ObjectID = \"ijS-6T-R9j\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close window and stop translation"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрити вікно та зупинити переклад"
+          }
+        }
+      }
+    },
+    "PMY-DD-mcM.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Close and Stop\"; ObjectID = \"PMY-DD-mcM\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close and Stop"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрити та зупинити"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

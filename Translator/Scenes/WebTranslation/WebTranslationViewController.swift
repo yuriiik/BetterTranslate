@@ -138,9 +138,9 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
       if let translationWebsite, !translationWebsite.isEmpty {
         self.showWebsiteLoadingError(
           website: translationWebsite,
-          reason: "Invalid address")
+          reason: String(localized: "Invalid address"))
       } else {
-        self.showWebsiteLoadingError(reason: "Address is empty")
+        self.showWebsiteLoadingError(reason: String(localized: "Address is empty"))
       }
       return
     }
@@ -151,8 +151,8 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   private func showWebsiteLoadingError(website: String? = nil, reason: String) {
     self.webView.isHidden = true
     self.errorView.isHidden = false
-    self.errorLabel.stringValue = 
-      "Could not load translation website" +
+    self.errorLabel.stringValue =
+      String(localized: "Unable to open the translation website") +
       (website != nil ? ": \(website!)" : "") +
       "\n\(reason)"
   }
@@ -194,8 +194,8 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   }
   
   private func updateWindowTitle(translationWebsite: String? = nil) {
-    let translationWebsite = translationWebsite ?? AppSettings.shared.translationWebsite
-    self.view.window?.title = "Better Translate" + (translationWebsite != nil ? " (\(translationWebsite!))" : "")
+    let translationWebsite = translationWebsite ?? AppSettings.shared.translationWebsite ?? ""
+    self.view.window?.title = "Better Translate" + (translationWebsite.isEmpty ? "" : " (\(translationWebsite))")
   }
   
   // MARK: - WKNavigationDelegate

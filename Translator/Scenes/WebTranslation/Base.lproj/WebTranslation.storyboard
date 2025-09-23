@@ -80,7 +80,7 @@
                                     <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eXl-rO-TwR">
                                         <rect key="frame" x="408" y="16" width="176" height="20"/>
                                         <subviews>
-                                            <button toolTip="Close window and stop pasteboard monitoring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ijS-6T-R9j">
+                                            <button toolTip="Close window and stop translation" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ijS-6T-R9j">
                                                 <rect key="frame" x="-7" y="-7" width="127" height="32"/>
                                                 <buttonCell key="cell" type="push" title="Close and Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PMY-DD-mcM">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

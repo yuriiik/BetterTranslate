@@ -93,41 +93,43 @@ class AppManager {
   }
   
   private func updateStatusIcon() {
-    let symbolName = self.pasteboardMonitor.isRunning ? "globe.europe.africa.fill" : "globe.europe.africa"
-    let accessibilityDescription = self.pasteboardMonitor.isRunning ? "Translate On" : "Translate Off"
+    let symbolName = self.pasteboardMonitor.isRunning ? 
+      "globe.europe.africa.fill" :
+      "globe.europe.africa"
     self.statusItem.button?.image = NSImage(
       systemSymbolName: symbolName,
-      accessibilityDescription: accessibilityDescription)
+      accessibilityDescription: nil)
   }
   
   private func showContextMenu() {
     let menu = NSMenu()
     if self.pasteboardMonitor.isRunning {
       menu.addItem(
-        title: "Stop",
+        title: String(localized: "Stop Translation"),
         target: self,
         action: #selector(self.toggleTranslationEnabled),
         keyEquivalent: "")
     } else {
       menu.addItem(
-        title: "Start",
+        title: String(localized: "Start Translation"),
         target: self,
         action: #selector(self.toggleTranslationEnabled),
         keyEquivalent: "")
     }
+    menu.addItem(.separator())
     menu.addItem(
-      title: "Translate Text",
+      title: String(localized: "Translation Window"),
       target: self,
       action: #selector(self.showTranslationWindow),
       keyEquivalent: "")
     menu.addItem(
-      title: "Settings...",
+      title: String(localized: "Settings..."),
       target: self,
       action: #selector(self.showSettings),
       keyEquivalent: "")
     menu.addItem(.separator())
     menu.addItem(
-      title: "Quit",
+      title: String(localized: "Quit"),
       target: self,
       action: #selector(self.quitApp),
       keyEquivalent: "q")

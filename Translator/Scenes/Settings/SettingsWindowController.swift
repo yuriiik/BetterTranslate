@@ -20,7 +20,7 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate, Pres
       styleMask: [.titled, .closable],
       backing: .buffered,
       defer: false)
-    window.title = "Settings"
+    window.title = "Better Translate"
     window.isReleasedWhenClosed = false
     window.contentViewController = hostingController
     self.init(window: window)

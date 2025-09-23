@@ -1,0 +1,206 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "⚠️ Pending approval in System Settings:" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Очікує підтвердження в системних налаштуваннях:"
+          }
+        }
+      }
+    },
+    "Address is empty" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адреса не задана"
+          }
+        }
+      }
+    },
+    "Click outside closes translation window" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клік за межами вікна перекладу закриває його"
+          }
+        }
+      }
+    },
+    "Controls:" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управління:"
+          }
+        }
+      }
+    },
+    "Esc closes translation window" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esc закриває вікно перекладу"
+          }
+        }
+      }
+    },
+    "Invalid address" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Невірна адреса"
+          }
+        }
+      }
+    },
+    "Launch at login" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускати при вході в систему"
+          }
+        }
+      }
+    },
+    "Open" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти"
+          }
+        }
+      }
+    },
+    "Quit" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершити"
+          }
+        }
+      }
+    },
+    "Select any text and press 􀆔-C-C to translate it." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виділіть текст та натисніть 􀆔-C-C для перекладу."
+          }
+        }
+      }
+    },
+    "Settings..." : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Параметри..."
+          }
+        }
+      }
+    },
+    "Show this window when starting Better Translate" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкривати це вікно під час запуску Better Translate"
+          }
+        }
+      }
+    },
+    "Start Translation" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почати переклад"
+          }
+        }
+      }
+    },
+    "Startup:" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запуск:"
+          }
+        }
+      }
+    },
+    "Stop Translation" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зупинити переклад"
+          }
+        }
+      }
+    },
+    "Translation website address" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адреса веб-сайту перекладача"
+          }
+        }
+      }
+    },
+    "Translation Website:" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перекладач:"
+          }
+        }
+      }
+    },
+    "Translation Window" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вікно перекладача"
+          }
+        }
+      }
+    },
+    "Unable to open the translation website" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдається відкрити веб-сайт перекладача"
+          }
+        }
+      }
+    },
+    "Welcome to Better Translate!" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вітаємо у Better Translate!"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
