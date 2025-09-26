@@ -8,6 +8,19 @@
 	<true/>
 	<key>com.yuriik.BetterTranslate.clickOutsideClosesTranslationWindow</key>
 	<true/>
+	<key>com.yuriik.BetterTranslate.translationWebsites</key>
+	<dict>
+		<key>Google Translate</key>
+		<string>https://translate.google.com</string>
+		<key>DeepL</key>
+		<string>https://www.deepl.com/translator</string>
+		<key>Bing</key>
+		<string>https://www.bing.com/translator</string>
+		<key>Papago</key>
+		<string>https://papago.naver.com</string>
+		<key>Reverso</key>
+		<string>https://www.reverso.net/text-translation</string>
+	</dict>
 	<key>com.yuriik.BetterTranslate.translationWebsite</key>
 	<string>https://translate.google.com</string>
 	<key>com.yuriik.BetterTranslate.translationPageZoom</key>

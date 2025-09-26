@@ -14,6 +14,8 @@ class SettingsViewModel: ObservableObject {
   
   init() {
     self.updateLaunchAtLoginFlag()
+    self.updateTranslationWebsiteAddress()
+    self.updateTranslationWebsite()
     self.startMonitoringAppState()
   }
   
@@ -49,9 +51,31 @@ class SettingsViewModel: ObservableObject {
     }
   }
   
-  var translationWebsite: String {
-    get { AppSettings.shared.translationWebsite ?? "" }
-    set { AppSettings.shared.setTranslationWebsite(newValue) }
+  lazy var translationWebsites: [TranslationWebsite] = {
+    return AppSettings.shared.translationWebsites
+      .map { .init(name: $0.key, address: $0.value) }
+      .sorted { $0.name < $1.name }
+  }()
+  
+  @Published var translationWebsite: TranslationWebsite?
+  
+  func selectTranslationWebsite(_ translationWebsite: TranslationWebsite?) {
+    if let translationWebsite {
+      self.translationWebsite = translationWebsite
+      self.translationWebsiteAddress = translationWebsite.address
+      self.saveTranslationWebsiteAddress()
+    }
+  }
+  
+  @Published var translationWebsiteAddress: String = "" {
+    didSet {
+      self.updateTranslationWebsite()
+    }
+  }
+  
+  func saveTranslationWebsiteAddress() {
+    self.translationWebsiteAddress = self.translationWebsiteAddress.trimmingCharacters(in: .whitespacesAndNewlines)
+    AppSettings.shared.setTranslationWebsite(self.translationWebsiteAddress)
   }
   
   var isLaunchAtLoginRequiresApproval: Bool {
@@ -101,5 +125,24 @@ class SettingsViewModel: ObservableObject {
     if self.isLaunchAtLoginEnabled != isLaunchAtLoginEnabled {
       self.isLaunchAtLoginEnabled = isLaunchAtLoginEnabled
     }
+  }
+  
+  private func updateTranslationWebsiteAddress() {
+    self.translationWebsiteAddress = AppSettings.shared.translationWebsite ?? ""
+  }
+  
+  private func updateTranslationWebsite() {
+    self.translationWebsite = self.translationWebsites.first {
+      $0.address == self.translationWebsiteAddress
+    }
+  }
+}
+
+struct TranslationWebsite: Hashable, Identifiable {
+  let name: String
+  let address: String
+  
+  var id: String {
+    self.address
   }
 }

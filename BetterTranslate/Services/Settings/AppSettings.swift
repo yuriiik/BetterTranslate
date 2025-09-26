@@ -35,6 +35,10 @@ class AppSettings {
     set { UserDefaults.standard.set(newValue, forKey: Keys.clickOutsideClosesTranslationWindow) }
   }
   
+  var translationWebsites: [String: String] {
+    UserDefaults.standard.dictionary(forKey: Keys.translationWebsites) as? [String: String] ?? [:]
+  }
+  
   @Published private(set) var translationWebsite: String?
   
   func setTranslationWebsite(_ translationWebsite: String?) {
@@ -101,6 +105,7 @@ class AppSettings {
     static let openSettingsOnAppLaunch = "com.yuriik.BetterTranslate.openSettingsOnAppLaunch"
     static let escClosesTranslationWindow = "com.yuriik.BetterTranslate.escClosesTranslationWindow"
     static let clickOutsideClosesTranslationWindow = "com.yuriik.BetterTranslate.clickOutsideClosesTranslationWindow"
+    static let translationWebsites = "com.yuriik.BetterTranslate.translationWebsites"
     static let translationWebsite = "com.yuriik.BetterTranslate.translationWebsite"
     static let translationPageZoom = "com.yuriik.BetterTranslate.translationPageZoom"
     static let translationWindowDefaultSize = "com.yuriik.BetterTranslate.translationWindowDefaultSize"

@@ -41,6 +41,16 @@
         }
       }
     },
+    "Custom" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інший"
+          }
+        }
+      }
+    },
     "Esc closes translation window" : {
       "localizations" : {
         "uk" : {

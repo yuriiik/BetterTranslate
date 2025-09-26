@@ -10,13 +10,6 @@ import SwiftUI
 struct SettingsView: View {
   @StateObject private var viewModel = SettingsViewModel()
   
-  @State private var translationWebsite: String = ""
-  
-  private func saveTranslationWebsite() {
-    self.translationWebsite = self.translationWebsite.trimmingCharacters(in: .whitespacesAndNewlines)
-    self.viewModel.translationWebsite = self.translationWebsite
-  }
-  
   var body: some View {
     Form {
       Text("Welcome to Better Translate!")
@@ -50,15 +43,24 @@ struct SettingsView: View {
         get: { self.viewModel.clickOutsideClosesTranslationWindow },
         set: { self.viewModel.clickOutsideClosesTranslationWindow = $0 }))
       Divider()
-      TextField("Translation Website:", text: self.$translationWebsite, prompt: Text("Translation website address"))
-        .onAppear {
-          self.translationWebsite = self.viewModel.translationWebsite
+      Picker("Translation Website:", selection: Binding(
+        get: { self.viewModel.translationWebsite },
+        set: { self.viewModel.selectTranslationWebsite($0) })) {
+          if self.viewModel.translationWebsite == nil {
+            Text("Custom")
+              .tag(nil as TranslationWebsite?)
+          }
+          ForEach(self.viewModel.translationWebsites) { website in
+            Text(website.name)
+              .tag(Optional(website))
+          }
         }
+      TextField(String(), text: self.$viewModel.translationWebsiteAddress, prompt: Text("Translation website address"))
         .onDisappear {
-          self.saveTranslationWebsite()
+          self.viewModel.saveTranslationWebsiteAddress()
         }
         .onSubmit {
-          self.saveTranslationWebsite()
+          self.viewModel.saveTranslationWebsiteAddress()
         }
     }
     .padding(16)
