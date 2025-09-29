@@ -87,6 +87,8 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   
   private var webViewLoadingState: WebViewLoadingState = .notStarted
   
+  private var isTranslationWebsiteChanged = false
+  
   private var cancellables = Set<AnyCancellable>()
   
   private var sourceText = ""
@@ -111,6 +113,7 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
       .zip(publisher.dropFirst())
       .sink { [weak self] oldValue, newValue in
         guard oldValue != newValue && newValue != nil else { return }
+        self?.isTranslationWebsiteChanged = true
         self?.updateWindowTitle(translationWebsite: newValue)
         self?.loadTranslationWebsite(newValue)
       }
@@ -164,7 +167,17 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   }
   
   private func updateSourceTextOnTranslationWebsite() {
-    self.insertTextIntoFocusedField(self.sourceText, shouldClear: true)
+    // When translation website is changed in Settings, the first translation
+    // sometimes fails because source text is not inserted into the input field.
+    // Inserting text with small delay seems to fix the issue.
+    if self.isTranslationWebsiteChanged && !self.sourceText.isEmpty {
+      self.isTranslationWebsiteChanged = false
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        self.insertTextIntoFocusedField(self.sourceText, shouldClear: true)
+      }
+    } else {
+      self.insertTextIntoFocusedField(self.sourceText, shouldClear: true)
+    }
   }
   
   private func insertTextIntoFocusedField(_ text: String, shouldClear: Bool = false) {
