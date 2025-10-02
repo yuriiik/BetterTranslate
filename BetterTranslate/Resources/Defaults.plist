@@ -32,5 +32,7 @@
 		<key>height</key>
 		<integer>600</integer>
 	</dict>
+	<key>com.yuriik.BetterTranslate.darkMode</key>
+	<integer>1</integer>
 </dict>
 </plist>

@@ -62,6 +62,12 @@ struct SettingsView: View {
         .onSubmit {
           self.viewModel.saveTranslationWebsiteAddress()
         }
+      Picker("Dark Mode:", selection: self.$viewModel.darkMode) {
+          ForEach(self.viewModel.darkModeOptions) { darkMode in
+            Text(darkMode.description)
+              .tag(darkMode)
+          }
+        }
     }
     .padding(16)
   }

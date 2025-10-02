@@ -101,6 +101,18 @@ class SettingsViewModel: ObservableObject {
     SMAppService.openSystemSettingsLoginItems()
   }
   
+  var darkModeOptions: [AppSettings.DarkMode] {
+    AppSettings.DarkMode.allCases
+  }
+  
+  var darkMode: AppSettings.DarkMode {
+    get { AppSettings.shared.darkMode }
+    set {
+      AppSettings.shared.setDarkMode(newValue)
+      self.objectWillChange.send()
+    }
+  }
+  
   // MARK: - Private
   
   private var activationObserver: NSObjectProtocol?
@@ -144,5 +156,19 @@ struct TranslationWebsite: Hashable, Identifiable {
   
   var id: String {
     self.address
+  }
+}
+
+extension AppSettings.DarkMode: Identifiable {
+  var id: Int { self.rawValue }
+  var description: String {
+    switch self {
+    case .websiteDriven:
+      String(localized: "Managed by website")
+    case .customMirrorSystem:
+      String(localized: "Custom (mirror system theme)")
+    case .customAlwaysOn:
+      String(localized: "Custom (always ON)")
+    }
   }
 }

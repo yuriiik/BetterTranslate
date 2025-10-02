@@ -51,6 +51,36 @@
         }
       }
     },
+    "Custom (always ON)" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Власний (завжди УВІМК.)"
+          }
+        }
+      }
+    },
+    "Custom (mirror system theme)" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Власний (відповідно до системної теми)"
+          }
+        }
+      }
+    },
+    "Dark Mode:" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Темний режим:"
+          }
+        }
+      }
+    },
     "Esc closes translation window" : {
       "localizations" : {
         "uk" : {
@@ -77,6 +107,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Запускати при вході в систему"
+          }
+        }
+      }
+    },
+    "Managed by website" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Керується веб-сайтом"
           }
         }
       }

@@ -13,10 +13,16 @@ class AppSettings {
   
   init() {
     self.setupDefaults()
-    self.translationWebsite = UserDefaults.standard.string(forKey: Keys.translationWebsite)
+    self.setupInitialValues()
   }
   
   // MARK: - Public
+  
+  enum DarkMode: Int, CaseIterable {
+    case websiteDriven
+    case customMirrorSystem
+    case customAlwaysOn
+  }
   
   static let shared = AppSettings()
   
@@ -99,6 +105,13 @@ class AppSettings {
     UserDefaults.standard.removeObject(forKey: Keys.translationWindowOrigin)
   }
   
+  @Published private(set) var darkMode: DarkMode = .websiteDriven
+  
+  func setDarkMode(_ darkMode: DarkMode) {
+    UserDefaults.standard.set(darkMode.rawValue, forKey: Keys.darkMode)
+    self.darkMode = darkMode
+  }
+  
   // MARK: - Private
   
   private struct Keys {
@@ -111,6 +124,7 @@ class AppSettings {
     static let translationWindowDefaultSize = "com.yuriik.BetterTranslate.translationWindowDefaultSize"
     static let translationWindowSize = "com.yuriik.BetterTranslate.translationWindowSize"
     static let translationWindowOrigin = "com.yuriik.BetterTranslate.translationWindowOrigin"
+    static let darkMode = "com.yuriik.BetterTranslate.darkMode"
   }
   
   private func setupDefaults() {
@@ -120,5 +134,12 @@ class AppSettings {
       let dict = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any]
     else { return }
     UserDefaults.standard.register(defaults: dict)
+  }
+  
+  private func setupInitialValues() {
+    self.translationWebsite = UserDefaults.standard.string(forKey: Keys.translationWebsite)
+    if let darkMode = DarkMode(rawValue: UserDefaults.standard.integer(forKey: Keys.darkMode)) {
+      self.darkMode = darkMode
+    }
   }
 }

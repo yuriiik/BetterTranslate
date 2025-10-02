@@ -1,5 +1,5 @@
 //
-//  Untitled.swift
+//  NSEvent+Location.swift
 //  BetterTranslate
 //
 //  Created by Yurii Kupratsevych on 11.09.2025.

@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
-        <plugIn identifier="com.apple.WebKit2IBPlugin" version="23727"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,21 +32,17 @@
                                     <constraint firstItem="5ck-D3-lVr" firstAttribute="centerX" secondItem="4gS-pg-NzF" secondAttribute="centerX" id="TAf-Fn-o0W"/>
                                 </constraints>
                             </customView>
-                            <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-Nd-ps4">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="OGu-g7-SLh">
                                 <rect key="frame" x="0.0" y="52" width="600" height="248"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="wSe-JC-wll">
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="wSe-JC-wll" userLabel="Toolbar View">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
                                 <subviews>
                                     <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="cA7-rb-3RW">
                                         <rect key="frame" x="0.0" y="49" width="600" height="5"/>
                                     </box>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="C6j-fl-bo9">
-                                        <rect key="frame" x="10" y="6" width="261" height="40"/>
+                                        <rect key="frame" x="10" y="6" width="304" height="40"/>
                                         <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" style="rounded" trackingMode="momentary" id="7eR-hh-hjz">
                                             <font key="font" metaFont="system"/>
                                             <segments>
@@ -61,16 +56,17 @@
                                                     <imageReference key="image" image="minus.magnifyingglass" catalog="system" symbolScale="large"/>
                                                 </segment>
                                                 <segment toolTip="Reset zoom">
-                                                    <nil key="label"/>
                                                     <imageReference key="image" image="1.magnifyingglass" catalog="system" symbolScale="large"/>
                                                 </segment>
                                                 <segment toolTip="Center window">
-                                                    <nil key="label"/>
                                                     <imageReference key="image" image="rectangle.center.inset.filled" catalog="system" symbolScale="large"/>
                                                 </segment>
                                                 <segment toolTip="Reset window size" width="32">
-                                                    <nil key="label"/>
                                                     <imageReference key="image" image="arrow.up.right.and.arrow.down.left.rectangle" catalog="system" symbolScale="large"/>
+                                                </segment>
+                                                <segment>
+                                                    <nil key="label"/>
+                                                    <imageReference key="image" image="eye" catalog="system" symbolScale="large"/>
                                                 </segment>
                                             </segments>
                                         </segmentedCell>
@@ -129,14 +125,14 @@ DQ
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="PJv-Nd-ps4" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="4gU-2x-f1v"/>
+                            <constraint firstItem="OGu-g7-SLh" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="2OQ-EC-SuG"/>
+                            <constraint firstItem="OGu-g7-SLh" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" id="AIs-ca-Y2K"/>
                             <constraint firstItem="4gS-pg-NzF" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" id="CYW-YH-trO"/>
-                            <constraint firstItem="PJv-Nd-ps4" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" id="TAM-6R-2Dr"/>
                             <constraint firstItem="wSe-JC-wll" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="Ue0-m1-lBe"/>
                             <constraint firstAttribute="trailing" secondItem="4gS-pg-NzF" secondAttribute="trailing" id="dck-Vz-zK6"/>
-                            <constraint firstItem="wSe-JC-wll" firstAttribute="top" secondItem="PJv-Nd-ps4" secondAttribute="bottom" id="ilz-6O-z95"/>
-                            <constraint firstAttribute="trailing" secondItem="PJv-Nd-ps4" secondAttribute="trailing" id="l3W-FW-f6G"/>
                             <constraint firstAttribute="trailing" secondItem="wSe-JC-wll" secondAttribute="trailing" id="mYj-5Y-z8u"/>
+                            <constraint firstItem="wSe-JC-wll" firstAttribute="top" secondItem="OGu-g7-SLh" secondAttribute="bottom" id="mzj-lH-fJ8"/>
+                            <constraint firstAttribute="trailing" secondItem="OGu-g7-SLh" secondAttribute="trailing" id="pfb-bt-7hw"/>
                             <constraint firstItem="4gS-pg-NzF" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" id="u5z-B8-jYR"/>
                             <constraint firstAttribute="bottom" secondItem="wSe-JC-wll" secondAttribute="bottom" id="vjo-9S-hZk"/>
                             <constraint firstItem="wSe-JC-wll" firstAttribute="top" secondItem="4gS-pg-NzF" secondAttribute="bottom" id="zKX-Kv-Qx4"/>
@@ -145,7 +141,7 @@ DQ
                     <connections>
                         <outlet property="errorLabel" destination="5ck-D3-lVr" id="OOG-Wi-FaM"/>
                         <outlet property="errorView" destination="4gS-pg-NzF" id="KFO-ac-m64"/>
-                        <outlet property="webView" destination="PJv-Nd-ps4" id="bvp-gZ-CTV"/>
+                        <outlet property="webViewContainer" destination="OGu-g7-SLh" id="Zr6-F2-yWq"/>
                     </connections>
                 </viewController>
                 <customObject id="9uD-mB-xHs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -157,6 +153,7 @@ DQ
         <image name="1.magnifyingglass" catalog="system" width="20" height="20"/>
         <image name="arrow.clockwise" catalog="system" width="18" height="21"/>
         <image name="arrow.up.right.and.arrow.down.left.rectangle" catalog="system" width="24" height="18"/>
+        <image name="eye" catalog="system" width="26" height="17"/>
         <image name="minus.magnifyingglass" catalog="system" width="20" height="20"/>
         <image name="plus.magnifyingglass" catalog="system" width="20" height="20"/>
         <image name="rectangle.center.inset.filled" catalog="system" width="24" height="18"/>

@@ -17,7 +17,7 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
 
   // MARK: - Outlets
   
-  @IBOutlet weak var webView: WKWebView!
+  @IBOutlet weak var webViewContainer: NSView!
   @IBOutlet weak var errorView: NSView!
   @IBOutlet weak var errorLabel: NSTextField!
   
@@ -60,15 +60,25 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.webView.pageZoom = AppSettings.shared.translationPageZoom
-    self.webView.navigationDelegate = self
+    self.setupWebView()
     self.subscribeToSourceTextUpdates()
     self.subscribeToTranslationWebsiteUpdates()
+    self.subscribeToCustomDarkModeUpdates()
+    self.subscribeToInterfaceThemeUpdates()
   }
   
   override func viewWillAppear() {
     super.viewWillAppear()
     self.updateWindowTitle()
+  }
+  
+  override func viewDidAppear() {
+    super.viewDidAppear()
+    self.hasEverBeenVisible = true
+  }
+  
+  deinit {
+    self.unsubscribeFromInterfaceThemeUpdates()
   }
   
   // MARK: - Public
@@ -87,6 +97,10 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   
   private var webViewLoadingState: WebViewLoadingState = .notStarted
   
+  private weak var webView: DarkModeWebView!
+  
+  private var hasEverBeenVisible = false
+  
   private var isTranslationWebsiteChanged = false
   
   private var cancellables = Set<AnyCancellable>()
@@ -96,6 +110,44 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   private var previousSourceText: String?
   
   private let zoomStep = 0.1
+  
+  private var isSystemDarkModeEnabled: Bool {
+    self.view.effectiveAppearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+  }
+  
+  private var isCustomDarkModeEnabled: Bool {
+    switch AppSettings.shared.darkMode {
+    case .websiteDriven:
+      return false
+    case .customMirrorSystem:
+      return self.isSystemDarkModeEnabled
+    case .customAlwaysOn:
+      return true
+    }
+  }
+  
+  @objc private func updateWebViewDarkMode() {
+    // If dark mode was changed while the webpage wasn't visible yet, reload it.
+    // Otherwise, you may see flashing white/black colors when the webpage first appears.
+    self.webView.setDarkMode(
+      self.isCustomDarkModeEnabled,
+      shouldReload: !self.hasEverBeenVisible)
+  }
+  
+  private func setupWebView() {
+    let webView = DarkModeWebView(isDarkMode: self.isCustomDarkModeEnabled)
+    webView.translatesAutoresizingMaskIntoConstraints = false
+    webView.pageZoom = AppSettings.shared.translationPageZoom
+    webView.navigationDelegate = self
+    self.webViewContainer.addSubview(webView)
+    NSLayoutConstraint.activate([
+      webView.leadingAnchor.constraint(equalTo: self.webViewContainer.leadingAnchor),
+      webView.trailingAnchor.constraint(equalTo: self.webViewContainer.trailingAnchor),
+      webView.topAnchor.constraint(equalTo: self.webViewContainer.topAnchor),
+      webView.bottomAnchor.constraint(equalTo: self.webViewContainer.bottomAnchor)
+    ])
+    self.webView = webView
+  }
   
   private func subscribeToSourceTextUpdates() {
     guard let appManager = self.appManager else { return }
@@ -118,6 +170,32 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
         self?.loadTranslationWebsite(newValue)
       }
       .store(in: &self.cancellables)
+  }
+  
+  private func subscribeToCustomDarkModeUpdates() {
+    AppSettings.shared.$darkMode
+      .dropFirst()
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] darkMode in
+        self?.updateWebViewDarkMode()
+      }
+      .store(in: &self.cancellables)
+  }
+  
+  private func subscribeToInterfaceThemeUpdates() {
+    DistributedNotificationCenter.default().addObserver(
+        self,
+        selector: #selector(updateWebViewDarkMode),
+        name: .AppleInterfaceThemeChangedNotification,
+        object: nil
+    )
+  }
+  
+  private func unsubscribeFromInterfaceThemeUpdates() {
+    DistributedNotificationCenter.default().removeObserver(
+      self,
+      name: .AppleInterfaceThemeChangedNotification,
+      object: nil)
   }
   
   private func translate() {
