@@ -49,24 +49,23 @@ class PresentationManager {
     } else if let translationWindowController = self.dataSource?.makeTranslationWindowController(isHidden: isInitiallyHidden) {
       translationWindowController.onClose = { [weak self] in
         self?.translationWindowController = nil
+        self?.stopInputMonitoring()
         self?.onDismissTranslationWindow?()
       }
       translationWindowController.onHide = { [weak self] in
+        self?.stopInputMonitoring()
         self?.onDismissTranslationWindow?()
       }
       self.translationWindowController = translationWindowController
       self.onPresentTranslationWindow?()
     }
     if isExistingWindowController || !isInitiallyHidden {
-      self.startKeyDownMonitor()
-      self.startMouseClickMonitor()
+      self.startInputMonitoring()
     }
   }
   
   func dismissTranslationWindow(shouldClose: Bool) {
     self.translationWindowController?.hide(shouldClose: shouldClose)
-    self.stopKeyDownMonitor()
-    self.stopMouseClickMonitor()
   }
   
   func presentSettingsWindow() {
@@ -92,16 +91,13 @@ class PresentationManager {
   private var settingsWindowController: PresentableWindowController?
   
   private var localKeyDownMonitor: Any?
-  private var globalKeyDownMonitor: Any?
   private var mouseClickMonitor: Any?
   
-  private func startKeyDownMonitor() {
+  private func startKeyDownMonitoring() {
     guard
-      AppSettings.shared.escClosesTranslationWindow,
-      self.localKeyDownMonitor == nil ||
-      self.globalKeyDownMonitor == nil
+      AppSettings.shared.escClosesTranslationWindow &&
+      self.localKeyDownMonitor == nil
     else { return }
-    self.stopKeyDownMonitor()
     self.localKeyDownMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
       guard let self else { return event }
       if event.keyCode == self.escKeyCode {
@@ -110,22 +106,15 @@ class PresentationManager {
       }
       return event
     }
-    self.globalKeyDownMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
-      guard let self else { return }
-      if event.keyCode == self.escKeyCode {
-        self.dismissTranslationWindow(shouldClose: false)
-      }
-    }
   }
   
-  private func stopKeyDownMonitor() {
+  private func stopKeyDownMonitoring() {
     self.removeMonitor(&self.localKeyDownMonitor)
-    self.removeMonitor(&self.globalKeyDownMonitor)
   }
 
-  private func startMouseClickMonitor() {
+  private func startMouseClickMonitoring() {
     guard
-      AppSettings.shared.clickOutsideClosesTranslationWindow,
+      AppSettings.shared.clickOutsideClosesTranslationWindow &&
       self.mouseClickMonitor == nil
     else { return }
     self.mouseClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
@@ -141,8 +130,18 @@ class PresentationManager {
     }
   }
 
-  private func stopMouseClickMonitor() {
+  private func stopMouseClickMonitoring() {
     self.removeMonitor(&self.mouseClickMonitor)
+  }
+  
+  private func startInputMonitoring() {
+    self.startKeyDownMonitoring()
+    self.startMouseClickMonitoring()
+  }
+  
+  private func stopInputMonitoring() {
+    self.stopKeyDownMonitoring()
+    self.stopMouseClickMonitoring()
   }
   
   private func removeMonitor(_ monitor: inout Any?) {
