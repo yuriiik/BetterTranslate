@@ -151,9 +151,9 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
   
   private func subscribeToSourceTextUpdates() {
     guard let appManager = self.appManager else { return }
-    appManager.$pasteboardText
-      .sink { [weak self] pasteboardText in
-        self?.sourceText = pasteboardText
+    appManager.$sourceText
+      .sink { [weak self] sourceText in
+        self?.sourceText = sourceText
         self?.translate()
       }
       .store(in: &self.cancellables)

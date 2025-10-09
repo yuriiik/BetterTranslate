@@ -131,6 +131,16 @@
         }
       }
     },
+    "Open Translator" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити перекладач"
+          }
+        }
+      }
+    },
     "Quit" : {
       "localizations" : {
         "uk" : {
@@ -201,6 +211,16 @@
         }
       }
     },
+    "Translate Text on Screen" : {
+      "localizations" : {
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перекласти текст на екрані"
+          }
+        }
+      }
+    },
     "Translation website address" : {
       "localizations" : {
         "uk" : {
@@ -217,16 +237,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перекладач:"
-          }
-        }
-      }
-    },
-    "Translation Window" : {
-      "localizations" : {
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вікно перекладача"
           }
         }
       }

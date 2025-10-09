@@ -18,7 +18,7 @@ class AppManager {
   
   // MARK: - Public
   
-  @Published private(set) var pasteboardText: String = ""
+  @Published private(set) var sourceText: String = ""
   
   func startMonitoringPasteboard() {
     self.pasteboardMonitor.start()
@@ -65,16 +65,20 @@ class AppManager {
     return pasteboardMonitor
   }()
   
+  private lazy var screenCaptureService = ScreenCaptureService()
+  
+  private lazy var textRecognitionService = TextRecognitionService()
+  
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
   
   private func setup() {
     self.presentationManager.onDismissTranslationWindow = { [weak self] in
       self?.pasteboardMonitor.resetFingerprint()
-      self?.pasteboardText = ""
+      self?.sourceText = ""
     }
     self.pasteboardMonitor.onTextCopied = { [weak self] copiedText in
       self?.showTranslationWindow()
-      self?.pasteboardText = copiedText      
+      self?.sourceText = copiedText      
     }
     self.setupStatusItem()
     self.createShortcutMenu()
@@ -118,9 +122,14 @@ class AppManager {
     }
     menu.addItem(.separator())
     menu.addItem(
-      title: String(localized: "Translation Window"),
+      title: String(localized: "Open Translator"),
       target: self,
       action: #selector(self.showTranslationWindow),
+      keyEquivalent: "")
+    menu.addItem(
+      title: String(localized: "Translate Text on Screen"),
+      target: self,
+      action: #selector(self.translateTextOnScreen),
       keyEquivalent: "")
     menu.addItem(
       title: String(localized: "Settings..."),
@@ -158,6 +167,21 @@ class AppManager {
   
   @objc private func showTranslationWindow(isInitiallyHidden: Bool = false) {
     self.presentationManager.presentTranslationWindow(isInitiallyHidden: isInitiallyHidden)
+  }
+
+  @objc private func translateTextOnScreen() {
+    guard let capturedImage = self.screenCaptureService.getScreenImage() else { return }
+    self.textRecognitionService.getTextFromImage(capturedImage) { result in
+      switch result {
+      case .success(let text):
+        DispatchQueue.main.async {
+          self.showTranslationWindow()
+          self.sourceText = text
+        }
+      case .failure:
+        break
+      }
+    }
   }
   
   @objc private func showSettings() {
