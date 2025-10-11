@@ -4,13 +4,17 @@ Supercharge your favorite web translator! :sparkles:
 
 ## Features
 
-### Instant translation without losing context
+### Translate selected text
 
 1. Select the text you want to translate and press **⌘-C-C**.
-2. Translation website of your choice opens in a pop-up window with the text pasted.
+2. Translation website of your choice pops up with the text pasted.
 3. Close the window by pressing the **Esc** key or clicking outside it.  
 
 <img width="720" height="438" alt="Image" src="https://github.com/user-attachments/assets/50c74325-cc89-4293-9d9e-798f8f15c74f" />
+
+### Translate text from the screenshot
+
+Choose **Translate Text on Screen** option to take a screenshot and translate text from it.
 
 ### Web view and window configuration
 
@@ -33,7 +37,7 @@ This material may be protected by copyright.*
 
 ### All packed into a minimalistic headless app that sits in a menu bar
 
-<img width="237" height="158" alt="Image" src="https://github.com/user-attachments/assets/2d65a34c-6cd1-4090-989e-863db19bb6a4" />
+<img width="276" height="191" alt="Image" src="https://github.com/user-attachments/assets/8cf060f2-438d-47da-b3e2-c821afdcb7c9" />
 
 ## Supported Operating Systems
 
