@@ -174,6 +174,7 @@ class AppManager {
     self.textRecognitionService.getTextFromImage(capturedImage) { result in
       switch result {
       case .success(let text):
+        guard !text.isEmpty else { return }
         DispatchQueue.main.async {
           self.showTranslationWindow()
           self.sourceText = text
