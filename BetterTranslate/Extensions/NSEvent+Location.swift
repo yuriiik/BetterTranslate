@@ -7,6 +7,7 @@
 
 import AppKit
 
+@MainActor
 extension NSEvent {
   var locationInScreenCoordinates: NSPoint {
     self.window?.convertPoint(toScreen: self.locationInWindow) ?? self.locationInWindow

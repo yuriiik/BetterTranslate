@@ -8,6 +8,7 @@
 import WebKit
 import Combine
 
+@MainActor
 protocol WebTranslationViewControllerDelegate: AnyObject {
   func webTranslationViewControllerWantsToResetPosition()
   func webTranslationViewControllerWantsToResetSize()
@@ -191,6 +192,7 @@ class WebTranslationViewController: NSViewController, WKNavigationDelegate {
     )
   }
   
+  nonisolated
   private func unsubscribeFromInterfaceThemeUpdates() {
     DistributedNotificationCenter.default().removeObserver(
       self,

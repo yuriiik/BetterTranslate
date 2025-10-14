@@ -8,6 +8,7 @@
 import AppKit
 import Combine
 
+@MainActor
 class AppManager {
   
   // MARK: - Initialization

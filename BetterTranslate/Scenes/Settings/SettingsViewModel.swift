@@ -8,6 +8,7 @@
 import AppKit
 import ServiceManagement
 
+@MainActor
 class SettingsViewModel: ObservableObject {
   
   // MARK: - Initialization
@@ -115,24 +116,23 @@ class SettingsViewModel: ObservableObject {
   
   // MARK: - Private
   
-  private var activationObserver: NSObjectProtocol?
-  
   private func startMonitoringAppState() {
-    self.activationObserver =  NotificationCenter.default.addObserver(
-      forName: NSApplication.didBecomeActiveNotification,
-      object: nil,
-      queue: .main) { [weak self] _ in
-        self?.updateLaunchAtLoginFlag()
-      }
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.updateLaunchAtLoginFlag),
+      name: NSApplication.didBecomeActiveNotification,
+      object: nil)
   }
   
+  nonisolated
   private func stopMonitoringAppState() {
-    if let observer = self.activationObserver {
-      NotificationCenter.default.removeObserver(observer)
-    }
+    NotificationCenter.default.removeObserver(
+      self,
+      name: NSApplication.didBecomeActiveNotification,
+      object: nil)
   }
   
-  private func updateLaunchAtLoginFlag() {
+  @objc private func updateLaunchAtLoginFlag() {
     let isLaunchAtLoginEnabled = SMAppService.mainApp.status == .enabled
     if self.isLaunchAtLoginEnabled != isLaunchAtLoginEnabled {
       self.isLaunchAtLoginEnabled = isLaunchAtLoginEnabled

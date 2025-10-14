@@ -7,6 +7,7 @@
 
 import AppKit
 
+@MainActor
 protocol PresentableWindowController where Self: NSWindowController {
   var onHide: (() -> Void)? { get set }
   var onClose: (() -> Void)? { get set }
@@ -26,11 +27,13 @@ extension PresentableWindowController {
   }
 }
 
+@MainActor
 protocol PresentationManagerDataSource: AnyObject {
   func makeTranslationWindowController(isHidden: Bool) -> PresentableWindowController?
   func makeSettingsWindowController() -> PresentableWindowController?
 }
 
+@MainActor
 class PresentationManager {
   
   // MARK: - Public

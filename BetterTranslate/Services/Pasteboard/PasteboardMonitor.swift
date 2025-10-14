@@ -37,10 +37,11 @@ final class PasteboardMonitor {
   func start() {
     self.stop()
     let timer = Timer.scheduledTimer(
-      withTimeInterval: self.pollingInterval,
-      repeats: true) { [weak self] _ in
-      self?.tick()
-    }
+      timeInterval: self.pollingInterval,
+      target: self,
+      selector: #selector(self.tick),
+      userInfo: nil,
+      repeats: true)
     self.timer = timer
     self.lastChangeCount = self.pasteboard.changeCount
     self.isRunning = true
@@ -86,7 +87,7 @@ final class PasteboardMonitor {
     NSWorkspace.shared.frontmostApplication?.bundleIdentifier
   }
   
-  private func tick() {
+  @objc private func tick() {
     guard let pasteboardString = self.getPasteboardString() else { return }
     switch self.triggerType {
     case .singleCopy:

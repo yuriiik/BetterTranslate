@@ -5,6 +5,7 @@
 //  Created by Yurii Kupratsevych on 10.09.2025.
 //
 
+@MainActor
 class AssemblyManager: PresentationManagerDataSource {
   
   // MARK: - Initialization

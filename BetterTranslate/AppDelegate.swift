@@ -7,6 +7,7 @@
 
 import Cocoa
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
   
   // MARK: - NSApplicationDelegate
