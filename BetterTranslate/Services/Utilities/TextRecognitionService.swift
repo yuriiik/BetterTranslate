@@ -6,13 +6,13 @@
 //
 
 import AppKit
-import Vision
+@preconcurrency import Vision
 
 class TextRecognitionService {
   
   // MARK: - Public
   
-  func getTextFromImage(_ image: CGImage, _ completion: @escaping (Result<String, Error>) -> Void) {
+  func getTextFromImage(_ image: CGImage, _ completion: @Sendable @escaping (Result<String, Error>) -> Void) {
     let request = VNRecognizeTextRequest { (request, error) in
       if let error {
         completion(.failure(error))
